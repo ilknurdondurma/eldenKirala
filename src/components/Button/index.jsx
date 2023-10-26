@@ -33,7 +33,7 @@ export default function Button({ variant,size,children,as,className, ...props })
 Button.propTypes = {
   children: PropTypes.oneOfType([PropTypes.element, PropTypes.string]),
   variant: PropTypes.oneOf(['Green','GreenOutline', 'Purple', 'PurpleOuline', 'TransparentButton', 'TextButton','DeleteButton']),
-  size: PropTypes.oneOf(['normal', 'small', 'large']),
+  size: PropTypes.oneOf(['xsmall','normal', 'small', 'large']),
   as: PropTypes.oneOfType([PropTypes.object, PropTypes.string]),
   props: PropTypes.object,
   className: PropTypes.string
@@ -43,7 +43,6 @@ Button.defaultProps = {
   as: 'button',
   variant: 'GreenButton',
   size: 'normal',
-  children:' '
 }
 /**  ÖRNEK KULLANIM
  * 
