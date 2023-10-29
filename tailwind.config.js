@@ -10,13 +10,12 @@ module.exports = {
         primary:'#00ce98',//green
         secondary:'#6366f1',//purple
 
-        light_grey:'#f5f5f5', //grey
-        dark_grey:'#282c34',//dark grey
+        text_primary:"#52525b", //text-zinc-[600]
+        text_secondary:"#00ce98",// green
 
+        my_border_color:"#d4d4d8", //border-zinc-[300]
+        my_input_bg:"#f4f4f5", //bg-zinc-[100]
       },
-      fontSize: {
-        '15': '1.5rem'
-      }
     },
   },
   plugins: [],
