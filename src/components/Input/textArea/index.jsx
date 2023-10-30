@@ -9,14 +9,7 @@ export default function TextArea({ label, name, placeholder, ...props }) {
             as="textarea" 
             name={name} 
             placeholder={placeholder} 
-            className="w-full bg-my_input_bg border border-my_border_color rounded-lg  focus:outline-1 focus:outline-primary/50 text-lg m-2 h-20 px-5"/>
-            <style>
-                {`
-                    [name="${name}"]::placeholder {
-                        font-style: italic;
-                    }
-                `}
-            </style>
+            className="w-full text-lg m-2 h-20 px-5 bg-my_input_bg border border-my_border_color rounded-lg  focus:outline-1 focus:outline-primary/50 "/>
             <ErrorMessage component="small" name={name} className="text-xs text-red-500 dark:text-red-400 mt-1 block" />
         </div>
     )

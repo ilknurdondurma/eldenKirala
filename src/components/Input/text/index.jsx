@@ -18,8 +18,8 @@ function Input({
   const inputClasses = classNames(
     "w-full flex inline-block m-2 bg-my_input_bg",
     {
-      "w-full h-10 border border-my_border_color rounded-lg  focus:outline-1 focus:outline-primary/50 px-3 ":variant === "normal",
-      "w-full h-12 border border-my_border_color rounded-2xl  focus:outline-1 focus:outline-primary/50 px-3 ":variant === "search",
+      "w-full h-10 border border-my_border_color rounded-lg  focus:outline-1 focus:outline-primary/50 px-3 ":variant === "primary",
+      "w-full h-12 border border-my_border_color rounded-2xl  focus:outline-1 focus:outline-primary/50 px-3 ":variant === "secondary",
 
       "px-5  h-10 text-lg": size === "normal",
       "px-6  h-12 text-lg": size === "large",
@@ -53,7 +53,7 @@ Input.propTypes = {
   name: PropTypes.string.isRequired,
   label: PropTypes.string,
   children: PropTypes.oneOfType([PropTypes.element, PropTypes.string]),
-  variant: PropTypes.oneOf(["normal" ,"search"]),
+  variant: PropTypes.oneOf(["primary" ,"secondary"]),
   size: PropTypes.oneOf(["normal", "large"]),
   className: PropTypes.string,
   readOnly: PropTypes.bool,
@@ -62,7 +62,7 @@ Input.propTypes = {
 };
 
 Input.defaultProps = {
-  variant: "normal",
+  variant: "primary",
   size: "normal",
   readOnly: false,
   type: "text",
