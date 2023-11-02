@@ -2,7 +2,7 @@ import classNames from "classnames";
 import PropTypes from "prop-types"
 import { createElement } from "react";
 
-export default function Button({ variant,size,children,as,className, ...props }) {
+export default function Button({ variant,size,children,as,className,onClick, ...props }) {
   return createElement(as, {
     ...props,
     className: classNames (
@@ -12,7 +12,7 @@ export default function Button({ variant,size,children,as,className, ...props })
             "bg-secondary text-white   shadow-indigo-500/50   ": variant ==='Purple',
 
             "bg-white text-primary   shadow-sm shadow-primary   " : variant === 'GreenOutline',
-            "bg-white text-secondary shadow-sm shadow-secondary ": variant ==='PurpleOutline',
+            "bg-white text-secondary shadow-md shadow-secondary border border-secondary hover:shadow-secondary hover:shadow-lg": variant ==='PurpleOutline',
 
             "bg-transparent text-black": variant === 'TextButton',
             "bg-transparent text-black shadow-sm  hover:shadow-lg": variant === 'TransparentButton',
@@ -24,7 +24,8 @@ export default function Button({ variant,size,children,as,className, ...props })
             "px-4 font-medium h-8  text-sm ": size === 'small',
             "px-3 font-medium h-6  text-xs ": size === 'xsmall',
             [className]: !!className 
-        })
+        }),
+        onClick: () => onClick && onClick(),
   }, 
     <span className='flex items-center'>{children}</span>
   )
@@ -32,7 +33,7 @@ export default function Button({ variant,size,children,as,className, ...props })
 
 Button.propTypes = {
   children: PropTypes.oneOfType([PropTypes.element, PropTypes.string]),
-  variant: PropTypes.oneOf(['Green','GreenOutline', 'Purple', 'PurpleOuline', 'TransparentButton', 'TextButton','DeleteButton']),
+  variant: PropTypes.oneOf(['Green','GreenOutline', 'Purple', 'PurpleOutline', 'TransparentButton', 'TextButton','DeleteButton']),
   size: PropTypes.oneOf(['xsmall','normal', 'small', 'large']),
   as: PropTypes.oneOfType([PropTypes.object, PropTypes.string]),
   props: PropTypes.object,
@@ -41,7 +42,7 @@ Button.propTypes = {
 
 Button.defaultProps = {
   as: 'button',
-  variant: 'GreenButton',
+  variant: 'Green',
   size: 'normal',
 }
 /**  ÖRNEK KULLANIM
