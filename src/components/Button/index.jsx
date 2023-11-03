@@ -12,10 +12,10 @@ export default function Button({ variant,size,children,as,className,onClick, ...
             "bg-secondary text-white   shadow-indigo-500/50   ": variant ==='Purple',
 
             "bg-white text-primary   shadow-sm shadow-primary   " : variant === 'GreenOutline',
-            "bg-white text-secondary shadow-md shadow-secondary border border-secondary hover:shadow-secondary hover:shadow-lg": variant ==='PurpleOutline',
+            "bg-white text-secondary border border-1 shadow-sm shadow-secondary hover:shadow-secondary hover:shadow-md": variant ==='PurpleOutline',
 
-            "bg-transparent text-black": variant === 'TextButton',
-            "bg-transparent text-black shadow-sm  hover:shadow-lg": variant === 'TransparentButton',
+            "bg-transparent ": variant === 'LikeButton',
+            "bg-transparent text-black hover:shadow-lg": variant === 'TransparentButton',
             "bg-red-500 text-white": variant ==='DeleteButton',
             
 
@@ -33,7 +33,7 @@ export default function Button({ variant,size,children,as,className,onClick, ...
 
 Button.propTypes = {
   children: PropTypes.oneOfType([PropTypes.element, PropTypes.string]),
-  variant: PropTypes.oneOf(['Green','GreenOutline', 'Purple', 'PurpleOutline', 'TransparentButton', 'TextButton','DeleteButton']),
+  variant: PropTypes.oneOf(['Green','GreenOutline', 'Purple', 'PurpleOutline', 'TransparentButton', 'LikeButton','DeleteButton']),
   size: PropTypes.oneOf(['xsmall','normal', 'small', 'large']),
   as: PropTypes.oneOfType([PropTypes.object, PropTypes.string]),
   props: PropTypes.object,

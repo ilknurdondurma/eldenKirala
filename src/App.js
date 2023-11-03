@@ -7,8 +7,8 @@ import { Form, Formik } from 'formik';
 import TextArea from './components/Input/textArea';
 import { clear } from '@testing-library/user-event/dist/clear';
 import CheckBox from './components/Input/checkbox';
-import ProductCard from './components/product-card';
-import CommentCard from './components/comment-card';
+import ProductCard from './components/productCard';
+import CommentCard from './components/commentCard';
 
 const options = [
   { label: 'Option 1', value: 'option1' },
@@ -43,14 +43,16 @@ function App() {
   };
   const products = [
     {
+      productID:1,
       image: 'https://yandex-images.clstorage.net/B1F003I19/f58f35asnH/k4WpoqjL1vx1zxTzy464bv7619Tqse4CI5Lx_sDkxBdlOQONqHWX1g70ekvTRkZVj8iab9t-dIWEHTfUOCHRwoHW6-7tj82gJosKp8ONvWzjp5TF9uvqXznQraqCvp9MMTpk5tgCtOojxQo-qmoGFsDU0TbUeCHImhtpgXUxlPm6xJSBnMm7-3LQW9vfrK9F84LW9N3v1nwfvbuKoPWQGFVcQdj7GaX8ANgqPo11JDb0sMUt2G8x1tMdTaMCLafgtLy7gZjOsvxi03PvxIuxU-228OXdzOFEAJG2pZHtpThJfmvp1Raf_jjaNSm2awI3-IDHH81oEsrnK060IRGj86-iqrqNyZL_ec9d-Oyhj27jo9Lf_d3BTSuilZ6K9ZYmR35ozcwzu_Mq2ygosGMII9Ogxw7Pdwfl4SJvqC4Cgeq8tq-ute2q61PfXP7Gsb5P17LU9_XxwHE6vKa3n-CpAHdCfvjuMILlB9gvDo9oHwDYjv0_9lgs_tAZa70SA6jigJyxuonOuf1Q7XDs2a-eWMOOwPzx_PNPHKKorZfRojpFaF_31DCewibjNAuuQh815Yv_MO5vD9LkFGCuASijy6GWtq-P9q3fZ957w8KSpHzKsvz_--_Bbjq0pLGG86QeUUxa8ewMsuA-2Ds3iUE5B_icwgfZTAHT5QtvizQCgs-TkJaKtuicyHboWMDLqp9O0oD-59XZ020vlY-qoeOrIFJBQczNK7faKfElO5JCEBvxnfA-ylY1wdY_RakaA5bBnay0gJjpv-lr1Wn_-7OwfN6H6uHazeJ2HbWPjITgtRZPbW7L0gSG8h3FBiuqfhMm2bnGHMhKL8DfPm-PDCeA1p-Tv6iKwLbddPd92vOmmVjgjffh_8vwbxm7hqyRy5glcn1UwPYVufAd0yQYh1MoN9qYzw7McxL39xBjuy8Igs6nlLCnst2C1X7YQsfMoqRJy5vV_9z5_nQDsYuxqs0',
       description:"Yeni gibi hiç bir hasarı yok. Sadece bataryası zayıf",
-      information:"Samsung 6.6 inç 5G 8 GB Ram 128 GB Depolama",
+      information:"Samsung 6.6 inç 5G 8 GB Ram 128 GB Depolama Samsung 6.6 inç 5G 8 GB Ram 128 GB Depolama",
       title: 'IPHONE 14',
       price: 100.99,
       availability: 5,
     },
     {
+      productID:2,
       image: 'https://avatars.mds.yandex.net/i?id=9542cc3f062410eeccc307d0468273254ccbf831-8769045-images-thumbs&n=13',
       description:"Yeni gibi hiç bir hasarı yok. Sadece bataryası zayıf",
       information:"Samsung 6.6 inç 5G 8 GB Ram 128 GB Depolama",
@@ -59,6 +61,7 @@ function App() {
       availability: 10,
     },
     {
+      productID:3,
       image: 'https://media.gqmagazine.fr/photos/5ede283413fadf7081f1a1a9/4:3/w_1200,h_900,c_limit/sony-playstation-5.jpg',
       description:"Yeni gibi hiç bir hasarı yok. Sadece bataryası zayıf",
       information:"Samsung 6.6 inç 5G 8 GB Ram 128 GB Depolama",
@@ -67,6 +70,7 @@ function App() {
       availability: 10,
     },
     {
+      productID:4,
       image: 'https://avatars.mds.yandex.net/i?id=93aa06bb6964435633294612465fd8d833472b3f-9837140-images-thumbs&n=13',
       description:"Yeni gibi hiç bir hasarı yok. Sadece bataryası zayıf.Yeni gibi hiç bir hasarı yok. Sadece bataryası zayıf",
       information:"Samsung 6.6 inç 5G 8 GB Ram 128 GB Depolama",
@@ -75,6 +79,7 @@ function App() {
       availability: 10,
     },
     {
+      productID:5,
       image: 'https://www.bulvarpazari.com/wp-content/uploads/KG86NHI30N.jpg',
       description:"sdsdsdssb sdjkshd djshdjs sjdhjhd jshdjshdsj",
       information:"Samsung 6.6 inç 5G 8 GB Ram 128 GB Depolama",
@@ -84,6 +89,7 @@ function App() {
     },
     // Diğer ürünler
   ];
+  const likedProducts=[1,2,3];
   const comments=[
     {
       product:"Xbox Series X Oyun Konsolu",
@@ -91,7 +97,8 @@ function App() {
       comment:" Spor salonunda test etmek için kiraladım, direkt sıfır olarak alıp heveslenip bir kenara atacağım düşüncesi ile direkt almadım. Ürün tertemiz, özenle hazırlanmış şekilde geldi. Sonrasında zaten başka ürünler de kiraladım.Spor salonunda test etmek için kiraladım, direkt sıfır olarak alıp heveslenip bir kenara atacağım düşüncesi ile direkt almadım. Ürün tertemiz, özenle hazırlanmış şekilde geldi. Sonrasında zaten başka ürünler de kiraladım. ",
       date:"02/11/2023",
       star:5,
-      commenter:"İlknur Dondurma"
+      commenter:"İlknur Dondurma",
+      variant:"primary"
     },
     {
       product: "PlayStation 5 Oyun Konsolu",
@@ -99,7 +106,8 @@ function App() {
       comment: "Harika bir deneyimdi, konsol çok hızlı çalışıyor ve oyunlar harika görünüyor. Kesinlikle tavsiye ederim!",
       date: "02/11/2023",
       star:2,
-      commenter: "Ahmet Yılmaz"
+      commenter: "Ahmet Yılmaz",
+      variant:"primary"
     },
     {
       product: "Samsung 4K UHD Akıllı TV",
@@ -107,7 +115,8 @@ function App() {
       comment: "Bu televizyonu yatak odam için aldım ve kalitesinden çok memnunum. 4K görüntü harika!",
       date: "02/11/2023",
       star:5,
-      commenter: "Ayşe Demir"
+      commenter: "Ayşe Demir",
+      variant:"primary"
     },
     {
       product: "MacBook Pro 2022",
@@ -115,7 +124,8 @@ function App() {
       comment: "Mükemmel bir bilgisayar, iş için kullanıyorum ve performansı harika. Özellikle Retina ekranı beni büyüledi!",
       date: "02/11/2023",
       star:5,
-      commenter: "Mehmet Kaya"
+      commenter: "Mehmet Kaya",
+      variant:"primary"
     },
     {
       product: "Sony WH-1000XM4 Kulaklık",
@@ -123,15 +133,17 @@ function App() {
       comment: "Ses kalitesi ve gürültü engelleme harika! Uzun uçuşlar için mükemmel bir seçenek.",
       date: "02/11/2023",
       star:5,
-      commenter: "Selin Aydın"
+      commenter: "Selin Aydın",
+      variant:"primary"
     },
     {
       product: "Nespresso Lattissima Kahve Makinesi",
       category: "Kahve Makinesi",
-      comment: "Kahve severler için harika bir seçenek. Espresso ve süt bazlı içecekler mükemmel yapılıyor.",
+      comment: "Kahve severler için harika bir seçenek. Espresso ve süt bazlı içecekler mükemmel yapılıyor. ses kalitesi ve pil ömrü harika. Seyahatlerde kullanıyorum!vMükemmel bir taşınabilir hoparlör ses kalitesi ve pil ömrü harika. Seyahatlerde kullanıyorum!vMükemmel bir taşınabilir hoparlör ses kalitesi ve pil ömrü harika. Seyahatlerde kullanıyorum!vMükemmel bir taşınabilir hoparlör ses kalitesi ve pil ömrü harika. Seyahatlerde kullanıyorum!vMükemmel bir taşınabilir hoparlör",
       date: "02/11/2023",
       star:3,
-      commenter: "Hasan Çelik"
+      commenter: "Hasan Çelik",
+      variant:"primary"
     },
     {
       product: "DJI Mavic Air 2 Drone",
@@ -139,23 +151,26 @@ function App() {
       comment: "Muhteşem bir drone! Harika çekimler yapabilirsiniz. Ancak uçuş kurallarına dikkat edin!",
       date: "02/11/2023",
       star:1,
-      commenter: "Elif Gök"
+      commenter: "Elif Gök",
+      variant:"primary"
     },
     {
       product: "GoPro HERO10 Aksiyon Kamera",
       category: "Aksiyon Kamera",
-      comment: "Harika bir aksiyon kamerası, 5K video çekimleri muhteşem görünüyor. Her anı kaydedin!",
+      comment: "Mükemmel bir taşınabilir hoparlör, ses kalitesi ve pil ömrü harika. Seyahatlerde kullanıyorum!Mükemmel bir taşınabilir hoparlör, ses kalitesi ve pil ömrü harika. Seyahatlerde kullanıyorum!Mükemmel bir taşınabilir hoparlör, ses kalitesi ve pil ömrü harika. Seyahatlerde kullanıyorum!Mükemmel bir taşınabilir hoparlör, ses kalitesi ve pil ömrü harika. Seyahatlerde kullanıyorum!Mükemmel bir taşınabilir hoparlör, ses kalitesi ve pil ömrü harika. Seyahatlerde kullanıyorum!Mükemmel bir taşınabilir hoparlör, ses kalitesi ve pil ömrü harika. Seyahatlerde kullanıyorum!Mükemmel bir taşınabilir hoparlör, ses kalitesi ve pil ömrü harika. Seyahatlerde kullanıyorum!Mükemmel bir taşınabilir hoparlör, ses kalitesi ve pil ömrü harika. Seyahatlerde kullanıyorum!Mükemmel bir taşınabilir hoparlör, ses kalitesi ve pil ömrü harika. Seyahatlerde kullanıyorum!Mükemmel bir taşınabilir hoparlör, ses kalitesi ve pil ömrü harika. Seyahatlerde kullanıyorum!Mükemmel bir taşınabilir hoparlör, ses kalitesi ve pil ömrü harika. Seyahatlerde kullanıyorum!Mükemmel bir taşınabilir hoparlör, ses kalitesi ve pil ömrü harika. Seyahatlerde kullanıyorum!Mükemmel bir taşınabilir hoparlör, ses kalitesi ve pil ömrü harika. Seyahatlerde kullanıyorum!vMükemmel bir taşınabilir hoparlör, ses kalitesi ve pil ömrü harika. Seyahatlerde kullanıyorum! ses kalitesi ve pil ömrü harika. Seyahatlerde kullanıyorum!vMükemmel bir taşınabilir hoparlör ses kalitesi ve pil ömrü harika. Seyahatlerde kullanıyorum!vMükemmel bir taşınabilir hoparlör ses kalitesi ve pil ömrü harika. Seyahatlerde kullanıyorum!vMükemmel bir taşınabilir hoparlör ses kalitesi ve pil ömrü harika. Seyahatlerde kullanıyorum!vMükemmel bir taşınabilir hoparlör ses kalitesi ve pil ömrü harika. Seyahatlerde kullanıyorum!vMükemmel bir taşınabilir hoparlör ses kalitesi ve pil ömrü harika. Seyahatlerde kullanıyorum!vMükemmel bir taşınabilir hoparlör ses kalitesi ve pil ömrü harika. Seyahatlerde kullanıyorum!vMükemmel bir taşınabilir hoparlör ses kalitesi ve pil ömrü harika. Seyahatlerde kullanıyorum!vMükemmel bir taşınabilir hoparlör ses kalitesi ve pil ömrü harika. Seyahatlerde kullanıyorum!vMükemmel bir taşınabilir hoparlör",
       date: "02/11/2023",
       star:5,
-      commenter: "Emre Yıldız"
+      commenter: "Emre Yıldız",
+      variant:"primary"
     },
     {
       product: "Bose SoundLink Renkli Taşınabilir Hoparlör",
       category: "Hoparlör",
-      comment: "Mükemmel bir taşınabilir hoparlör, ses kalitesi ve pil ömrü harika. Seyahatlerde kullanıyorum!",
+      comment: "Mükemmel bir taşınabilir hoparlör, ses kalitesi ve pil ömrü harika. Seyahatlerde kullanıyorum!Mükemmel bir taşınabilir hoparlör, ses kalitesi ve pil ömrü harika. Seyahatlerde kullanıyorum!Mükemmel bir taşınabilir hoparlör, ses kalitesi ve pil ömrü harika. Seyahatlerde kullanıyorum!Mükemmel bir taşınabilir hoparlör, ses kalitesi ve pil ömrü harika. Seyahatlerde kullanıyorum!Mükemmel bir taşınabilir hoparlör, ses kalitesi ve pil ömrü harika. Seyahatlerde kullanıyorum!Mükemmel bir taşınabilir hoparlör, ses kalitesi ve pil ömrü harika. Seyahatlerde kullanıyorum!Mükemmel bir taşınabilir hoparlör, ses kalitesi ve pil ömrü harika. Seyahatlerde kullanıyorum!Mükemmel bir taşınabilir hoparlör, ses kalitesi ve pil ömrü harika. Seyahatlerde kullanıyorum!Mükemmel bir taşınabilir hoparlör, ses kalitesi ve pil ömrü harika. Seyahatlerde kullanıyorum!Mükemmel bir taşınabilir hoparlör, ses kalitesi ve pil ömrü harika. Seyahatlerde kullanıyorum!Mükemmel bir taşınabilir hoparlör, ses kalitesi ve pil ömrü harika. Seyahatlerde kullanıyorum!Mükemmel bir taşınabilir hoparlör, ses kalitesi ve pil ömrü harika. Seyahatlerde kullanıyorum!Mükemmel bir taşınabilir hoparlör, ses kalitesi ve pil ömrü harika. Seyahatlerde kullanıyorum!vMükemmel bir taşınabilir hoparlör, ses kalitesi ve pil ömrü harika. Seyahatlerde kullanıyorum!",
       date: "02/11/2023",
       star:5,
-      commenter: "Zeynep Şimşek"
+      commenter: "Zeynep Şimşek",
+      variant:"primary"
     }
   ];
 
@@ -208,11 +223,13 @@ function App() {
       </div>
 
       <div>
-        {/**
-         <div className='grid xl:grid-cols-3 gap-5 md:grid-cols-2 sm:grid-cols-1'>
+        {
+         <div className=' gap-8 m-2 grid xl:grid-cols-4 lg:grid-cols-3 md:grid-cols-2 sm:grid-cols-1'>
           {products.map((product, index) => (
                   <ProductCard
                     key={index}
+                    productID={product.productID}
+                    likedProducts={likedProducts}
                     image={product.image}
                     title={product.title}
                     description={product.description}
@@ -223,13 +240,16 @@ function App() {
                   />
                 ))}
       </div>
-        */}
+        }
       </div>
 
-<div className='grid xl:grid-cols-5 gap-5 md:grid-cols-3 sm:grid-cols-2'>
+<div>
+  {/**
+   <div className='grid grid-cols-1 gap-5'>
     {comments.map((comment, index) => (
             <CommentCard
               key={index}
+              variant={comment.variant}
               product={comment.product}
               category={comment.category}
               comment={comment.comment}
@@ -238,6 +258,8 @@ function App() {
               commenter={comment.commenter}
             />
           ))}
+</div>
+   */}
 </div>
 
     </div>
