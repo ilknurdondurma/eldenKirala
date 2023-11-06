@@ -1,4 +1,4 @@
-import Button from "../button";
+import Button from "../Button";
 import PropTypes from "prop-types"
 import React, { useState } from 'react';
 
@@ -19,7 +19,7 @@ export default function ProductCard ({productID,title,description,image,likedPro
             <span className="flex justify-end">
               <Button 
                 variant="LikeButton" 
-                className={`visited:animate-ping p-2 text-3xl transform hover:scale-110 transition-transform ${likedProductsList.includes(productID) ? 'text-red-500' : 'text-gray-500'}`}
+                className={`visited:animate-ping p-2 text-4xl transform hover:scale-110 transition-transform ${likedProductsList.includes(productID) ? 'text-red-500' : 'text-gray-500'}`}
                 onClick={() => handleLikeClick(productID)}>
                 ♥️
               </Button>
@@ -32,10 +32,10 @@ export default function ProductCard ({productID,title,description,image,likedPro
                   </div>
             </div>
             <div className= "flex justify-center text-center py-2">
-                <Button variant="Purple" className="rounded-full bg-secondary w-24 text-white text-sm hover:underline">1 Ay   </Button>
-                <Button variant="Purple" className="rounded-full bg-secondary w-24 text-white text-sm hover:underline">3 Ay   </Button>
-                <Button variant="Purple" className="rounded-full bg-secondary w-24 text-white text-sm hover:underline">6 Ay   </Button>
-                <Button variant="Purple" className="rounded-full bg-secondary w-24 text-white text-sm hover:underline">12Ay  </Button>
+                <Button variant="Purple" className="rounded-full bg-secondary w-24 text-white text-sm hover:underline">1Ay</Button>
+                <Button variant="Purple" className="rounded-full bg-secondary w-24 text-white text-sm hover:underline">3Ay</Button>
+                <Button variant="Purple" className="rounded-full bg-secondary w-24 text-white text-sm hover:underline">6Ay</Button>
+                <Button variant="Purple" className="rounded-full bg-secondary w-24 text-white text-sm hover:underline">12Ay</Button>
 
             </div>
             <span className="flex justify-center py-2">

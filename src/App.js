@@ -1,14 +1,9 @@
 // app.js
 import React from 'react';
-import SelectBox from './components/Input/dropdown';
-import Input from './components/Input/text';
-import Button from './components/button';
-import { Form, Formik } from 'formik';
-import TextArea from './components/Input/textArea';
-import { clear } from '@testing-library/user-event/dist/clear';
-import CheckBox from './components/Input/checkbox';
 import ProductCard from './components/productCard';
-import CommentCard from './components/commentCard';
+import Footer from './components/footer';
+import { Router } from 'react-router-dom';
+
 
 const options = [
   { label: 'Option 1', value: 'option1' },
@@ -31,10 +26,23 @@ const coptions = [
   { label: 'Option 6', value: 'option6' },
   { label: 'Option 7', value: 'option7' },
 ];
-
+const categories = ["Elektronik", "Müzik", "Kitaplar", "Spor", "Moda"];
 function App() {
-  
-   const handleSubmit = (values) => {
+  return (
+      <div className="App min-h-screen flex flex-col">
+      <div className='flex-grow'>
+      
+      </div>
+      <footer>
+        <Footer/>
+      </footer>
+    </div>
+  );
+}
+
+export default App;
+/**
+ const handleSubmit = (values) => {
     console.log(values);
   }
   const handleAddToCart = (productName) => {
@@ -173,98 +181,79 @@ function App() {
       variant:"primary"
     }
   ];
+           <Formik
+          initialValues={{
+            ad:"",
+            soyad:"",
+            opt1:"",
+            opt2:""
 
- 
+          }}
+            onSubmit={values => {
+              handleSubmit(values)
+            }}>
+    {({ setFieldValue,}) => (
+            <Form>
+              <Input label="adınız" name="ad" />
+              <Input label="soyadınız" name="soyad" />
+              <SelectBox 
+                    options={options} 
+                    label="metinnssn" 
+                    name="opt1" 
+                    onChange={(selectedValue) => {
+                                    console.log("Seçilen değer:", selectedValue);
+                                    setFieldValue("opt1", selectedValue);
+                                }}/>
+                <SelectBox 
+                    options={options2} 
+                    variant="secondary"
+                    label="adsdsdsd" 
+                    name="opt2" 
+                    onChange={(selectedValue) => {
+                                    console.log("Seçilen değer:", selectedValue);
+                                    setFieldValue("opt2", selectedValue);
+                                }}/>
+              <TextArea label="acıklama" name="ack" />
+              <CheckBox name="chck" options={coptions} />
+              <Button type="submit"variant="Green" onClick={() =>console.log("Button clicked")}> Gönder</Button>
+            </Form>
+    )}
+          </Formik>
+          
 
- return (
-    <div className="App">
-      
-      <div>
-        {/**
-       <Formik
-      initialValues={{
-        ad:"",
-        soyad:"",
-        opt1:"",
-        opt2:""
+        
+             <div className=' gap-8 m-2 grid xl:grid-cols-4 lg:grid-cols-3 md:grid-cols-2 sm:grid-cols-1'>
+              {products.map((product, index) => (
+                      <ProductCard
+                        key={index}
+                        productID={product.productID}
+                        likedProducts={likedProducts}
+                        image={product.image}
+                        title={product.title}
+                        description={product.description}
+                        information={product.information}
+                        price={product.price}
+                        availability={product.availability}
+                        onClick={() => handleAddToCart(product.title)}
+                      />
+                    ))}
+          </div>
+        
 
-      }}
-        onSubmit={values => {
-          handleSubmit(values)
-        }}>
-{({ setFieldValue,}) => (
-        <Form>
-          <Input label="adınız" name="ad" />
-          <Input label="soyadınız" name="soyad" />
-          <SelectBox 
-                options={options} 
-                label="metinnssn" 
-                name="opt1" 
-                onChange={(selectedValue) => {
-                                console.log("Seçilen değer:", selectedValue);
-                                setFieldValue("opt1", selectedValue);
-                            }}/>
-            <SelectBox 
-                options={options2} 
-                variant="secondary"
-                label="adsdsdsd" 
-                name="opt2" 
-                onChange={(selectedValue) => {
-                                console.log("Seçilen değer:", selectedValue);
-                                setFieldValue("opt2", selectedValue);
-                            }}/>
-          <TextArea label="acıklama" name="ack" />
-          <CheckBox name="chck" options={coptions} />
-          <Button type="submit"variant="Green" onClick={() =>console.log("Button clicked")}> Gönder</Button>
-        </Form>
-)}
-      </Formik>
-       */}
-      </div>
-
-      <div>
-        {
-         <div className=' gap-8 m-2 grid xl:grid-cols-4 lg:grid-cols-3 md:grid-cols-2 sm:grid-cols-1'>
-          {products.map((product, index) => (
-                  <ProductCard
-                    key={index}
-                    productID={product.productID}
-                    likedProducts={likedProducts}
-                    image={product.image}
-                    title={product.title}
-                    description={product.description}
-                    information={product.information}
-                    price={product.price}
-                    availability={product.availability}
-                    onClick={() => handleAddToCart(product.title)}
-                  />
-                ))}
-      </div>
-        }
-      </div>
-
-<div>
-  {/**
-   <div className='grid grid-cols-1 gap-5'>
-    {comments.map((comment, index) => (
-            <CommentCard
-              key={index}
-              variant={comment.variant}
-              product={comment.product}
-              category={comment.category}
-              comment={comment.comment}
-              date={comment.date}
-              star={comment.star}
-              commenter={comment.commenter}
-            />
-          ))}
-</div>
-   */}
-</div>
-
-    </div>
-
- );
-}
-
-export default App;
+          
+             <div className='grid grid-cols-1 gap-5'>
+              {comments.map((comment, index) => (
+                      <CommentCard
+                        key={index}
+                        variant={comment.variant}
+                        product={comment.product}
+                        category={comment.category}
+                        comment={comment.comment}
+                        date={comment.date}
+                        star={comment.star}
+                        commenter={comment.commenter}
+                      />
+                    ))}
+          </div>
+            
+ */
