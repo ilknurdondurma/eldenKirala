@@ -26,7 +26,6 @@ const coptions = [
   { label: 'Option 6', value: 'option6' },
   { label: 'Option 7', value: 'option7' },
 ];
-const categories = ["Elektronik", "Müzik", "Kitaplar", "Spor", "Moda"];
 function App() {
   return (
       <div className="App min-h-screen flex flex-col">
@@ -34,6 +33,7 @@ function App() {
       
       </div>
       <footer>
+        
         <Footer/>
       </footer>
     </div>

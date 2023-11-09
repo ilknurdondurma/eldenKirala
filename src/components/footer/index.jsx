@@ -35,7 +35,8 @@ export default function  Footer({ ...props}){
     useEffect(() => {
         getCategories()
         .then((result)=>{
-            setCategories(result?.data)
+            setCategories(result?.data.data)
+            console.log(categories)
         })
         .catch((error)=>{
             console.log(error)
@@ -75,7 +76,7 @@ export default function  Footer({ ...props}){
                                         {firstFiveItems.map((help, index) => (
                                                     <span className="p-6  hover:underline">
                                                         <li key={index}>
-                                                            {help}
+                                                            {help.name}
                                                         </li>
                                                     </span>
                                                 ))}
@@ -84,7 +85,7 @@ export default function  Footer({ ...props}){
                                             {endFiveItems.map((help, index) => (
                                                     <span className="p-6  hover:underline">
                                                         <li key={index}>
-                                                            {help}
+                                                            {help.name}
                                                         </li>
                                                     </span>
                                                 ))}
