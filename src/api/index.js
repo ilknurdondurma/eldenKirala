@@ -2,7 +2,8 @@ import axios from "axios";
 
 const API=axios.create({baseURL:'https://localhost:7278/api/v2'})
 
-export const getAllProducts = () => API.get(`/products`)
+export const getAllProducts = () => API.get(`/Product/get-all`)
+
 export const getProduct = (id) => API.get(`/products/${id}`)
 export const addProduct = (product) => API.post(`/products/add/`,product)
 export const updateProduct = (product) => API.put(`/products/`,product)

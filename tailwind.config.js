@@ -7,10 +7,9 @@ module.exports = {
     
     extend: {
       colors: {
-        primary:'#00ce98',//green
+        primary:'#61d4af',//green
         secondary:'#6366f1',//purple
-        tertiary:'#353839 ',
-
+        
         text_primary:"#52525b", //text-zinc-[600]
         text_secondary:"#00ce98",// green
 

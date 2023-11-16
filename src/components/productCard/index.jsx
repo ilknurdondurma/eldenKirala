@@ -1,8 +1,8 @@
-import Button from "../Button";
+import Button from "../button";
 import PropTypes from "prop-types"
 import React, { useState } from 'react';
 
-export default function ProductCard ({productID,title,description,image,likedProducts,price,category,information,onClick,className ,...props}){
+export function ProductCard ({productID,title,description,image,likedProducts,price,category,information,isActive,onClick,className ,...props}){
   const [likedProductsList, setLikedProductsList] = useState([...likedProducts]);
 
   const handleLikeClick = (productID) => {
@@ -15,8 +15,8 @@ export default function ProductCard ({productID,title,description,image,likedPro
     }
   }
     return(
-        <div className=" rounded-lg shadow-md p-5 w-80">
-            <span className="flex justify-end">
+        <div className="hover:shadow-xl  m-3 sm:m-0 md:m-1 rounded-lg shadow-md w-auto min-w-16 py-5 flex flex-col justify-between 2xl:text-md xl:text-md lg:text-md md:text-sm sm:text-xs 2xl:h-lg xl:h-lg lg:h-lg md:h-md sm:h-sm">
+            <span className="flex justify-end ">
               <Button 
                 variant="LikeButton" 
                 className={`visited:animate-ping p-2 text-4xl transform hover:scale-110 transition-transform ${likedProductsList.includes(productID) ? 'text-red-500' : 'text-gray-500'}`}
@@ -24,27 +24,35 @@ export default function ProductCard ({productID,title,description,image,likedPro
                 ♥️
               </Button>
             </span>
-            <span className="flex justify-center py-2" ><img src={image} alt={title} className="w-52 h-60 center rounded-xl" /></span>
-            <h5 className=  "flex justify-center text-lg/50  py-2"> <span className={`overflow-hidden ${information.length > 100 ? 'max-h-20' : 'max-h-32'}`}>{information}</span></h5>
+            <span className="flex justify-center " ><img src={image} alt={title} className="w-52 h-60 center rounded-xl" /></span>
+            <h5 className=  "flex justify-center p-2 "> <span className={`overflow-hidden ${information.length > 100 ? 'max-h-20' : 'max-h-32'}`}>{information}</span></h5>
             <div className="flex justify-center">
-                <div className= "py-4 overflow-hidden w-3/4 text-center whitespace-nowrap">
-                    <span className="font-bold">{price} TL  /  MONTH</span>
+                <div className= " overflow-hidden w-3/4 text-center whitespace-nowrap block">
+                    <div className={`font-bold ${isActive ? 'text-red-800' : 'text-secondary'}`}>{price} TL  /  MONTH</div>
+                    {isActive 
+                     ? 
+                        <div>
+                          <div>Şuan Kirada ... </div>
+                          <div><Button variant="Purple" size="xsmall" className="rounded-full bg-secondary w-24 text-white text-sm hover:underline" onClick={onClick}>AYIRT</Button></div>
+                        </div> 
+                      : <div>
+
+                        </div>}
                   </div>
             </div>
             <div className= "flex justify-center text-center py-2">
-                <Button variant="Purple" className="rounded-full bg-secondary w-24 text-white text-sm hover:underline">1Ay</Button>
-                <Button variant="Purple" className="rounded-full bg-secondary w-24 text-white text-sm hover:underline">3Ay</Button>
-                <Button variant="Purple" className="rounded-full bg-secondary w-24 text-white text-sm hover:underline">6Ay</Button>
-                <Button variant="Purple" className="rounded-full bg-secondary w-24 text-white text-sm hover:underline">12Ay</Button>
-
+                
             </div>
-            <span className="flex justify-center py-2">
-                <Button 
-                    onClick={onClick} 
-                    variant="PurpleOutline"
-                    className="font-bold italic rounded-2xl" 
-                    children="Şimdi Kirala">
-                </Button>
+            <span className="flex justify-center py-2 2xl:text-md xl:text-md lg:text-md md:text-sm sm:text-xs">
+            <Button 
+                onClick={onClick} 
+                variant="PurpleOutline"
+                size="small"
+                className={`font-bold italic rounded-2xl ${isActive ? 'opacity-50 cursor-not-allowed' : ''}`}
+                disabled={isActive}
+              >
+                Şimdi Kirala
+            </Button>
             </span>
         </div>
     )
@@ -55,7 +63,7 @@ ProductCard.propTypes={
   description:PropTypes.string,
   image:PropTypes.string,
   price:PropTypes.number,
-  category:PropTypes.string,
+  category:PropTypes.number,
   information:PropTypes.string,
   className:PropTypes.string,
   props:PropTypes.object,

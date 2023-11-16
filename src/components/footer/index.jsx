@@ -1,24 +1,24 @@
 import { Form, Formik } from "formik";
-import Button from "../Button";
+import Button from "../button";
 import Input from "../Input/text"
 import TextArea from "../Input/textArea"
 import { useEffect, useState } from "react";
 import { getCategories } from "../../api";
+import { NavLink ,useNavigate } from "react-router-dom";
 
 
-export default function  Footer({ ...props}){
+export function  Footer({ ...props}){
     const handleSubmit=(values)=>{
         console.log(values);
     }
 
-    const contactLinks=[,"Adres","E posta","Telefon","Destek Hattı"]
     const followLinks=["İnstagram","Twitter","Facebook","Youtube"]
 
     const helperRoutes=[
         {id:1 , title:"Sıkça Sorulan Sorular" ,route:"yardim/sorular"},
         {id:2 , title:"Canlı Yardım" ,route:"yardim/canli"},
         {id:3 , title:"Nasıl İade Ederim" ,route:"yardim/iade"},
-        {id:4 , title:"Fırsatlar" ,route:"yardim/sorular"},
+        {id:4 , title:"Fırsatlar" ,route:"firsatlar"},
     ]
     const contactRoutes=[
         {id:1 , title:"Adres" ,route:"iletisim/adres"},
@@ -43,13 +43,21 @@ export default function  Footer({ ...props}){
 
         })
     }, [])
+
+    const navigate = useNavigate();
+
+  const handleCategoryClick = (category) => {
+    // Seçili kategoriye ait ürünlerin bulunduğu sayfaya yönlendirme yap
+    navigate(`/products/${category.id}`);
+  };
+
     
     return(
         <div className="text-center ">
 
             {/**          GREY SECTİON       */}
  
-            <div className="bg-tertiary  p-5 ">
+            <div className="bg-primary  p-5 ">
                 {/**      İNDİRME LİNKLERİ   */}
                 <div className="">
                     <span className=" p-6 w-40"> 
@@ -74,7 +82,8 @@ export default function  Footer({ ...props}){
                                 <div className="grid grid-cols-2 gap-0">
                                     <span>
                                         {firstFiveItems.map((help, index) => (
-                                                    <span className="p-6  hover:underline">
+                                                    <span className="p-2  hover:underline font-medium"  onClick={() => handleCategoryClick(help)}
+                                                    key={index}>
                                                         <li key={index}>
                                                             {help.name}
                                                         </li>
@@ -83,7 +92,7 @@ export default function  Footer({ ...props}){
                                         </span>
                                         <span className="sm:hidden">
                                             {endFiveItems.map((help, index) => (
-                                                    <span className="p-6  hover:underline">
+                                                    <span className="p-2  hover:underline font-medium" onClick={() => handleCategoryClick(help)}>
                                                         <li key={index}>
                                                             {help.name}
                                                         </li>
@@ -99,10 +108,11 @@ export default function  Footer({ ...props}){
                                 </div>
                                 <div>
                                 {helperRoutes.map((route)=>(
-                                    <span className="p-6  hover:underline">
-                                        <li className="list-none">
+                                    <span className="p-2  hover:underline">
+                                        <li className="list-none font-medium">
                                           
-                                            {route.title}
+                                        <NavLink to={route.route} >{route.title}</NavLink>
+
                                            
                                         </li>
                                     </span>
@@ -120,10 +130,10 @@ export default function  Footer({ ...props}){
                                     İletişim
                                 </div>
                                 <div>
-                                    {contactLinks.map((help, index) => (
-                                                    <span className="p-6 hover:underline">
-                                                        <li key={index} className="list-none ">
-                                                            {help}
+                                    {contactRoutes.map((contact, index) => (
+                                                    <span className="p-2 hover:underline ">
+                                                        <li key={index} className="list-none font-medium">
+                                                            <NavLink to={contact.route}>{contact.title}</NavLink>
                                                         </li>
                                                     </span>
                                                 ))}
@@ -135,10 +145,10 @@ export default function  Footer({ ...props}){
                                     Bizi Takip Edin
                                 </div>
                                 <div>
-                                    {followLinks.map((help, index) => (
-                                                    <span className="p-6 hover:underline">
-                                                        <li key={index} className="list-none ">
-                                                            {help}
+                                    {followLinks.map((follow, index) => (
+                                                    <span className="p-2 hover:underline">
+                                                        <li key={index} className="list-none font-medium">
+                                                            {follow}
                                                         </li>
                                                     </span>
                                                 ))}
@@ -167,7 +177,7 @@ export default function  Footer({ ...props}){
                                         <Input  name="email" type="email" placeholder="E-mail" />
                                     
                                         <TextArea name="ack"placeholder="Mesajınız.." />
-                                        <Button type="submit"variant="Green" className="w-full m-2"> Gönder</Button>
+                                        <Button type="submit"variant="Purple" className="w-full m-2"> Gönder</Button>
                                         </Form>
                                 )}
                                     </Formik>
@@ -180,7 +190,7 @@ export default function  Footer({ ...props}){
 
 
                 {/**     GREEN SECTİON   */}
-             <div className="bg-primary text-white font-medium flex flex-col justify-center h-16 ">
+             <div className="bg-primary/90 text-white text-lg font-bold flex flex-col justify-center h-16 border border-black/50 ">
              Copyright © 2023 | Made by İlknur Dondurma
              </div>
         </div>

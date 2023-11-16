@@ -1,6 +1,8 @@
 import { createBrowserRouter } from "react-router-dom";
 import App from "../App";
 import Home from "../pages/home";
+import Firsatlar from "../pages/firsatlar";
+import Login from "../pages/login";
 
 
 const routes = createBrowserRouter([
@@ -9,7 +11,7 @@ const routes = createBrowserRouter([
         children:[
             {
                 index:true,
-                element: <App/>
+                element: <Home/>
             },
 
             {
@@ -18,7 +20,7 @@ const routes = createBrowserRouter([
             },
             {
                 path: '/giris-yap',
-                element: <Home/>
+                element: <Login/>
             },
             {
                 path: '/uye-ol',
@@ -33,11 +35,11 @@ const routes = createBrowserRouter([
                 element: <Home/>
             },
             {
-                path: '/detay',
+                path: '/detay/*',
                 element: <Home/>
             },
             {
-                path: '/urun',
+                path: '/products/*',
                 element: <Home/>
             },
             {
@@ -45,16 +47,16 @@ const routes = createBrowserRouter([
                 element: <Home/>
             },
             {
-                path: '/yardim',
+                path: '/yardim/*',
                 element: <Home/>
             },
             {
-                path: '/iletisim',
+                path: '/iletisim/*',
                 element: <Home/>
             },
             {
-                path: '',
-                element: <Home/>
+                path: '/firsatlar',
+                element: <Firsatlar/>
             },
         ]
     }

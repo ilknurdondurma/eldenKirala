@@ -12,7 +12,7 @@ export default function Button({ variant,size,children,as,className,onClick, ...
             "bg-secondary text-white   shadow-indigo-500/50   ": variant ==='Purple',
 
             "bg-white text-primary   shadow-sm shadow-primary   " : variant === 'GreenOutline',
-            "bg-white text-secondary border border-1 shadow-sm shadow-secondary hover:shadow-secondary hover:shadow-md": variant ==='PurpleOutline',
+            "bg-transparent text-secondary border border-1 shadow-sm shadow-secondary hover:shadow-secondary hover:shadow-md": variant ==='PurpleOutline',
 
             "bg-transparent ": variant === 'LikeButton',
             "bg-transparent text-black hover:shadow-lg": variant === 'TransparentButton',

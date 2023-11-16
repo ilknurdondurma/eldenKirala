@@ -13,6 +13,7 @@ function Input({
   label,
   readOnly,
   type,
+  onClick,
   ...props
 }) {
   const inputClasses = classNames(
@@ -32,14 +33,24 @@ function Input({
       {label && (
         <div className="mb-2.5 ps-3 text-lg text-text_primary/80">{label} :</div>
       )}
-      <Field
-        name={name}
-        placeholder={placeholder}
-        type={type}
-        readOnly={readOnly}
-        className={inputClasses}
-        {...props}
-      />
+       <div className="relative">
+        <Field
+          name={name}
+          placeholder={placeholder}
+          type={type}
+          readOnly={readOnly}
+          className={inputClasses}
+          {...props}
+        />
+        {variant === "secondary" && (
+          <button
+            type="submit"
+            className="absolute right-3 top-1/2 transform -translate-y-1/2"
+          >
+            ⌕
+          </button>
+        )}
+      </div>
       <ErrorMessage
         component="small"
         name={name}

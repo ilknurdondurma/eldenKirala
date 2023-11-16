@@ -1,11 +1,11 @@
 import React from 'react'
 
-function Home() {
+function Firsatlar() {
   return (
     <div>
-      <h1>Home</h1>
+      MERHABA AQ
     </div>
   )
 }
 
-export default Home
+export default Firsatlar
