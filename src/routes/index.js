@@ -19,23 +19,23 @@ const routes = createBrowserRouter([
                 element: <Home/>
             },
             {
-                path: '/giris-yap',
+                path: '/login',
                 element: <Login/>
             },
             {
-                path: '/uye-ol',
+                path: '/signup',
                 element: <Home/>
             },
             {
-                path: '/ayarlar',
+                path: '/settings',
                 element: <Home/>
             },
             {
-                path: '/sepet',
+                path: '/cart',
                 element: <Home/>
             },
             {
-                path: '/detay/*',
+                path: '/details/*',
                 element: <Home/>
             },
             {
@@ -43,15 +43,15 @@ const routes = createBrowserRouter([
                 element: <Home/>
             },
             {
-                path: '/kategoriler',
+                path: '/categories/*',
                 element: <Home/>
             },
             {
-                path: '/yardim/*',
+                path: '/help/*',
                 element: <Home/>
             },
             {
-                path: '/iletisim/*',
+                path: '/contact/*',
                 element: <Home/>
             },
             {

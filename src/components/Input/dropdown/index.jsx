@@ -2,13 +2,13 @@ import classNames from "classnames";
 import { Field, ErrorMessage } from "formik";
 import PropTypes from "prop-types"
 
-export default function SelectBox({ label,variant, className, name, options, onChange,title,readOnly, ...props }) {
+export default function SelectBox({ label,variant, className, name, options, onChange,title,readOnly,placeholder, ...props }) {
 
   const inputClasses = classNames(
     "w-full flex inline-block m-2 ",
     {
       "bg-my_input_bg w-full h-10 border border-my_border_color rounded-lg  focus:outline-1 focus:outline-primary/50 px-3 ":variant === "primary",
-      "w-full h-16 px-3 outline-0 border-y border-my_border_color focus:border-y focus:border-primary/50  active:border-y active:border-primary/50  ":variant === "secondary",
+      "w-full h-16 px-3 outline-0 border-y border-my_border_color focus:border-y focus:border-primary/50  active:border-y active:border-primary/50 ":variant === "secondary",
     },
     className
   );
@@ -18,6 +18,7 @@ export default function SelectBox({ label,variant, className, name, options, onC
             <Field 
             as="select"  
             name={name} 
+            placehoder={placeholder}
             className={inputClasses} 
             onChange={(e) => {
                 onChange && onChange(e.target.value);
@@ -37,6 +38,7 @@ export default function SelectBox({ label,variant, className, name, options, onC
 SelectBox.propTypes = {
     name: PropTypes.string.isRequired,
     label: PropTypes.string,
+    placeholder:PropTypes.string,
     props: PropTypes.object,
     variant: PropTypes.oneOf(["primary" ,"secondary"]),
     className: PropTypes.string,

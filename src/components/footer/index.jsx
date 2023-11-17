@@ -82,8 +82,7 @@ export function  Footer({ ...props}){
                                 <div className="grid grid-cols-2 gap-0">
                                     <span>
                                         {firstFiveItems.map((help, index) => (
-                                                    <span className="p-2  hover:underline font-medium"  onClick={() => handleCategoryClick(help)}
-                                                    key={index}>
+                                                    <span key={index} className="p-2  hover:underline font-medium"  onClick={() => handleCategoryClick(help)}>
                                                         <li key={index}>
                                                             {help.name}
                                                         </li>
@@ -92,7 +91,7 @@ export function  Footer({ ...props}){
                                         </span>
                                         <span className="sm:hidden">
                                             {endFiveItems.map((help, index) => (
-                                                    <span className="p-2  hover:underline font-medium" onClick={() => handleCategoryClick(help)}>
+                                                    <span key={index} className="p-2  hover:underline font-medium" onClick={() => handleCategoryClick(help)}>
                                                         <li key={index}>
                                                             {help.name}
                                                         </li>
@@ -107,13 +106,10 @@ export function  Footer({ ...props}){
                                     Help
                                 </div>
                                 <div>
-                                {helperRoutes.map((route)=>(
-                                    <span className="p-2  hover:underline">
-                                        <li className="list-none font-medium">
-                                          
-                                        <NavLink to={route.route} >{route.title}</NavLink>
-
-                                           
+                                {helperRoutes.map((route,index)=>(
+                                    <span key={index} className="p-2  hover:underline">
+                                        <li key={index} className="list-none font-medium">
+                                            <NavLink to={route.route} key={index}>{route.title}</NavLink>
                                         </li>
                                     </span>
                                     ))}
@@ -131,9 +127,9 @@ export function  Footer({ ...props}){
                                 </div>
                                 <div>
                                     {contactRoutes.map((contact, index) => (
-                                                    <span className="p-2 hover:underline ">
-                                                        <li key={index} className="list-none font-medium">
-                                                            <NavLink to={contact.route}>{contact.title}</NavLink>
+                                                    <span key={index} className="p-2 hover:underline ">
+                                                        <li key={index}  className="list-none font-medium">
+                                                            <NavLink to={contact.route} key={index}>{contact.title}</NavLink>
                                                         </li>
                                                     </span>
                                                 ))}
@@ -146,7 +142,7 @@ export function  Footer({ ...props}){
                                 </div>
                                 <div>
                                     {followLinks.map((follow, index) => (
-                                                    <span className="p-2 hover:underline">
+                                                    <span key={index} className="p-2 hover:underline">
                                                         <li key={index} className="list-none font-medium">
                                                             {follow}
                                                         </li>
