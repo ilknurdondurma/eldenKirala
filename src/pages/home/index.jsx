@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { getAllProducts } from '../../api';
 import { ProductCard } from '../../components/productCard/index';
-import {Footer} from '../../components/footer/index'
 import { useNavigate } from 'react-router-dom';
-import Navbar from '../../components/navbar';
+import Layout from '../../layout/web';
 function Home() {
   const [products, setProducts] = useState([])
   const navigate =useNavigate()
+  
   useEffect(() => {
     getAllProducts()
     .then((result)=>{
@@ -21,11 +21,7 @@ function Home() {
 
   return (
    
-   <>
-   <header>
-      <Navbar/>
-   </header>
-   
+   <Layout>
     <div className='p-32 sm:px-6'>
         <div className='grid xl:grid-cols-5 lg:grid-cols-4 gap-5 md:grid-cols-3 sm:grid-cols-2 2xl:grid-cols-5 '>
           {products.map((products,index)=>(
@@ -43,11 +39,7 @@ function Home() {
           ))}
         </div>
     </div>
-    <footer>
-      <Footer/>
-    </footer>
-    
-    </>
+   </Layout>
 )}
 
 export default Home

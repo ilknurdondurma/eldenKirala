@@ -127,7 +127,6 @@ const Navbar = () => {
                     {category.name}
                   </Button>
                 </NavLink>
-              
               {hoveredCategory === index && category.subCategories && category.subCategories.length > 0 &&(
                 <div className="absolute top-0 left-0 mt-10  w-48  border bg-my_border_color/10" onMouseEnter={() => handleMouseEnter(index)}onMouseLeave={handleMouseLeave}>
                   {category.subCategories.map((sub, subIndex) => (
