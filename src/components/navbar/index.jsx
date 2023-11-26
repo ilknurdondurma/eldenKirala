@@ -47,14 +47,14 @@ const Navbar = () => {
   return (
     <nav className=" w-full h-auto">
       {/**logo arama giriş yap sepet */}
-      <div className="grid grid-cols-6 ">
+      <div className="grid grid-cols-9 ">
         {/* Logo */}
-        <div className="col-span-1 sm:col-span-2">
-          <img src="/logo.png" alt="logo" className="w-auto  min-h-24 " />
+        <div className="col-span-2 sm:col-span-2">
+          <img src="/logo.png" alt="logo" className="w-auto  max-h-32 " />
         </div>
 
         {/* Arama */}
-        <div className="col-span-3 flex flex-col justify-center sm:hidden">
+        <div className="col-span-4 flex flex-col justify-center sm:hidden">
           <Formik
             initialValues={{
               search: ''
@@ -76,9 +76,13 @@ const Navbar = () => {
             )}
           </Formik>
         </div>
+          {/** tüm kategori butonu  */}
+        <div className='col-span-1 text-black/70 sm:hidden text-2xl  ps-3 m-1 flex flex-col justify-center hover:font-medium' onClick={menuHandle}> 
+              <span className='text-2xl md:text-md '>☰</span>
+        </div>
 
         {/* Sepet, Giriş Yap, Üye Ol */}
-        <div className="col-span-2 sm:col-start-5 flex flex-row justify-end items-center ps-4 space-x-4">
+        <div className="col-span-2 sm:col-start-8 flex flex-row justify-end items-center ps-4 space-x-4">
           <button className="searchButton p-3 md:p-3 sm:p-1 text-2xl hidden sm:block " onClick={searchHandle}> ⌕  </button>
           <NavLink to={"/cart"}><button className='p-5 md:p-3 sm:p-1 text-2xl hover:shadow-xl'>🛒</button></NavLink>
           <NavLink to={"/login"}><Button className="max-w-xs md:text-sm sm:text-xs hover:shadow-lg" variant="Purple">Giriş Yap</Button></NavLink>
@@ -142,14 +146,11 @@ const Navbar = () => {
             )
              )).slice(0,6)}
 
-            <div className=' text-black/70 text-center text-2xl ps-3 m-1 hover:font-medium' onClick={menuHandle}>
-              ☰ 
-              <span className='text-xl'> Kategoriler </span>
-            </div> 
+             
       </div>
       
       {/* sm Kategori dropdown  */}
-      <div className='hidden sm:block text-center mt-5' onClick={menuHandle}>
+      <div className='hidden sm:block text-center' onClick={menuHandle}>
           <span className='text-2xl '>☰ </span>
           Kategoriler
       </div>

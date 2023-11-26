@@ -2,30 +2,23 @@ import classNames from "classnames";
 import { Field, ErrorMessage } from "formik";
 import PropTypes from "prop-types"
 
-export default function CheckBox({ label,variant, className, name, options, onChange,title,readOnly, ...props }) {
+export default function CheckBox({ label, className,name,value, onChange,title,readOnly, ...props }) {
 
   const inputClasses = classNames(
-    "  m-3 p-1 ",
+    "m-1 p-1",
     className
   );
     return (
-        <div className="w-full grid gap-x-0 grid-cols-3"> {/**3lu kolonlar halinde goster*/}
-            {label && <div className="mb-1 ps-3 text-lg text-text_primary/80">{label} :</div>}
-            {options.map((option) => (
-        <div key={option.value} className="">
-          <label>
-            <Field
+        <div className="w-full m-3"> {/**3lu kolonlar halinde goster*/}
+          <span className="flex">
+          <Field
               type="checkbox"
               className={inputClasses}
               name={name}
-              value={option.value}
-              
             />
-            {option.label}
-          </label>
-        </div>
-      ))}
-            <ErrorMessage component="small" name={name} className="text-xs text-red-500 dark:text-red-400 mt-1 block" />
+            {label}
+          </span>
+          <ErrorMessage component="small" name={name} className="text-xs text-red-500 dark:text-red-400 mt-1 block" />
         </div>
     )
 }
@@ -33,12 +26,11 @@ export default function CheckBox({ label,variant, className, name, options, onCh
 CheckBox.propTypes = {
     name: PropTypes.string.isRequired,
     label: PropTypes.string,
+    value:PropTypes.string,
     props: PropTypes.object,
-    variant: PropTypes.oneOf(["primary" ,"secondary"]),
     className: PropTypes.string,
 }
 CheckBox.defaultProps = {
-  variant: "primary",
   readOnly: false,
   type: "select",
 };
