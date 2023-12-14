@@ -2,12 +2,47 @@ import React, { useState } from 'react'
 import Input from '../../components/Input/text';
 import Button from '../../components/button';
 import { Form, Formik } from 'formik';
-import { NavLink } from 'react-router-dom';
-import { FiEye, FiEyeOff } from 'react-icons/fi'; 
+import { NavLink, useNavigate } from 'react-router-dom';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import CheckBox from '../Input/checkbox';
+import { login } from '../../api';
 export default function LoginForm({}){
+
+  const navigate = useNavigate();
     const handleSubmit=(values)=>{
-      console.log(values);
+      //console.log(values);
+
+      const formData = new FormData();
+      formData.append("email", values?.email);
+      formData.append("pass", values?.password);
+
+      login(formData)
+      .then(async response => {
+        console.log("API cevabı: ", response);
+
+        // Check if the response contains the expected data
+        if (response && response.data && response.status === 200) {
+          const responseData = response.data;
+          const token = responseData.data.token;
+          localStorage.setItem('token', token);
+          console.log(localStorage.getItem('token'));
+          await toast.success('Login successful!', {
+            position: 'top-right',
+            autoClose: 3000, // Close the notification after 3000 milliseconds (3 seconds)
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+          });
+          navigate("/",{replace:true});
+        } else {
+          console.error("Invalid API response format");
+        }
+      })
+      .catch(error => {
+        console.error("Sign-up error:", error);
+      });
 
     };
     return (
@@ -41,6 +76,7 @@ export default function LoginForm({}){
                 </Formik>
             </div>
           </div>
+          <ToastContainer/>
     </div>
     );
 

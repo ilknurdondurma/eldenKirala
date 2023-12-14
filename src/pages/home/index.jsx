@@ -20,8 +20,8 @@ function Home() {
 
   return (
    
-    <div className='p-32 sm:px-6'>
-        <div className='grid xl:grid-cols-5 lg:grid-cols-4 gap-5 md:grid-cols-3 sm:grid-cols-2 2xl:grid-cols-5 '>
+    <div className=' flex justify-center'>
+        <div className='grid w-3/4 2xl:grid-cols-5 xl:grid-cols-5 lg:grid-cols-4 gap-5 md:grid-cols-3 sm:grid-cols-2  '>
           {products.map((products,index)=>(
             <ProductCard 
               key={index}

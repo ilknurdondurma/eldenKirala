@@ -1,53 +1,62 @@
-import classNames from "classnames";
-import { Field, ErrorMessage } from "formik";
-import PropTypes from "prop-types"
+import React from 'react';
+import { Field, ErrorMessage } from 'formik';
+import PropTypes from 'prop-types';
+import classNames from 'classnames';
 
-export default function SelectBox({ label,variant, className, name, options, onChange,title,readOnly,placeholder, ...props }) {
-
+export default function SelectBox({ label, variant, className, name, options, onChange, title, readOnly, placeholder, ...props }) {
   const inputClasses = classNames(
-    "w-full flex inline-block m-2 ",
+    'w-full flex inline-block m-2',
     {
-      "bg-my_input_bg w-full h-10 border border-my_border_color rounded-lg  focus:outline-1 focus:outline-primary/50 px-3 ":variant === "primary",
-      "w-full h-16 px-3 outline-0 border-y border-my_border_color focus:border-y focus:border-primary/50  active:border-y active:border-primary/50 ":variant === "secondary",
+      'bg-my_input_bg w-full h-10 border border-my_border_color rounded-lg  focus:outline-1 focus:outline-primary/50 px-3 ': variant === 'primary',
+      'w-full h-16 px-3 outline-0 border-y border-my_border_color focus:border-y focus:border-primary/50  active:border-y active:border-primary/50 ': variant === 'secondary',
     },
     className
   );
-    return (
-        <div className="w-full">
-            {label && <div className="mb-1 ps-3 text-lg text-text_primary/80">{label} :</div>}
-            <Field 
-            as="select"  
-            name={name} 
-            placehoder={placeholder}
-            className={inputClasses} 
-            onChange={(e) => {
-                onChange && onChange(e.target.value);
-            }}>
-                <option value="" disabled={true} >Birini seçiniz..</option>
-                {
-                    options.map((option, key) => (
-                        <option key={key} disabled={readOnly} value={option?.value}>{option?.label}</option>
-                    ))
-                }
-            </Field>
-            <ErrorMessage component="small" name={name} className="text-xs text-red-500 dark:text-red-400 mt-1 block" />
-        </div>
-    )
+
+  return (
+    <div className="w-full">
+      {label && <div className="mb-1 ps-3 text-lg text-text_primary/80">{label} :</div>}
+      <Field
+        as="select"
+        name={name}
+        placeholder={placeholder}
+        className={inputClasses}
+        onChange={(e) => {
+          onChange && onChange(e.target.value);
+        }}
+      >
+        <option value="" disabled={true}>
+          {placeholder || 'Select...'}
+        </option>
+        {options &&
+          options.map((option, key) => (
+            <option key={key} disabled={readOnly} value={option?.value}>
+              {option?.label}
+            </option>
+          ))}
+      </Field>
+      <ErrorMessage component="small" name={name} className="text-xs text-red-500 dark:text-red-400 mt-1 block" />
+    </div>
+  );
 }
 
 SelectBox.propTypes = {
-    name: PropTypes.string.isRequired,
-    label: PropTypes.string,
-    placeholder:PropTypes.string,
-    props: PropTypes.object,
-    variant: PropTypes.oneOf(["primary" ,"secondary"]),
-    className: PropTypes.string,
-}
-SelectBox.defaultProps = {
-  variant: "primary",
-  readOnly: false,
-  type: "select",
+  name: PropTypes.string.isRequired,
+  label: PropTypes.string,
+  placeholder: PropTypes.string,
+  props: PropTypes.object,
+  variant: PropTypes.oneOf(['primary', 'secondary']),
+  className: PropTypes.string,
+  options: PropTypes.arrayOf(PropTypes.shape({ value: PropTypes.string, label: PropTypes.string })),
+  onChange: PropTypes.func,
 };
+
+SelectBox.defaultProps = {
+  variant: 'primary',
+  readOnly: false,
+  type: 'select',
+};
+
 /**
  
 const options = [
@@ -70,7 +79,7 @@ const options = [
         <Form>
           <Input label="adınız" name="ad" />
           <Input label="soyadınız" name="soyad" />
-          <SelectBox 
+          <DropDown 
                 options={options} 
                 label="metinnssn" 
                 name="opt1" 

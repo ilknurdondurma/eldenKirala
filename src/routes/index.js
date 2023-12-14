@@ -5,6 +5,8 @@ import Login from "../pages/login";
 import Layout from "../layout/web";
 import Spin from "../pages/spin";
 import Signup from "../pages/signup/signup";
+import Profile from "../pages/profile";
+import AddProduct from "../pages/addProduct";
 
 
 const routes = createBrowserRouter([
@@ -29,8 +31,12 @@ const routes = createBrowserRouter([
                 element: <Home/>
             },
             {
+                path: '/profile',
+                element: <Profile/>
+            },
+            {
                 path: '/cart',
-                element: <Home/>
+                element: <Spin/>
             },
             {
                 path: '/details',
@@ -89,6 +95,10 @@ const routes = createBrowserRouter([
             {
                 path: '/firsatlar',
                 element: <Firsatlar/>
+            },
+            {
+                path: '/post',
+                element: <AddProduct/>
             },
         ]
     }

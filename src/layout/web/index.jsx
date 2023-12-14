@@ -9,11 +9,11 @@ export default function Layout  ({ children }) {
   return (
     <div>
       <Navbar/>
-        <main>
+        <main className='flex-grow min-h-screen'>
           {children}
           <Outlet />
           </main>
-      <Footer/>
+      <footer><Footer/></footer>
       
     </div>
   );

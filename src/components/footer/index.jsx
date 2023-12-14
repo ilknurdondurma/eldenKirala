@@ -53,11 +53,11 @@ export function  Footer({ ...props}){
 
     
     return(
-        <div className="text-center ">
+        <div className="text-center flex flex-col justify-end ">
 
             {/**          GREY SECTİON       */}
  
-            <div className="bg-primary  p-5 ">
+            <div className="bg-tertiary  p-5 ">
                 {/**      İNDİRME LİNKLERİ   */}
                 <div className="">
                     <span className=" p-6 w-40"> 
@@ -75,45 +75,50 @@ export function  Footer({ ...props}){
                     {/**         HELP VE Kategoriler  */}
                         <div className="sm:col-start-1 sm:col-end-3 / md:col-start-1 md:col-end-2 / lg:col-start-1 lg:col-end-2 / xl:col-start-1 xl:col-end-2 / 2xl:col-start-1 2xl:col-end-2   ">
 
-                            <div className="text-left">
-                                <div className="font-extrabold underline text-xl">
-                                    KATEGORİLER
+                            <div className="grid grid-cols-2 sm:grid-cols-1">
+                                <div className="text-left">
+                                    <div className="font-extrabold underline text-xl">
+                                        KATEGORİLER
+                                    </div>
+                                    <div className="grid grid-cols-2 gap-0">
+                                        <span>
+                                            {firstFiveItems.map((help, index) => (
+                                                        <span key={index} className="p-2  hover:underline font-medium"  onClick={() => handleCategoryClick(help)}>
+                                                            <li key={index} className="list-none">
+                                                                {help.name}
+                                                            </li>
+                                                        </span>
+                                                    ))}
+                                            </span>
+                                            
+                                    </div>
                                 </div>
-                                <div className="grid grid-cols-2 gap-0">
-                                    <span>
-                                        {firstFiveItems.map((help, index) => (
-                                                    <span key={index} className="p-2  hover:underline font-medium"  onClick={() => handleCategoryClick(help)}>
-                                                        <li key={index}>
-                                                            {help.name}
-                                                        </li>
-                                                    </span>
-                                                ))}
+                            
+                                <div className="text-left">
+                                    <div className="font-extrabold underline text-xl">
+                                        Help
+                                    </div>
+                                    <div>
+                                    {helperRoutes.map((route,index)=>(
+                                        <span key={index} className="p-2  hover:underline">
+                                            <li key={index} className="list-none font-medium">
+                                                <NavLink to={route.route} key={index}>{route.title}</NavLink>
+                                            </li>
                                         </span>
-                                        <span className="sm:hidden">
-                                            {endFiveItems.map((help, index) => (
-                                                    <span key={index} className="p-2  hover:underline font-medium" onClick={() => handleCategoryClick(help)}>
-                                                        <li key={index}>
-                                                            {help.name}
-                                                        </li>
-                                                    </span>
-                                                ))}
-                                        </span>
-                                </div>
-                            </div>
-                        
-                            <div className="text-left">
-                                <div className="font-extrabold underline text-xl">
-                                    Help
-                                </div>
-                                <div>
-                                {helperRoutes.map((route,index)=>(
-                                    <span key={index} className="p-2  hover:underline">
-                                        <li key={index} className="list-none font-medium">
-                                            <NavLink to={route.route} key={index}>{route.title}</NavLink>
-                                        </li>
-                                    </span>
-                                    ))}
-                                           
+                                        ))}
+                                            
+                                    </div>
+                                    <div>
+                                        <Button variant="TransparentButton" size="small" className="text-white border border-1 sm:text-xs p-1 m-1">
+                                            <a href="https://www.instagram.com/ilknrddma"><div className="text-xl sm:text-lg hover:underline p-2 my-2 px-5 font-bold">Troy</div></a>
+                                        </Button>
+                                        <Button variant="TransparentButton" size="small" className="text-white border border-1 sm:text-xs p-1 m-1">
+                                            <a href="https://www.instagram.com/ilknrddma"><div className="text-xl sm:text-lg hover:underline p-2 my-2 px-5 font-bold">Visa</div></a>
+                                        </Button>
+                                        <Button variant="TransparentButton" size="small" className="text-white border border-1 sm:text-xs p-1 m-1">
+                                            <a href="https://www.instagram.com/ilknrddma"><div className="text-xl sm:text-lg hover:underline p-2 my-2 px-5 font-bold">MasterCard</div></a>
+                                        </Button>
+                                    </div>
                                 </div>
                             </div>
 
@@ -121,33 +126,35 @@ export function  Footer({ ...props}){
                     {/**         İLETİŞİM VE BİZİ TAKİP EDİN  */}
                         <div className="sm:col-start-3 sm:col-end-5 / md:col-start-2 md:col-end-3 / lg:col-start-2 lg:col-end-3 / xl:col-start-2 xl:col-end-3 / 2xl:col-start-2 2xl:col-end-3 ">
 
-                            <div className="text-left">
-                                <div className="font-extrabold underline text-xl">
-                                    İletişim
+                            <div className="grid grid-cols-2 sm:grid-cols-1">
+                                <div className="text-left">
+                                    <div className="font-extrabold underline text-xl">
+                                        İletişim
+                                    </div>
+                                    <div>
+                                        {contactRoutes.map((contact, index) => (
+                                                        <span key={index} className="p-2 hover:underline ">
+                                                            <li key={index}  className="list-none font-medium">
+                                                                <NavLink to={contact.route} key={index}>{contact.title}</NavLink>
+                                                            </li>
+                                                        </span>
+                                                    ))}
+                                    </div>
                                 </div>
-                                <div>
-                                    {contactRoutes.map((contact, index) => (
-                                                    <span key={index} className="p-2 hover:underline ">
-                                                        <li key={index}  className="list-none font-medium">
-                                                            <NavLink to={contact.route} key={index}>{contact.title}</NavLink>
-                                                        </li>
-                                                    </span>
-                                                ))}
-                                </div>
-                            </div>
-                        
-                            <div className="text-left">
-                                <div className="font-extrabold underline text-xl">
-                                    Bizi Takip Edin
-                                </div>
-                                <div>
-                                    {followLinks.map((follow, index) => (
-                                                    <span key={index} className="p-2 hover:underline">
-                                                        <li key={index} className="list-none font-medium">
-                                                            {follow}
-                                                        </li>
-                                                    </span>
-                                                ))}
+                            
+                                <div className="text-left">
+                                    <div className="font-extrabold underline text-xl">
+                                        Bizi Takip Edin
+                                    </div>
+                                    <div>
+                                        {followLinks.map((follow, index) => (
+                                                        <span key={index} className="p-2 hover:underline">
+                                                            <li key={index} className="list-none font-medium">
+                                                                {follow}
+                                                            </li>
+                                                        </span>
+                                                    ))}
+                                    </div>
                                 </div>
                             </div>
 
@@ -186,7 +193,7 @@ export function  Footer({ ...props}){
 
 
                 {/**     GREEN SECTİON   */}
-             <div className="bg-primary/90 text-white text-lg font-bold flex flex-col justify-center h-16 border border-black/50 ">
+             <div className="bg-primary text-white text-lg font-bold flex flex-col justify-center h-16 border border-black/50 ">
              Copyright © 2023 | Made by İlknur Dondurma
              </div>
         </div>
