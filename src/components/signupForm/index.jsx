@@ -27,7 +27,7 @@ export default function SignupForm({}){
 
         // Başarılı giriş durumunda yönlendir
         if (data.status === 200) {
-          navigate("/login",{replace:true})
+          navigate("/login",{replace:true,})
         }
       })
       .catch(error => {

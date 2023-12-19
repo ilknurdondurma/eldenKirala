@@ -7,7 +7,7 @@ import { NavLink, useNavigate } from 'react-router-dom';
 import { VscAccount,VscMenu } from "react-icons/vsc";
 import { CiSearch } from "react-icons/ci";
 import { IoCartOutline } from "react-icons/io5";
-import { MdOutlineAddToPhotos } from "react-icons/md";
+import { FcCamera } from "react-icons/fc";
 import { AiOutlineLogout } from "react-icons/ai";
 
 const Navbar = () => {
@@ -24,7 +24,7 @@ const Navbar = () => {
   const handleScroll = () => {
     // Sayfa kaydıkça arkaplan opaklığını güncelle
     const scrollY = window.scrollY || document.documentElement.scrollTop;
-    const newOpacity = Math.min(scrollY / 100, 1); // İstediğiniz opaklık değerini belirleyebilirsiniz
+    const newOpacity = Math.min(scrollY+1 / 100, 1); // İstediğiniz opaklık değerini belirleyebilirsiniz
     setBackgroundOpacity(newOpacity);
   };
 
@@ -50,23 +50,27 @@ const Navbar = () => {
   };
 
   const token = localStorage.getItem('token');
+  
   useEffect(() => {
     setIsLoggedIn(!!token); // Token varsa isLoggedIn true, yoksa false olacak
     getCategories()
-    .then((result)=>{
-        setCategories(result?.data.data)
-        console.log("kategoriler: "+categories)
-    })
-    .catch((error)=>{
-        console.log(error)
-    })
+      .then((result) => {
+        setCategories(result?.data.data);
+        console.log("kategoriler: " + categories);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  
     window.addEventListener('scroll', handleScroll);
+    setBackgroundOpacity(1);
+  
     return () => {
       // Sayfa kapatıldığında dinleyiciyi temizleyin
       window.removeEventListener('scroll', handleScroll);
     };
-
-}, [setIsLoggedIn],)
+  }, [isLoggedIn]); // Include isLoggedIn in the dependency array
+  
 
   return (
     <nav className=" w-full h-auto mb-72">
@@ -117,11 +121,15 @@ const Navbar = () => {
                   <Button className="p-3 md:p-3 sm:p-1 text-xl sm:text-sm hover:shadow-none hidden sm:block" variant="TransparentButton" onClick={searchHandle}>
                       <CiSearch />
                   </Button>
-                  <NavLink to={"/post"}>
-                    <Button className="p-3 md:p-3 sm:p-1 text-xl  sm:text-sm hover:shadow-none" variant="TransparentButton">
-                      <MdOutlineAddToPhotos />
+                  {isLoggedIn ?(
+                    <NavLink to={"/post"} className="border border-1 text-center rounded-md">
+                    <Button className=" md:p-3 sm:p-1 text-3xl  sm:text-md hover:shadow-none" variant="TransparentButton">
+                      <FcCamera />
                     </Button>
+                    <div className='p-0 m-0 text-lg md:text-md sm:text-xs'>İlan Ver</div>
                   </NavLink>
+                  ):("")
+                  }
                   <NavLink to={"/cart"}>
                     <Button className="p-3 md:p-3 sm:p-1 text-xl sm:text-sm hover:shadow-none" variant="TransparentButton">
                         <IoCartOutline />
@@ -241,12 +249,16 @@ const Navbar = () => {
                         {category.name}
                       </NavLink>
                       <div>
-                        {/* Assuming subCategories is an array */}
-                        {category.subCategories.map((subCategory, subIndex) => (
-                          <NavLink to={`/categories/${subCategory.id}`} className="block hover:underline text-left py-1" key={subIndex}>
-                            {subCategory.name}
-                          </NavLink>
-                        ))}
+                        
+                      {category.subCategories.length > 0 ? (
+                          category.subCategories.map((subCategory, subIndex) => (
+                            <NavLink to={`/categories/${subCategory.id}`} className="block hover:underline text-left py-1" key={subIndex}>
+                              {subCategory.name}
+                            </NavLink>
+                          ))
+                        ) : (
+                          <span>Alt kategori bulunmamaktadır.</span>
+                        )}
                       </div>
                     </div>
                   ))}

@@ -14,6 +14,8 @@ export function ProductCard ({productID,title,description,image,likedProducts,pr
       setLikedProductsList([...likedProductsList,productID]);
     }
   }
+  
+
     return(
         <div className="hover:shadow-xl  m-3 sm:m-0 md:m-1 rounded-lg shadow-md w-auto min-w-16 py-5 flex flex-col justify-between 2xl:text-md xl:text-md lg:text-md md:text-sm sm:text-xs 2xl:h-lg xl:h-lg lg:h-lg md:h-md sm:h-sm">
             <span className="flex justify-end ">
@@ -24,19 +26,19 @@ export function ProductCard ({productID,title,description,image,likedProducts,pr
                 ♥️
               </Button>
             </span>
-            <span className="flex justify-center " ><img src={image} alt={title} className="w-52 h-60 center rounded-xl" /></span>
+            <span className="flex justify-center " ><img src={`http://localhost:5058/${image}`} alt={title} className="w-52 h-60 center rounded-xl" /></span>
             <h5 className=  "flex justify-center p-2 "> <span className={`overflow-hidden ${information.length > 100 ? 'max-h-20' : 'max-h-32'}`}>{information}</span></h5>
             <div className="flex justify-center">
                 <div className= " overflow-hidden w-3/4 text-center whitespace-nowrap block">
-                    <div className={`font-bold ${isActive ? 'text-red-800' : 'text-secondary'}`}>{price} TL  /  MONTH</div>
+                    <div className={`font-bold ${isActive ? 'text-secondary' : 'text-red-800'}`}>{price} TL  /  MONTH</div>
                     {isActive 
                      ? 
                         <div>
-                          <div>Şuan Kirada ... </div>
-                          <div><Button variant="Purple" size="xsmall" className="rounded-full bg-secondary w-24 text-white text-sm hover:underline" onClick={onClick}>AYIRT</Button></div>
+                          
                         </div> 
                       : <div>
-
+                          <div>Şuan Kirada ... </div>
+                          <div><Button variant="Purple" size="xsmall" className="rounded-full bg-secondary w-24 text-white text-sm hover:underline" onClick={onClick}>AYIRT</Button></div>
                         </div>}
                   </div>
             </div>
@@ -48,8 +50,8 @@ export function ProductCard ({productID,title,description,image,likedProducts,pr
                 onClick={onClick} 
                 variant="PurpleOutline"
                 size="small"
-                className={`font-bold italic rounded-2xl ${isActive ? 'opacity-50 cursor-not-allowed' : ''}`}
-                disabled={isActive}
+                className={`font-bold italic rounded-2xl ${isActive ? '' : 'opacity-50 cursor-not-allowed'}`}
+                disabled={isActive===false}
               >
                 Şimdi Kirala
             </Button>

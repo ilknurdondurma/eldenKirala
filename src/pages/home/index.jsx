@@ -7,15 +7,17 @@ function Home() {
   const navigate =useNavigate()
   
   useEffect(() => {
+   
     getAllProducts()
     .then((result)=>{
         setProducts(result?.data.data)
-        console.log(products)
+        console.log("products:"+products)
     })
     .catch((error)=>{
         console.log(error)
 
     })
+   
 },[])
 
   return (
@@ -28,11 +30,23 @@ function Home() {
               productID={products.id} 
               title={products.name}
               likedProducts={[]}
+              image={products.filE_URL_1}
+              //image={products.filE_URL_2}
+              //image={products.filE_URL_3}
+              //image={products.filE_URL_4}
+
+              //user={products.userId}
+              //brand={products.brandId}
+              //rating={products.rating}
+              //status={products.status}
+              //maxRentalPeriod={products.maxRentalPeriod}
+              //minRentalPeriod={products.minRentalPeriod}
+
+
               price={products.price}
-              category={products.categoryId}
               information={products.description}
               isActive={products.isActive}
-              onClick={()=>{navigate(`/products/${products.id}`)}}/>
+              onClick={()=>{navigate(`/products/${products.id}` );console.log(products.filE_URL_1)}}/>
 
           ))}
         </div>
