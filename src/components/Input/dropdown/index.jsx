@@ -3,7 +3,7 @@ import { Field, ErrorMessage } from 'formik';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 
-export default function SelectBox({ label, variant, className, name, options, onChange, title, readOnly, placeholder, ...props }) {
+export default function DropDown({ label, variant, className, name, options, onChange, title, readOnly, placeholder, ...props }) {
   const inputClasses = classNames(
     'w-full flex inline-block m-2',
     {
@@ -40,18 +40,18 @@ export default function SelectBox({ label, variant, className, name, options, on
   );
 }
 
-SelectBox.propTypes = {
+DropDown.propTypes = {
   name: PropTypes.string.isRequired,
   label: PropTypes.string,
   placeholder: PropTypes.string,
   props: PropTypes.object,
   variant: PropTypes.oneOf(['primary', 'secondary']),
   className: PropTypes.string,
-  options: PropTypes.arrayOf(PropTypes.shape({ value: PropTypes.string, label: PropTypes.string })),
+  options: PropTypes.arrayOf(PropTypes.shape({ value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]), label: PropTypes.string })),
   onChange: PropTypes.func,
 };
 
-SelectBox.defaultProps = {
+DropDown.defaultProps = {
   variant: 'primary',
   readOnly: false,
   type: 'select',

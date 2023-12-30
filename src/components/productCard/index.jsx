@@ -2,7 +2,7 @@ import Button from "../button";
 import PropTypes from "prop-types"
 import React, { useState } from 'react';
 
-export function ProductCard ({productID,title,description,image,likedProducts,price,category,information,isActive,onClick,className ,...props}){
+export function ProductCard ({productID,title,description,image,likedProducts,price,categoryId,information,isActive,onClick,className ,...props}){
   const [likedProductsList, setLikedProductsList] = useState([...likedProducts]);
 
   const handleLikeClick = (productID) => {
@@ -17,8 +17,8 @@ export function ProductCard ({productID,title,description,image,likedProducts,pr
   
 
     return(
-        <div className="hover:shadow-xl  m-3 sm:m-0 md:m-1 rounded-lg shadow-md w-auto min-w-16 py-5 flex flex-col justify-between 2xl:text-md xl:text-md lg:text-md md:text-sm sm:text-xs 2xl:h-lg xl:h-lg lg:h-lg md:h-md sm:h-sm">
-            <span className="flex justify-end ">
+        <div className="hover:shadow-xl rounded-xl border-4 bg-white  py-5 flex flex-col justify-between 2xl:text-md xl:text-md lg:text-md md:text-sm sm:text-xs 2xl:h-lg xl:h-lg lg:h-lg md:h-md sm:h-sm">
+            <span className="flex justify-end text-sm ">
               <Button 
                 variant="LikeButton" 
                 className={`visited:animate-ping p-2 text-4xl transform hover:scale-110 transition-transform ${likedProductsList.includes(productID) ? 'text-red-500' : 'text-gray-500'}`}
@@ -26,7 +26,7 @@ export function ProductCard ({productID,title,description,image,likedProducts,pr
                 ♥️
               </Button>
             </span>
-            <span className="flex justify-center " ><img src={`http://localhost:5058/${image}`} alt={title} className="w-52 h-60 center rounded-xl" /></span>
+            <span className="flex justify-center h-60" ><img src={`${image}`} alt={title} className=" w-full m-2 center rounded-xl" /></span>
             <h5 className=  "flex justify-center p-2 "> <span className={`overflow-hidden ${information.length > 100 ? 'max-h-20' : 'max-h-32'}`}>{information}</span></h5>
             <div className="flex justify-center">
                 <div className= " overflow-hidden w-3/4 text-center whitespace-nowrap block">
@@ -45,7 +45,7 @@ export function ProductCard ({productID,title,description,image,likedProducts,pr
             <div className= "flex justify-center text-center py-2">
                 
             </div>
-            <span className="flex justify-center py-2 2xl:text-md xl:text-md lg:text-md md:text-sm sm:text-xs">
+            <span className="flex justify-center 2xl:text-md xl:text-md lg:text-md md:text-sm sm:text-xs">
             <Button 
                 onClick={onClick} 
                 variant="PurpleOutline"
@@ -65,7 +65,7 @@ ProductCard.propTypes={
   description:PropTypes.string,
   image:PropTypes.string,
   price:PropTypes.number,
-  category:PropTypes.number,
+  categoryId:PropTypes.number,
   information:PropTypes.string,
   className:PropTypes.string,
   props:PropTypes.object,

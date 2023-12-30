@@ -17,6 +17,9 @@ module.exports = {
         my_border_color:"#d4d4d8", //border-zinc-[300]
         my_input_bg:"#f4f4f5", //bg-zinc-[100]
       },
+      fontSize :{
+        'buttons':'1rem'
+      }
     },
     screens: {
       'sm': {'min': '0', 'max': '767px'},

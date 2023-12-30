@@ -19,7 +19,7 @@ export default function Button({ variant,size,children,as,className,onClick, ...
             "bg-red-500 text-white": variant ==='DeleteButton',
             
 
-            "px-6 font-medium h-12  text-lg": size === 'large',
+            "px-6 font-medium h-12 text-lg": size === 'large',
             "px-5 font-medium h-9  text-md": size === 'normal',
             "px-4 font-medium h-8  text-sm ": size === 'small',
             "px-3 font-normal h-6  text-xs ": size === 'xsmall',

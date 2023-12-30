@@ -6,9 +6,14 @@ import Button from '../../components/button';
 import Input from '../../components/Input/text';
 import TextArea from '../../components/Input/textArea';
 import { AiFillPicture } from "react-icons/ai";
-import { ToastContainer, toast } from 'react-toastify';
+import { ToastContainer} from 'react-toastify';
+import errorMessage from '../../helper/toasts/errorMessage'
+import successMessage from '../../helper/toasts/successMessage'
+import { useNavigate } from 'react-router-dom';
+
 function AddProduct() {
     const token = localStorage.getItem('token');
+    const navigate =useNavigate();
     const [categories, setCategories] = useState([]);
     const [subCategories, setSubCategories] = useState([]);
     const [selectedCategory, setSelectedCategory] = useState([]);
@@ -24,27 +29,6 @@ function AddProduct() {
         { id: 4, variant: "PurpleOutline",label: 'Kötü' },
       ];
       
-      const errorMessage = (e) => toast.error(`${e}`, {
-        position: "top-left",
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: false,
-        progress: undefined,
-        theme: "light",
-      });
-    
-      const success = (code) => toast.success(`${code}`, {
-        position: "top-right",
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "light",
-      })
 
     useEffect(() => {
         setIsLoggedIn(!!token);
@@ -67,6 +51,7 @@ function AddProduct() {
         })
         .catch((error) => {
             console.log(error);
+            errorMessage("bir hata oluştu")
             
         });
     };
@@ -119,12 +104,16 @@ function AddProduct() {
         // Başarılı giriş durumunda yönlendir
         if (data.status === 200) {
             console.log("product add başarılı");
-            success(data.status)
+            successMessage("Ürün başarıyla eklendi padişahım")
+            setTimeout(() => {
+                navigate("/",{replace:true});
+              }, 2000);
+            
         }
         })
         .catch(error => {
         console.error("product add error:", error);
-        errorMessage("bir hata oluştu")
+        errorMessage("Ürün eklenirken bir hata oluştu. Tekrar dene bakalımm :( ")
         });
         
     }
@@ -149,20 +138,25 @@ function AddProduct() {
                             imageFile3:"",
 
                         }}
-                        onSubmit={(values, { setSubmitting })  => {
+                        onSubmit={(values)  => {
                             
                             if (selectedButton === undefined) {
                                 console.log('Lütfen bir durum seçin.');
+                                errorMessage("HOOPS ! Bir durum seç")
+                                return;
+                            }
+                            if (selectedFiles.length === 0) {
+                                console.log('En az 1 resim seçmelisiniz.');
+                                errorMessage("En az 1 resim seçmelisiniz")
                                 return;
                             }
                             console.log(values);
                             handleSubmit(values);
-                            setSubmitting(false);
                         }}
                         
                         
                         >
-                        {({ setFieldValue , isSubmitting}) => (
+                        {({ setFieldValue}) => (
                             <Form>
                                 <label className="font-bold text-2xl sm:text-md">İlan Yayınla</label>
                         {/* // kategori ve marka */}
@@ -283,7 +277,7 @@ function AddProduct() {
                                         </label>
                                     ))}
                                 </div>
-                                <Button variant="Green" className="m-5" size="large" disabled={isSubmitting}>Ekle</Button>
+                                <Button variant="Green" className="m-5" size="large">Ekle</Button>
 
                             </Form>
                         )}
@@ -296,4 +290,3 @@ function AddProduct() {
 }
 
 export default AddProduct;
-

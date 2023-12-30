@@ -7,6 +7,7 @@ import Spin from "../pages/spin";
 import Signup from "../pages/signup/signup";
 import Profile from "../pages/profile";
 import AddProduct from "../pages/addProduct";
+import Cart from "../pages/cart";
 
 
 const routes = createBrowserRouter([
@@ -36,7 +37,7 @@ const routes = createBrowserRouter([
             },
             {
                 path: '/cart',
-                element: <Spin/>
+                element: <Cart/>
             },
             {
                 path: '/details',
@@ -102,6 +103,7 @@ const routes = createBrowserRouter([
             },
         ]
     }
+    
 ])
 
 

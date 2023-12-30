@@ -9,6 +9,7 @@ import { CiSearch } from "react-icons/ci";
 import { IoCartOutline } from "react-icons/io5";
 import { FcCamera } from "react-icons/fc";
 import { AiOutlineLogout } from "react-icons/ai";
+import '../../layout/web/index'
 
 const Navbar = () => {
   const handleSubmit = (values) => {
@@ -69,12 +70,12 @@ const Navbar = () => {
       // Sayfa kapatıldığında dinleyiciyi temizleyin
       window.removeEventListener('scroll', handleScroll);
     };
-  }, [isLoggedIn]); // Include isLoggedIn in the dependency array
+  }, []);
   
 
   return (
-    <nav className=" w-full h-auto mb-72">
-      <div className={`w-full h-auto bg-white fixed top-0 left-0 z-10 opacity-${Math.floor(backgroundOpacity * 100)}`}>
+    <nav className=" w-full h-auto mb-72 sm:mb-56">
+      <div className={`w-full h-auto main fixed top-0 left-0 z-10 opacity-${Math.floor(backgroundOpacity * 100)}`}>
               {/**logo arama giriş yap sepet */}
             <div className=" sabit grid grid-cols-9 ">
                 
@@ -225,7 +226,7 @@ const Navbar = () => {
                     )}
                   </div>
                   )
-                  )).slice(0,6)}
+                  )).slice(0,8)}
 
                   
             </div>
@@ -241,18 +242,18 @@ const Navbar = () => {
             </div>
 
             {/** Tüm Kategori Alanı */}
-            <div className='flex justify-center m-10'>
+            <div className='flex justify-center m-16'>
                 <div className={`${isCategoryVisible ? 'block shadow-md' : 'hidden'} w-3/4 text-left grid grid-cols-5 md:grid-cols-2 sm:w-full sm:grid-cols-2`}>
-                  {categories.map((category, index) => (
-                    <div className='block' key={index}>
+                  {categories.map((category) => (
+                    <div className='block' key={category.id}>
                       <NavLink to={`/categories/${category.id}`} className="font-bold hover:underline">
                         {category.name}
                       </NavLink>
                       <div>
                         
                       {category.subCategories.length > 0 ? (
-                          category.subCategories.map((subCategory, subIndex) => (
-                            <NavLink to={`/categories/${subCategory.id}`} className="block hover:underline text-left py-1" key={subIndex}>
+                          category.subCategories.map((subCategory) => (
+                            <NavLink to={`/categories/${subCategory.id}`} className="block hover:underline text-left py-1" key={subCategory.id}>
                               {subCategory.name}
                             </NavLink>
                           ))
@@ -265,10 +266,6 @@ const Navbar = () => {
                 </div>
             </div>
       </div>
-
-
-      
-
     </nav>
   );
 };

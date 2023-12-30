@@ -2,6 +2,8 @@ import classNames from "classnames";
 import { Field, ErrorMessage } from "formik";
 import PropTypes from "prop-types";
 import React from "react";
+import { CiSearch } from "react-icons/ci";
+
 
 function Input({
   variant,
@@ -47,7 +49,7 @@ function Input({
             type="submit"
             className="absolute right-3 top-1/2 transform -translate-y-1/2"
           >
-            ⌕
+            <CiSearch/>
           </button>
         )}
       </div>

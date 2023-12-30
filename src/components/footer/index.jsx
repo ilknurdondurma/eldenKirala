@@ -29,7 +29,6 @@ export function  Footer({ ...props}){
 
     const [categories, setCategories] = useState([])
     const firstFiveItems = categories.slice(0, 5);
-    const endFiveItems = categories.slice(6, 11);
 
 
     useEffect(() => {
