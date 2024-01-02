@@ -182,7 +182,7 @@ function AddProduct() {
                                     
                                         <DropDown
                                             placeholder="Alt Kategori"
-                                            name="subCategory"
+                                            name="subCategory" 
                                             options={categories.flatMap((cat) =>
                                                 (cat.id==selectedCategory)
                                                     ? cat.subCategories.map((subCat) => ({

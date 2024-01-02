@@ -2,8 +2,9 @@ import axios from "axios";
 
 const API=axios.create({baseURL:'http://localhost:5058/api/v2'})
 
-const token = JSON.parse(localStorage.getItem('user')).token;
-console.log(token)
+
+const storedUser = JSON.parse(localStorage.getItem('user'));
+const token = storedUser ? storedUser.token : null;
 
 
 API.interceptors.request.use(
@@ -18,15 +19,16 @@ API.interceptors.request.use(
     
   }
 );
-document.addEventListener("DOMContentLoaded", function () {
-  setTimeout(function () {
-    clearUserSession();
-  }, 0.5 * 60 * 60 * 1000); // 12 saat
-});
+// document.addEventListener("DOMContentLoaded", function () {
+  
+//   setTimeout(function () {
+//     clearUserSession();
+//   }, 12 * 60 * 60 * 1000); // 12 saat
+// });
 
-function clearUserSession() {
-  localStorage.removeItem("user");
-}
+// function clearUserSession() {
+//   setUser(false)
+// }
 
 //user
 export const login = (formdata) => API.post('/User/login', formdata)
@@ -43,35 +45,3 @@ export const getCategories = () => API.get(`/Category/get-categories`)
 //brand
 export const getAllBrand=()=>API.get(`/Brand/get-all`)
 export const getBrandByCategory=(categoryId)=>API.get(`/Brand/get/${categoryId}`)
-
-
-
-
-/*
-
-
-const sendAudioToAPI = (audioBlob) => {
-        const API_ENDPOINT = ${process.env.REACT_APP_API_URL}/asr
-        const formData = new FormData();
-        formData.append("audio", audioBlob, 'recorded.wav');
-        formData.append('token',localStorage.getItem('_token'))
-        setLoading(true)
-        console.log(audioBlob)
-        axios.post(API_ENDPOINT, formData)
-            .then(data => {
-                console.log("API cevabı:", data);
-                if (data?.message !== "Internal Server Error") {
-                    console.log(data.message)
-                    setText((texts) => [...texts, data.data.message]);
-                    setVoice((voice) => [...voice, data.data.filename])
-                }
-                setLoading(false)
-            })
-            .catch(error => {
-                console.error("API hatası:", error);
-                setLoading(false)
-            });
-
-    };
-
-*/ 
