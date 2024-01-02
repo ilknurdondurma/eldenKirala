@@ -9,10 +9,12 @@ import CheckBox from '../Input/checkbox';
 import { login } from '../../api';
 import { loginSchema } from '../../validation/auth/login';
 import errorMessage from '../../helper/toasts/errorMessage'
+import { useAuth } from '../../context/authContext/authContext';
 
 export default function LoginForm(){
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
+  const {setUser}=useAuth();
 
 
 
@@ -30,19 +32,14 @@ export default function LoginForm(){
       // Check if the response contains the expected data
       if (response && response.data && response.status === 200) {
         const responseData = response.data;
-        console.log("response: "+responseData)
-        const token = responseData.data.token;
-        const user = responseData.data;
-        
-        localStorage.setItem('token', token);
-        localStorage.setItem('user', JSON.stringify(user));
-
-        console.log(localStorage.getItem('token'));
-        console.log("userimizzzzzzzzzzzz : ");
-        console.log(localStorage.getItem('user'));
-        
+        console.log("response: "+responseData)        
         setSubmitting(false);
+        
         setTimeout(() => {
+          setUser({
+            id:responseData.data.id,
+            token:responseData.data.token
+          })
           navigate("/",{replace:true});
         }, 2000);
         

@@ -1,7 +1,10 @@
 import axios from "axios";
 
 const API=axios.create({baseURL:'http://localhost:5058/api/v2'})
-const token = localStorage.getItem('token');
+
+const token = JSON.parse(localStorage.getItem('user')).token;
+console.log(token)
+
 
 API.interceptors.request.use(
   (config) => {
@@ -22,7 +25,6 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
 function clearUserSession() {
-  localStorage.removeItem("token");
   localStorage.removeItem("user");
 }
 

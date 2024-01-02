@@ -10,6 +10,7 @@ import { IoCartOutline } from "react-icons/io5";
 import { FcCamera } from "react-icons/fc";
 import { AiOutlineLogout } from "react-icons/ai";
 import '../../layout/web/index'
+import { useAuth } from '../../context/authContext/authContext';
 
 const Navbar = () => {
   const handleSubmit = (values) => {
@@ -17,7 +18,7 @@ const Navbar = () => {
   };
   const [isSearchVisible, setIsSearchVisible] = useState(false);
   const [isCategoryVisible, setIsCategoryVisible] = useState(false);
-  const [isLoggedIn, setIsLoggedIn] = useState(false);         //token kontrol
+  const {user , setUser }=useAuth();
   const [categories ,setCategories] = useState([]);
   const [hoveredCategory, setHoveredCategory] = useState(null);
   const [backgroundOpacity, setBackgroundOpacity] = useState(0);
@@ -28,7 +29,6 @@ const Navbar = () => {
     const newOpacity = Math.min(scrollY+1 / 100, 1); // İstediğiniz opaklık değerini belirleyebilirsiniz
     setBackgroundOpacity(newOpacity);
   };
-
   const handleMouseEnter = (index) => {
     setHoveredCategory(index);
   };
@@ -43,17 +43,13 @@ const Navbar = () => {
   };
   const navigate=useNavigate();
   const handleLogout = () => {
-    // localStorage'deki tokeni sil
-    localStorage.removeItem('token');
-
-    // login sayfasına yönlendir
-    navigate('/login',{replace:true});
+    setUser(false);
+    setTimeout(() => {
+      navigate("/login",{replace:true});
+    }, 2000);
   };
-
-  const token = localStorage.getItem('token');
   
   useEffect(() => {
-    setIsLoggedIn(!!token); // Token varsa isLoggedIn true, yoksa false olacak
     getCategories()
       .then((result) => {
         setCategories(result?.data.data);
@@ -122,7 +118,7 @@ const Navbar = () => {
                   <Button className="p-3 md:p-3 sm:p-1 text-xl sm:text-sm hover:shadow-none hidden sm:block" variant="TransparentButton" onClick={searchHandle}>
                       <CiSearch />
                   </Button>
-                  {isLoggedIn ?(
+                  {user ?(
                     <NavLink to={"/post"} className="border border-1 text-center rounded-md">
                     <Button className=" md:p-3 sm:p-1 text-3xl  sm:text-md hover:shadow-none" variant="TransparentButton">
                       <FcCamera />
@@ -139,7 +135,7 @@ const Navbar = () => {
 
 
 
-                  {!isLoggedIn ? (
+                  {!user ? (
                     <>
                       <NavLink to={"/login"}>
                         <Button className="max-w-xs text-sm md:text-sm sm:text-xs hover:shadow-lg" variant="Purple">
@@ -155,7 +151,7 @@ const Navbar = () => {
                   ) : 
                   <>
                   <NavLink to={"/profile"}>
-                    <Button className="p-3 md:p-3 sm:p-1 text-xl sm:text-sm hover:shadow-none" variant="TransparentButton">
+                    <Button className="p-3 md:p-3 sm:p-1 text-xl sm:text-sm hover:shadow-none" variant="TransparentButton" onClick={console.log(JSON.parse(localStorage.getItem('user')).token)}>
                       <VscAccount />
                     </Button>
                   </NavLink>

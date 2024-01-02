@@ -2,13 +2,13 @@ import { createBrowserRouter } from "react-router-dom";
 import Home from "../pages/home";
 import Firsatlar from "../pages/firsatlar";
 import Login from "../pages/login";
-import Layout from "../layout/web";
+import {Layout, AuthLayout} from "../layout/web";
 import Spin from "../pages/spin";
 import Signup from "../pages/signup/signup";
 import Profile from "../pages/profile";
 import AddProduct from "../pages/addProduct";
 import Cart from "../pages/cart";
-
+import PrivateRoute from "./privateRoute";
 
 const routes = createBrowserRouter([
     {
@@ -26,31 +26,6 @@ const routes = createBrowserRouter([
             {
                 path: '/signup',
                 element: <Signup/>
-            },
-            {
-                path: '/settings',
-                element: <Home/>
-            },
-            {
-                path: '/profile',
-                element: <Profile/>
-            },
-            {
-                path: '/cart',
-                element: <Cart/>
-            },
-            {
-                path: '/details',
-                element: <Home/>,
-                children:[
-                    {
-                        index:true,
-                        element:<Home/>
-                    },
-                    {
-                        path:"/details/:id" , element:<Home/>
-                    }
-                ]
             },
             {
                 path: '/products',
@@ -83,7 +58,6 @@ const routes = createBrowserRouter([
                         path:"/categories/:name" , element:<Home/>
                     }
                 ]
-                
             },
             {
                 path: '/help/*',
@@ -97,13 +71,45 @@ const routes = createBrowserRouter([
                 path: '/firsatlar',
                 element: <Firsatlar/>
             },
+            
+        ]
+    },
+    {
+        path: "/",
+        element: <AuthLayout/>,
+        children: [
             {
                 path: '/post',
-                element: <AddProduct/>
+                element: <PrivateRoute><AddProduct/></PrivateRoute>
             },
+            {
+                path: '/cart',
+                element: <PrivateRoute><Cart/></PrivateRoute>
+            },
+            {
+                path: '/details',
+                element: <Home/>,
+                children:[
+                    {
+                        index:true,
+                        element:<Home/>
+                    },
+                    {
+                        path:"/details/:id" , element:<Home/>
+                    }
+                ]
+            },
+            {
+                path: '/settings',
+                element: <Home/>
+            },
+            {
+                path: '/profile',
+                element: <Profile/>
+            },
+           
         ]
     }
-    
 ])
 
 

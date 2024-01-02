@@ -6,7 +6,7 @@ import Navbar from '../../components/navbar'
 import { Outlet } from 'react-router-dom';
 import './index.css'
 
-export default function Layout  ({ children }) {
+export function Layout  ({ children }) {
   return (
     <div>
       <Navbar/>
@@ -21,17 +21,19 @@ export default function Layout  ({ children }) {
 };
 
 
-// export function AuthLayout  ({ children }) {
-//   return (
-//     <div>
-//       <Navbar/>
-//         <main className='flex-grow min-h-screen main'>
-//           {children}
-//           <Outlet />
-//           </main>
-//       <footer><Footer/></footer>
+export function AuthLayout  ({ children }) {
+  return (
+    <div>
+        
+      <Navbar/>
+        <main className='flex-grow min-h-screen main'>
+          {children}
+          <Outlet />
+          </main>
+      <footer><Footer/></footer>
       
-//     </div>
-//   );
-// };
+    </div>
+  );
+};
 
+export default AuthLayout
