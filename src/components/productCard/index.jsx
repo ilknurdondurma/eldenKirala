@@ -26,11 +26,11 @@ export function ProductCard ({productID,title,description,image,likedProducts,pr
                 ♥️
               </Button>
             </span>
-            <span className="flex justify-center h-60" ><img src={`${image}`} alt={title} className=" w-full m-2 center rounded-xl" /></span>
-            <h5 className=  "flex justify-center p-2 "> <span className={`overflow-hidden ${information.length > 100 ? 'max-h-20' : 'max-h-32'}`}>{information}</span></h5>
+            <span className="flex justify-center h-60 w-full p-2" ><img src={`data:image/jpeg;base64,${image}`} alt={title} className="object-contain w-full h-full m-2 rounded-xl" /></span>
+            <h5 className=  "flex justify-center p-2 "> <span className={`overflow-hidden line-clamp-1 ${information.length > 100 ? 'max-h-32' : 'max-h-20'}`}>{information}</span></h5>
             <div className="flex justify-center">
                 <div className= " overflow-hidden w-3/4 text-center whitespace-nowrap block">
-                    <div className={`font-bold ${isActive ? 'text-secondary' : 'text-red-800'}`}>{price} TL  /  MONTH</div>
+                    <div className={`font-bold text-sm ${isActive ? 'text-secondary' : 'text-red-800'}`}>{price} TL  /  MONTH</div>
                     {isActive 
                      ? 
                         <div>

@@ -4,15 +4,14 @@ import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 import Slider from 'react-slick';
 import Button from '../button';
-const ProductSlider = ({ productList , name, head, onClick }) => {
+const ProductSlider = ({ productList , name, head, onClick ,classNames}) => {
     const settings = {
       dots: true,
       infinite: true,
       speed: 500,
-      slidesToShow: Math.min(4, productList.length),
+      slidesToShow: Math.min(2, productList.length),
       slidesToScroll: 1,
       vertical:false,
-      centerMode: true,
       centerPadding: '60px',
       
       responsive: [
@@ -21,7 +20,6 @@ const ProductSlider = ({ productList , name, head, onClick }) => {
           settings: {
             slidesToShow: 4,
             slidesToScroll: 1,
-            centerMode: true,
             centerPadding:'20px' // center mode false for md screen
           },
         },
@@ -30,7 +28,6 @@ const ProductSlider = ({ productList , name, head, onClick }) => {
           settings: {
             slidesToShow: 3,
             slidesToScroll: 1,
-            centerMode: true, 
             centerPadding:'10px'// center mode false for sm screen
           },
         },
@@ -39,7 +36,6 @@ const ProductSlider = ({ productList , name, head, onClick }) => {
           settings: {
             slidesToShow: 2,
             slidesToScroll: 1,
-            centerMode: true,
             centerPadding:'5px' // center mode false for sm screen
           },
         },
@@ -48,7 +44,6 @@ const ProductSlider = ({ productList , name, head, onClick }) => {
           settings: {
             slidesToShow: 1,
             slidesToScroll: 1,
-            centerMode: true,
             centerPadding:'1px' // center mode false for sm screen
           },
         },
@@ -58,7 +53,7 @@ const ProductSlider = ({ productList , name, head, onClick }) => {
 
     return (
       <>
-      <div className='flex justify-start m-5 text-xl font-bold italic font-sans'>{head}</div>
+      <div className={`flex justify-start m-5 text-xl font-bold italic font-sans ${classNames}`}>{head}</div>
         <div className='border-2 border-black rounded-xl shadow-xl m-1 grid grid-cols-4 bg-gray-100  box-border '>
             <div className={`sm:col-span-4 flex flex-col justify-around text-center text-4xl font-bold italic font-serif ${name ? 'baslik' : 'hidden'}`}>
               {name}<br/> Ürünler
@@ -74,7 +69,7 @@ const ProductSlider = ({ productList , name, head, onClick }) => {
                       productID={product.id}
                       title={product.name}
                       likedProducts={[]}
-                      image={product.filE_URL_1}
+                      image={product.filE_URL_1 || product.filE_URL_2 || product.filE_URL_3 }
                       price={product.price}
                       information={product.description}
                       isActive={product.isActive}

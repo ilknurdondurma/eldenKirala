@@ -5,7 +5,7 @@ import PropTypes from "prop-types"
 export default function CheckBox({ label, className,name,value, onChange,title,readOnly, ...props }) {
 
   const inputClasses = classNames(
-    "m-1 p-1",
+    "m-2 p-1",
     className
   );
     return (
@@ -16,7 +16,7 @@ export default function CheckBox({ label, className,name,value, onChange,title,r
               className={inputClasses}
               name={name}
             />
-            {label}
+            <p className={inputClasses}>{label}</p>
           </span>
           <ErrorMessage component="small" name={name} className="text-xs text-red-500 dark:text-red-400 mt-1 block" />
         </div>

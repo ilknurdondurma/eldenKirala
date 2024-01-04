@@ -70,7 +70,7 @@ const Navbar = () => {
   
 
   return (
-    <nav className=" w-full h-auto mb-72 sm:mb-56">
+    <nav className=" w-full h-auto mb-44 sm:mb-32">
       <div className={`w-full h-auto main fixed top-0 left-0 z-10 opacity-${Math.floor(backgroundOpacity * 100)}`}>
               {/**logo arama giriş yap sepet */}
             <div className=" sabit grid grid-cols-9 ">
@@ -238,7 +238,7 @@ const Navbar = () => {
             </div>
 
             {/** Tüm Kategori Alanı */}
-            <div className='flex justify-center m-16'>
+            <div className='flex justify-center m-1'>
                 <div className={`${isCategoryVisible ? 'block shadow-md' : 'hidden'} w-3/4 text-left grid grid-cols-5 md:grid-cols-2 sm:w-full sm:grid-cols-2`}>
                   {categories.map((category) => (
                     <div className='block' key={category.id}>

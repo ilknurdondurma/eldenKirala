@@ -1,3 +1,7 @@
 .main {
-    background-color: rgb(250,250,250) !important;
+    background-color: rgb(255, 255, 255) !important;
+}
+
+.scroll {
+scroll-margin: 1px;
 }
