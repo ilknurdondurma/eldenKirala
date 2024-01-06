@@ -1,20 +1,23 @@
 // Layout.js
 
-import React from 'react';
+import React, { useMemo } from 'react';
 import { Footer } from '../../components/footer';
 import Navbar from '../../components/navbar'
 import { Outlet } from 'react-router-dom';
 import './index.css'
 
 export function Layout  ({ children }) {
+  const bellekteTutulanNavbar = useMemo(() => <Navbar />, []);
+  const bellekteTutulanFooter = useMemo(() => <Footer />, []);
+
   return (
     <div>
-      <Navbar/>
+      {bellekteTutulanNavbar}
         <main className='flex-grow min-h-screen main'>
           {children}
           <Outlet />
           </main>
-      <footer><Footer/></footer>
+      <footer>{bellekteTutulanFooter}</footer>
       
     </div>
   );
@@ -22,15 +25,17 @@ export function Layout  ({ children }) {
 
 
 export function AuthLayout  ({ children }) {
+  const bellekteTutulanNavbar = useMemo(() => <Navbar />, []);
+  const bellekteTutulanFooter = useMemo(() => <Footer />, []);
+
   return (
-    <div>
-        
-      <Navbar/>
+    <div>  
+      {bellekteTutulanNavbar}
         <main className='flex-grow min-h-screen main'>
           {children}
           <Outlet />
           </main>
-      <footer><Footer/></footer>
+      <footer>{bellekteTutulanFooter}</footer>
       
     </div>
   );

@@ -38,7 +38,11 @@ export default function LoginForm(){
         setTimeout(() => {
           setUser({
             id:responseData.data.id,
-            token:responseData.data.token
+            id:responseData.data.id,
+            name:responseData.data.name,
+            surname:responseData.data.surname,
+            city:responseData.data.city,
+            token:responseData.data.token,
           })
           navigate("/",{replace:true});
         }, 2000);

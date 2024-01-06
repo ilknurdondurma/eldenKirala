@@ -19,6 +19,13 @@ module.exports = {
       },
       fontSize :{
         'buttons':'1rem'
+      },
+      fontFamily: {
+        sans: ['Graphik', 'sans-serif'],
+        serif: ['Merriweather', 'serif'],
+      },
+      spacing: {
+        '128': '32rem',
       }
     },
     screens: {

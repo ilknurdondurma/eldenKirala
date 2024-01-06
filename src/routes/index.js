@@ -9,6 +9,7 @@ import Profile from "../pages/profile";
 import AddProduct from "../pages/addProduct";
 import Cart from "../pages/cart";
 import PrivateRoute from "./privateRoute";
+import Detail from "../pages/detailProduct";
 
 const routes = createBrowserRouter([
     {
@@ -28,18 +29,18 @@ const routes = createBrowserRouter([
                 element: <Signup/>
             },
             {
-                path: '/products',
-                element: <Home/>,
+                path: '/product',
+                element: <Detail/>,
                 children:[
                     {
                         index:true,
-                        element:<Home/>
+                        element:<Detail/>
                     },
                     {
-                        path:"/products/:id" , element:<Home/>
+                        path:"/product/:id" , element:<Detail/>
                     },
                     {
-                        path:"/products/:name" , element:<Home/>
+                        path:"/product/:name" , element:<Detail/>
                     }
                 ]
             },

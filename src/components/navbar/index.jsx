@@ -11,8 +11,10 @@ import { FcCamera } from "react-icons/fc";
 import { AiOutlineLogout } from "react-icons/ai";
 import '../../layout/web/index'
 import { useAuth } from '../../context/authContext/authContext';
+import { debounce } from 'lodash';
 
-const Navbar = () => {
+
+const Navbar =React.memo( () => {
   const handleSubmit = (values) => {
     console.log(values);
   };
@@ -22,13 +24,17 @@ const Navbar = () => {
   const [categories ,setCategories] = useState([]);
   const [hoveredCategory, setHoveredCategory] = useState(null);
   const [backgroundOpacity, setBackgroundOpacity] = useState(0);
+  const [scrollUp, setScrollUp] = useState(false);
+
 
   const handleScroll = () => {
-    // Sayfa kaydıkça arkaplan opaklığını güncelle
-    const scrollY = window.scrollY || document.documentElement.scrollTop;
-    const newOpacity = Math.min(scrollY+1 / 100, 1); // İstediğiniz opaklık değerini belirleyebilirsiniz
-    setBackgroundOpacity(newOpacity);
+      // Sayfa kaydıkça arkaplan opaklığını güncelle
+      const scrollY = window.scrollY || document.documentElement.scrollTop;
+      const newOpacity = Math.min(scrollY+1 / 100, 1); // İstediğiniz opaklık değerini belirleyebilirsiniz
+      setBackgroundOpacity(newOpacity);
+      
   };
+
   const handleMouseEnter = (index) => {
     setHoveredCategory(index);
   };
@@ -41,6 +47,9 @@ const Navbar = () => {
   const searchHandle = () => {
     setIsSearchVisible(!isSearchVisible);
   };
+ const returnHomeHandle =()=>{
+  navigate("/")
+ }
   const navigate=useNavigate();
   const handleLogout = () => {
     setUser(false);
@@ -50,6 +59,7 @@ const Navbar = () => {
   };
   
   useEffect(() => {
+    const gecikmeliHandleScroll = debounce(handleScroll, 200);
     getCategories()
       .then((result) => {
         setCategories(result?.data.data);
@@ -59,12 +69,20 @@ const Navbar = () => {
         console.log(error);
       });
   
-    window.addEventListener('scroll', handleScroll);
+    window.addEventListener('scroll', gecikmeliHandleScroll);
     setBackgroundOpacity(1);
-  
+    document.addEventListener('wheel', function(event) {
+      if (event.deltaY > 0) {
+        setScrollUp(false)
+      } else if (event.deltaY < 0) {
+        setScrollUp(true)
+      }
+    });
     return () => {
       // Sayfa kapatıldığında dinleyiciyi temizleyin
-      window.removeEventListener('scroll', handleScroll);
+      window.removeEventListener('scroll', gecikmeliHandleScroll);
+      window.removeEventListener('wheel', gecikmeliHandleScroll);
+      gecikmeliHandleScroll.cancel();
     };
   }, []);
   
@@ -76,8 +94,8 @@ const Navbar = () => {
             <div className=" sabit grid grid-cols-9 ">
                 
                 {/* Logo */}
-                <div className="col-span-2 sm:col-span-2">
-                  <img src="/logo.png" alt="logo" className="w-auto  max-h-32 " />
+                <div className="col-span-2 sm:col-span-2" onClick={returnHomeHandle}>
+                  <img src="/logo.png" alt="logo" className="w-auto  max-h-32 "/>
                 </div>
 
                 {/* Arama */}
@@ -151,7 +169,7 @@ const Navbar = () => {
                   ) : 
                   <>
                   <NavLink to={"/profile"}>
-                    <Button className="p-3 md:p-3 sm:p-1 text-xl sm:text-sm hover:shadow-none" variant="TransparentButton" onClick={console.log(JSON.parse(localStorage.getItem('user')).token)}>
+                    <Button className="p-3 md:p-3 sm:p-1 text-xl sm:text-sm hover:shadow-none" variant="TransparentButton">
                       <VscAccount />
                     </Button>
                   </NavLink>
@@ -192,7 +210,7 @@ const Navbar = () => {
 
 
             {/* Kategoriler*/} 
-            <div className="flex justify-center sm:hidden">
+            <div className={`flex justify-center sm:hidden ${scrollUp ?'' : 'hidden'}`}>
               {/**&& category.subCategories.length > 0 */}
                 {categories.map((category, index) => (
                   (category.subCategories && category.subCategories.length > 0 ) && (
@@ -228,7 +246,7 @@ const Navbar = () => {
             </div>
             
             {/* sm Kategori dropdown  */}
-            <div className='hidden sm:block text-center' onClick={menuHandle}>
+            <div className={`hidden sm:block text-center ${scrollUp ?'' :'sm:hidden'}`} onClick={menuHandle}>
                 <span className='text-xl '>
                   <Button className="p-3 md:p-3 sm:p-1 text-3xl hover:shadow-none" variant="TransparentButton">
                     <VscMenu />
@@ -264,6 +282,6 @@ const Navbar = () => {
       </div>
     </nav>
   );
-};
+});
 
 export default Navbar;

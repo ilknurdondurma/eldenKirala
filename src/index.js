@@ -6,12 +6,10 @@ import routes from './routes'
 import {RouterProvider} from "react-router-dom";
 import {AuthProvider} from "../src/context/authContext/authContext"
 
-
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
         <AuthProvider>
                 <RouterProvider router={routes}>
-                
                 </RouterProvider>
         </AuthProvider>
 );

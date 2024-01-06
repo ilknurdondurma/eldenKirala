@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import './spin.css';
 
-const  Spin =()=>{
+const  Spin =({label})=>{
   useEffect(() => {
    console.log("ağğğğğğğğğğğğğğğğğğğğğğ")
 }, []);
@@ -9,8 +9,9 @@ const  Spin =()=>{
     return(
       <div className="spinner-container">
             <div className="spinner">
-                SABREDEN__DERVİŞ__MURADINA__ERMİŞ
+                
             </div>
+            {label ? label :"F5 ÇEK BELKİ DÜZELİR sdönösdnsödn ..."}
       </div>
     );
 }
