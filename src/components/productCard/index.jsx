@@ -1,6 +1,7 @@
 import Button from "../button";
 import PropTypes from "prop-types"
 import React, { useState } from 'react';
+import { Link } from "react-router-dom";
 
 export function ProductCard ({productID,title,description,image,likedProducts,price,categoryId,information,isActive,onClick,className ,...props}){
   const [likedProductsList, setLikedProductsList] = useState([...likedProducts]);
@@ -17,6 +18,7 @@ export function ProductCard ({productID,title,description,image,likedProducts,pr
   
 
     return(
+      <Link to={`/product/${productID}`}>
         <div className="hover:shadow-xl rounded-xl border-4 bg-white  py-5 flex flex-col justify-between 2xl:text-md xl:text-md lg:text-md md:text-sm sm:text-xs 2xl:h-lg xl:h-lg lg:h-lg md:h-md sm:h-sm">
             <span className="flex justify-end text-sm ">
               <Button 
@@ -57,6 +59,7 @@ export function ProductCard ({productID,title,description,image,likedProducts,pr
             </Button>
             </span>
         </div>
+      </Link>
     )
 }
 ProductCard.propTypes={

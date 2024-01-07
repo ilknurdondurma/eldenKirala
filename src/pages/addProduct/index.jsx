@@ -68,7 +68,7 @@ function AddProduct() {
         const newSelectedFiles = [...selectedFiles];
         newSelectedFiles[index] = event.target.files[0];
         setSelectedFiles(newSelectedFiles);
-
+        
          // resmi divin içinde göstermek için kod bloğu
         const reader = new FileReader();
         reader.onload = (e) => {
@@ -78,7 +78,8 @@ function AddProduct() {
         };
         reader.readAsDataURL(event.target.files[0]);
 
-        };
+        }; 
+      
     const handleSubmit = (values) => {
         console.log(values);
 
@@ -120,7 +121,7 @@ function AddProduct() {
         
         })
         .catch(error => {
-            if (error.response && error.response.status === 401) {
+            if (error.response.status === 401) {
                 errorMessage("GİRİŞ YAPSANA KAARŞİM")         
                 setTimeout(() => {
                     navigate("/login");
@@ -155,9 +156,9 @@ function AddProduct() {
                                         MinRentalPeriod:"",
                                         MaxRentalPeriod:"",
                                         isHiglight:"",
-                                        imageFile1:"",
-                                        imageFile2:"",
-                                        imageFile3:"",
+                                        fileInput1:"",
+                                        fileInput2:"",
+                                        fileInput3:"",
 
                                     }}
                                     onSubmit={(values)  => {
@@ -167,9 +168,9 @@ function AddProduct() {
                                             errorMessage("HOOPS ! Bir durum seç")
                                             return;
                                         }
-                                        if (selectedFiles.length === 0) {
-                                            console.log('En az 1 resim seçmelisiniz.');
-                                            errorMessage("En az 1 resim seçmelisiniz")
+                                        if (selectedFiles.length <3) {
+                                            console.log('Tüm resimleri seçtiğinizden emin olun');
+                                            errorMessage("Tüm resimleri seçtiğinizden emin olun")
                                             return;
                                         }
                                         console.log(values);
@@ -296,6 +297,7 @@ function AddProduct() {
                                                         onChange={(e) => handleFileChange(e, setFieldValue, index - 1)}
                                                         type="file"
                                                         id={`fileInput${index}`}
+                                                        name={`fileInput${index}`}
                                                         className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
                                                     />
                                                     <div className="flex flex-col items-center justify-center justify-items-center text-center text-white">

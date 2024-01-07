@@ -64,7 +64,6 @@ function Home() {
               <div className='flex justify-center'>
                 <div className='grid w-3/4 2xl:grid-cols-5 xl:grid-cols-5 lg:grid-cols-4 gap-5 md:grid-cols-3 sm:grid-cols-2 sm:w-full'>
                   {products.map((product, index) => (
-                    <Link key={index} to={`/product/${product.id}`}>
                       <ProductCard 
                         productID={product.id} 
                         title={product.name}
@@ -77,7 +76,6 @@ function Home() {
                           console.log(product.id)
                         }}
                       />
-                    </Link>
                   ))}
                 </div>
               </div>

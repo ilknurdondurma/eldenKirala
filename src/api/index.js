@@ -46,3 +46,5 @@ export const getCategories = () => API.get(`/Category/get-categories`)
 //brand
 export const getAllBrand=()=>API.get(`/Brand/get-all`)
 export const getBrandByCategory=(categoryId)=>API.get(`/Brand/get/${categoryId}`)
+//comment
+export const getCommentById=(productId)=>API.get(`/Comment/get/${productId}`)
