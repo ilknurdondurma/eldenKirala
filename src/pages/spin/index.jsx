@@ -1,5 +1,6 @@
 import { useEffect } from 'react';
 import './spin.css';
+import { GiImpLaugh } from "react-icons/gi";
 
 const  Spin =({label})=>{
   useEffect(() => {
@@ -11,7 +12,7 @@ const  Spin =({label})=>{
             <div className="spinner">
                 
             </div>
-            {label ? label :"F5 ÇEK BELKİ DÜZELİR sdönösdnsödn ..."}
+            {label ? label :<GiImpLaugh size="50px" className='m-5' />}
       </div>
     );
 }

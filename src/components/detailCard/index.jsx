@@ -6,6 +6,9 @@ import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
 import '../../layout/web/index.css'
 import Spin from '../../pages/spin';
 import { MdFavoriteBorder , MdFavorite } from "react-icons/md";
+import errorMessage from '../../helper/toasts/errorMessage';
+import succesMessage from '../../helper/toasts/successMessage';
+import { addFavorite, deleteFavorite } from '../../api';
 
 function DetailCard({ product }) {
 
@@ -28,6 +31,73 @@ function DetailCard({ product }) {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [favorites, setFavorites] = useState(false);
   const [scrollToBottom, setScrollToBottom] = useState(false);
+  const [isFavorite, setIsFavorite] = useState(product?.liked || false);
+  const storedUser = JSON.parse(localStorage.getItem('user'));
+  const userId = storedUser ? storedUser.id : null;
+
+  function renderStars(starCount) {
+    const stars = [];
+    for (let i = 0; i < 5; i++) {
+      const isYellow = i < starCount;
+
+      stars.push(
+        <span key={i} className={isYellow ? "text-yellow-500" : "text-gray-400"}>
+          ★
+        </span>
+      );
+    }
+    return stars;
+  }
+ const handleDelete=(deletedProduct)=>{
+      console.log("delete")
+      if(!userId){console.log("kullanıcı idsi bulunamadı.")}
+      deleteFavorite(deletedProduct)
+        .then(data => {
+          console.log(data);
+          if (data.data.message) {
+            succesMessage(data.data.message);
+            setIsFavorite(false)
+            window.location.reload();
+          }
+          else if (data.data.error){
+            errorMessage(data.data.error);
+
+          }
+
+          
+        })
+        .catch(error => {
+          console.error("Error:", error);
+          errorMessage(error.response ? error.response.data.error : "An unexpected error occurred");
+        });
+    }
+const handleFavorite=(favoritedProduct)=>{
+      console.log("favorite")
+      if(!userId){console.log("kullanıcı idsi bulunamadı.")}
+      var productObject={
+        "userId":userId,
+        "productId":favoritedProduct
+      }
+      addFavorite(productObject)
+        .then(data => {
+          console.log(data);
+          if (data.data.message) {
+            succesMessage(data.data.message);
+            setIsFavorite(true)
+            window.location.reload();
+          }
+          else if (data.data.error){
+            succesMessage(data.data.error);
+
+          }
+
+          
+        })
+        .catch(error => {
+          console.error("Error:", error);
+          errorMessage(error.response ? error.response.data.error : "An unexpected error occurred");
+        });
+ }
 
   const buttonData = [
       { id: 1, value: 1, label: '1 Ay',   disabled: (product?.minRentalPeriod > 1 ||  product?.maxRentalPeriod < 1)  ?true:false },
@@ -92,7 +162,14 @@ function DetailCard({ product }) {
                         <div className='text-lg m-1 font-sans font-bold'> ✩ {product?.userRating}</div>
                     </div>
                     <div>
-                          <Button>{favorites ?<MdFavoriteBorder className='mx-2' onClick={handleFavorites}/>:<MdFavorite className='mx-2' onClick={handleFavorites}/>} Ürünü Favorile</Button>
+                        <Button>
+                            {product?.liked
+                              ? <MdFavorite className='mx-2' onClick={() => handleDelete(product?.id)} /> 
+                              : <MdFavoriteBorder className='mx-2' onClick={() => handleFavorite(product?.productId)} />}
+                            {product?.liked
+                              ? "Favorilerden Kaldır"
+                              : "Ürünü Favorile"}
+                        </Button>
                     </div>
                 </div>
               {/* konum bilgileri */}

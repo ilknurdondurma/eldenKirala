@@ -10,12 +10,13 @@ import CommentCard from '../../components/commentCard';
 function Detail() {
   const [product, setProduct] = useState([]);
   const [comments, setComments] = useState([]);
-
+  const storedUser = JSON.parse(localStorage.getItem('user'));
+  const userId = storedUser ? storedUser.id : null;
   const { id } = useParams();
 
   useEffect(() => {
     window.scrollTo(0, 0);
-    getProductsById(id)
+    getProductsById(id,userId)
       .then((result) => {
         setProduct(result?.data.data);
         console.log("products ")

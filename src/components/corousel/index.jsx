@@ -65,11 +65,11 @@ const ProductSlider = ({ productList , name, head, onClick ,classNames}) => {
               <div className='center w-full gap-10'>
                 <Slider {...settings} >
                   {productList.map((product) => (
-                  <div key={product.id}>
+                  <div key={product.productId}>
                   <ProductCard
                       product={product}
                       likedProducts={[]}
-                      route={`/product/${product.id}`}
+                      route={`/product/${product.productId}`}
                   />
                   </div>
               ))}

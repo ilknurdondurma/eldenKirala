@@ -7,9 +7,12 @@ import errorMessage from '../../helper/toasts/errorMessage';
 import { ToastContainer } from 'react-toastify';
 import SpinCarousel from '../../components/corousel/spin';
 import Spin from '../spin';
+import { useAuth } from '../../context/authContext/authContext';
 function Home() {
   const [products, setProducts] = useState([])
   const [brands, setBrands] = useState([])
+  const storedUser = JSON.parse(localStorage.getItem('user'));
+  const userId = storedUser ? storedUser.id : null;
 
   const { id } = useParams();
   useEffect(() => {
@@ -24,7 +27,7 @@ function Home() {
 
       })
     
-    getAllProducts()
+    getAllProducts(userId)
       .then((result) => {
         setProducts(result?.data.data);
         console.log(result?.data.data)
@@ -43,9 +46,8 @@ function Home() {
     <>
       <ToastContainer/>
       <div className='flex flex-col m-5 '>
-        {products && brands
-         ? (
-            <>
+       
+            
               {/* marka carosueli */}
               <SpinCarousel itemList={brands}/>
               {/* vitrinnnnnnn  */}
@@ -54,21 +56,22 @@ function Home() {
               </div>   
               {/* tüm ürünler */}
               <div className='flex justify-center'>
-                <div className='grid w-3/4 2xl:grid-cols-5 xl:grid-cols-5 lg:grid-cols-4 gap-5 md:grid-cols-3 sm:grid-cols-2 sm:w-full'>
-                  {products.map((product) => (
-                      <ProductCard 
-                        key={product?.id}
-                        product={product}
-                        route={`/product/${product?.id}`}
-                      />
-                  ))}
-                </div>
+                {products.length>0 && brands.length>0
+                  ? (
+                  <div className='grid w-3/4 2xl:grid-cols-5 xl:grid-cols-5 lg:grid-cols-4 gap-5 md:grid-cols-3 sm:grid-cols-2 sm:w-full'>
+                    {products.map((product) => (
+                        <ProductCard 
+                          key={product?.productId}
+                          product={product}
+                          route={`/product/${product?.productId}`}
+                        />
+                    ))}
+                  </div>
+                  ): (
+                    <Spin/>
+                  )}
               </div>
-            </>
-           ) 
-        : (
-          <Spin/>
-        )}
+        
       </div>
     </>
   );

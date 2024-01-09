@@ -2,7 +2,7 @@ import Button from "../button";
 import PropTypes from "prop-types"
 import React, { useState } from 'react';
 import { Link } from "react-router-dom";
-import { MdFavoriteBorder,MdDelete} from "react-icons/md";
+import { MdFavoriteBorder,MdDelete, MdFavorite} from "react-icons/md";
 import { addFavorite, deleteFavorite } from "../../api";
 import { useAuth } from "../../context/authContext/authContext";
 import errorMessage from "../../helper/toasts/errorMessage";
@@ -10,6 +10,7 @@ import succesMessage from "../../helper/toasts/successMessage";
 
 export function ProductCard ({product,icon="favorite",route ,className ,...props}){
   const {user}=useAuth();
+  const [isFavorite, setIsFavorite] = useState(product?.liked || false);
   const storedUser = JSON.parse(localStorage.getItem('user'));
   const userId = storedUser ? storedUser.id : null;
 
@@ -28,11 +29,13 @@ export function ProductCard ({product,icon="favorite",route ,className ,...props
   }
  const handleDelete=(deletedProduct)=>{
       console.log("delete")
+      if(!userId){console.log("kullanıcı idsi bulunamadı.")}
       deleteFavorite(deletedProduct)
         .then(data => {
           console.log(data);
           if (data.data.message) {
             succesMessage(data.data.message);
+            setIsFavorite(false)
             window.location.reload();
           }
           else if (data.data.error){
@@ -59,6 +62,8 @@ const handleFavorite=(favoritedProduct)=>{
           console.log(data);
           if (data.data.message) {
             succesMessage(data.data.message);
+            setIsFavorite(true)
+            window.location.reload();
           }
           else if (data.data.error){
             succesMessage(data.data.error);
@@ -77,7 +82,7 @@ const handleFavorite=(favoritedProduct)=>{
         <div className="hover:shadow-xl rounded-xl border-4 bg-white  py-5 flex flex-col justify-between 2xl:text-md xl:text-md lg:text-md md:text-sm sm:text-xs 2xl:h-lg xl:h-lg lg:h-lg md:h-md sm:h-sm">
             <span className="baslik flex justify-end text-sm mx-5 py-1 ">
               <Button variant="TransparentButton">
-                {icon==="delete" ?<MdDelete size="20px" onClick={() => handleDelete(product?.id)}  />: <MdFavoriteBorder size="20px"onClick={() => handleFavorite(product?.id)}/>}
+                {icon==="delete" ?<MdDelete size="20px" onClick={() => handleDelete(product?.id)}  />: isFavorite ? <MdFavorite size="20px" onClick={() => handleDelete(product?.id)} />: <MdFavoriteBorder size="20px" onClick={() => handleFavorite(product?.productId)}/>}
               </Button>
             </span>
 

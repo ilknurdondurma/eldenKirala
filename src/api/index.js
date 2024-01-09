@@ -34,9 +34,9 @@ API.interceptors.request.use(
 export const login = (formdata) => API.post('/User/login', formdata)
 export const signUp = (user) => API.post('/User/sign-up', user)
 //product
-export const getAllProducts = () => API.get(`/Product/get-all`)
+export const getAllProducts = (userId) => API.get(`/Product/get-all/${userId}`)
 export const getProductsByCategoryId = (id) => API.get(`/Product/get-category/${id}`)
-export const getProductsById = (id) => API.get(`/Product/get/${id}`)
+export const getProductsById = (productId , userId) => API.get(`/Product/get/${userId}/${productId}`)
 export const addProduct = (product) => API.post(`/Product/add/`,product, {headers: {'Content-Type':'multipart/form-data'}})
 export const updateProduct = (product) => API.put(`/Product/`,product)
 export const deleteProduct = (id) => API.delete(`/Product/${id}`)
@@ -49,7 +49,7 @@ export const getBrandByCategory=(categoryId)=>API.get(`/Brand/get/${categoryId}`
 //comment
 export const getCommentById=(productId)=>API.get(`/Comment/get/${productId}`)
 //favorites
-export const getFavoritesByUserId = (id) => API.get(`/Product/get-favori/${id}`)
+export const getFavoritesByUserId = (userId) => API.get(`/Product/get-favori/${userId}`)
 export const addFavorite=(product)=>API.post('/Favorite/add',product)
 export const deleteFavorite = (id) => API.delete(`/Favorite/delete/${id}`)
 
