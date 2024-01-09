@@ -4,6 +4,7 @@ import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 import Slider from 'react-slick';
 import Button from '../button';
+import { Link } from 'react-router-dom';
 const ProductSlider = ({ productList , name, head, onClick ,classNames}) => {
     const settings = {
       dots: true,
@@ -64,18 +65,11 @@ const ProductSlider = ({ productList , name, head, onClick ,classNames}) => {
               <div className='center w-full gap-10'>
                 <Slider {...settings} >
                   {productList.map((product) => (
-                  <div key={product.id} className='mx-10'>
+                  <div key={product.id}>
                   <ProductCard
-                      productID={product.id}
-                      title={product.name}
+                      product={product}
                       likedProducts={[]}
-                      image={product.filE_URL_1 || product.filE_URL_2 || product.filE_URL_3 }
-                      price={product.price}
-                      information={product.description}
-                      isActive={product.isActive}
-                      onClick={() => {
-                      // Handle product click
-                      }}
+                      route={`/product/${product.id}`}
                   />
                   </div>
               ))}

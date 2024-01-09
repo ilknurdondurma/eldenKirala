@@ -12,6 +12,7 @@ import { AiOutlineLogout } from "react-icons/ai";
 import '../../layout/web/index'
 import { useAuth } from '../../context/authContext/authContext';
 import { debounce } from 'lodash';
+import { MdFavoriteBorder} from "react-icons/md";
 
 
 const Navbar =React.memo( () => {
@@ -24,7 +25,7 @@ const Navbar =React.memo( () => {
   const [categories ,setCategories] = useState([]);
   const [hoveredCategory, setHoveredCategory] = useState(null);
   const [backgroundOpacity, setBackgroundOpacity] = useState(0);
-  const [scrollUp, setScrollUp] = useState(false);
+  const [scrollUp, setScrollUp] = useState(true);
 
 
   const handleScroll = () => {
@@ -145,9 +146,9 @@ const Navbar =React.memo( () => {
                   </NavLink>
                   ):("")
                   }
-                  <NavLink to={"/cart"}>
+                  <NavLink to={"/favorites"}>
                     <Button className="p-3 md:p-3 sm:p-1 text-xl sm:text-sm hover:shadow-none" variant="TransparentButton">
-                        <IoCartOutline />
+                        <MdFavoriteBorder/>
                     </Button>
                   </NavLink>
 
@@ -217,8 +218,8 @@ const Navbar =React.memo( () => {
                   <div key={index} className="relative">
                       <NavLink to={`/categories/${category.id}`}>
                         <Button
-                        key={index}
-                        className="shadow-md mx-2"
+                          key={index}
+                          className="shadow-md mx-2"
                           variant="TransparentButton"
                           onMouseEnter={() => handleMouseEnter(index)}
                           onMouseLeave={handleMouseLeave}
@@ -231,7 +232,7 @@ const Navbar =React.memo( () => {
                       <div className="absolute top-0 left-0 mt-9  w-52  border bg-gray-100 z-10" onMouseEnter={() => handleMouseEnter(index)}onMouseLeave={handleMouseLeave}>
                         {category.subCategories.map((sub, subIndex) => (
                           <NavLink to={`/categories/${sub.id}`} className="hover:shadow-sm">
-                              <Button key={subIndex} variant="TransparentButton" className="line-clamp-1 text-start text-lg hover:shadow-none">
+                              <Button key={subIndex} variant="TransparentButton" className="overflow-hidden text-start self-start text-md hover:shadow-none">
                                   {sub.name}
                             </Button>
                           </NavLink>
@@ -259,8 +260,8 @@ const Navbar =React.memo( () => {
             <div className='flex justify-center m-1'>
                 <div className={`${isCategoryVisible ? 'block shadow-md' : 'hidden'} w-3/4 text-left grid grid-cols-5 md:grid-cols-2 sm:w-full sm:grid-cols-2`}>
                   {categories.map((category) => (
-                    <div className='block' key={category.id}>
-                      <NavLink to={`/categories/${category.id}`} className="font-bold hover:underline">
+                    <div className='block py-5 px-10' key={category.id}>
+                      <NavLink to={`/categories/${category.id}`} className="font-bold hover:underline ">
                         {category.name}
                       </NavLink>
                       <div>

@@ -17,16 +17,23 @@ module.exports = {
         my_border_color:"#d4d4d8", //border-zinc-[300]
         my_input_bg:"#f4f4f5", //bg-zinc-[100]
       },
-      fontSize :{
-        'buttons':'1rem'
+      
+      height:{
+        "brands":"3.50rem",
+        "buttons-large":"3rem",
+        "buttons-normal":"2rem",
+        "buttons-small":"2rem",
+        "buttons-xsmall":"1.50rem"
+
+      },
+      width:{
+        "brands":"3.50rem"
       },
       fontFamily: {
         sans: ['Graphik', 'sans-serif'],
         serif: ['Merriweather', 'serif'],
       },
-      spacing: {
-        '128': '32rem',
-      }
+      
     },
     screens: {
       'sm': {'min': '0', 'max': '767px'},

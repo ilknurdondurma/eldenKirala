@@ -48,3 +48,9 @@ export const getAllBrand=()=>API.get(`/Brand/get-all`)
 export const getBrandByCategory=(categoryId)=>API.get(`/Brand/get/${categoryId}`)
 //comment
 export const getCommentById=(productId)=>API.get(`/Comment/get/${productId}`)
+//favorites
+export const getFavoritesByUserId = (id) => API.get(`/Product/get-favori/${id}`)
+export const addFavorite=(product)=>API.post('/Favorite/add',product)
+export const deleteFavorite = (id) => API.delete(`/Favorite/delete/${id}`)
+
+

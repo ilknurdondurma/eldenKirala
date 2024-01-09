@@ -5,6 +5,7 @@ import { GrMap } from "react-icons/gr";
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
 import '../../layout/web/index.css'
 import Spin from '../../pages/spin';
+import { MdFavoriteBorder , MdFavorite } from "react-icons/md";
 
 function DetailCard({ product }) {
 
@@ -25,19 +26,19 @@ function DetailCard({ product }) {
   }
   const [selectedButton, setSelectedButton] = useState();
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
-  const minRentalPeriod = product?.minRentalPeriod;
-  const maxRentalPeriod = product?.maxRentalPeriod;
+  const [favorites, setFavorites] = useState(false);
+  const [scrollToBottom, setScrollToBottom] = useState(false);
 
   const buttonData = [
-      { id: 1, value: 1, label: '1 Ay',   disabled: (minRentalPeriod < 1 ||  maxRentalPeriod > 1)  ?true:false },
-      { id: 2, value: 3, label: '3 Ay',   disabled: (minRentalPeriod < 3 ||  maxRentalPeriod > 3)  ?true:false },
-      { id: 3, value: 6, label: '6 Ay',   disabled: (minRentalPeriod < 6 ||  maxRentalPeriod > 6 ) ?true:false},
-      { id: 4, value: 12, label: '12 Ay', disabled: (minRentalPeriod < 12 || maxRentalPeriod > 12) ?true:false},
-      { id: 5, value: 15, label: '15 Ay', disabled: (minRentalPeriod < 15 || maxRentalPeriod > 15) ?true:false },
-      { id: 6, value: 18, label: '18 Ay', disabled: (minRentalPeriod < 18 || maxRentalPeriod > 18 )?true:false},
+      { id: 1, value: 1, label: '1 Ay',   disabled: (product?.minRentalPeriod > 1 ||  product?.maxRentalPeriod < 1)  ?true:false },
+      { id: 2, value: 3, label: '3 Ay',   disabled: (product?.minRentalPeriod > 3 ||  product?.maxRentalPeriod < 3)  ?true:false },
+      { id: 3, value: 6, label: '6 Ay',   disabled: (product?.minRentalPeriod > 6 ||  product?.maxRentalPeriod < 6 ) ?true:false},
+      { id: 4, value: 12, label: '12 Ay', disabled: (product?.minRentalPeriod > 12 || product?.maxRentalPeriod < 12) ?true:false},
+      { id: 5, value: 15, label: '15 Ay', disabled: (product?.minRentalPeriod > 15 || product?.maxRentalPeriod < 15) ?true:false },
+      { id: 6, value: 18, label: '18 Ay', disabled: (product?.minRentalPeriod > 18 || product?.maxRentalPeriod < 18 )?true:false},
    ];
    const handleImageChange = (direction) => {
-    const images = [product.filE_URL_1, product.filE_URL_2, product.filE_URL_3].filter(resim => resim != null);
+    const images = [product?.filE_URL_1, product?.filE_URL_2, product?.filE_URL_3].filter(resim => resim != null);
     
     if (images.length === 0) {
       // No valid images to display
@@ -50,40 +51,55 @@ function DetailCard({ product }) {
       setCurrentImageIndex((prevIndex) => (prevIndex === images.length - 1 ? 0 : prevIndex + 1));
     }
   };
+  const handleFavorites =()=>{
+    setFavorites(!favorites)
+  };
+  useEffect(() => {
+    if (scrollToBottom) {
+      const scrollContainer = document.getElementById('div');
+      if (scrollContainer) {
+        window.scrollTo(0,700); 
+           }
+        setScrollToBottom(false);
+        console.log(scrollToBottom)
+    }
+  }, [scrollToBottom]);
 
   
   return (
    product ?(
     <>
-    <div id='div' className='flex w-3/4 m-5 self-center text-sm'><a href='/'>Home</a> <FaChevronRight/> <a href='#'>{product.categoryName}</a> <FaChevronRight/> <a href='#'>{product.subCategoryName}</a></div>
+    <div id='div' className='flex w-3/4 m-5 self-center text-sm'><a href='/'>Home</a> <FaChevronRight/> <a href='#'>{product?.categoryName}</a> <FaChevronRight/> <a href='#'>{product?.subCategoryName}</a></div>
     <div className='flex flex-col self-center m-5 w-3/4 md:w-full sm:w-full  justify-center'>
     <div className='grid grid-cols-2 text-center justify-center object-center'>
 {/* resim ve user */}
         <div className=' grid grid-rows-4 h-auto border-2 rounded-xl '>
-            <div className='grid grid-cols-10 row-span-3 m-2 '>
+            <div className='row-span-3 grid grid-cols-11  m-2 '>
                 <span className='flex justify-center self-center'><FaChevronLeft onClick={() => handleImageChange('left')} /></span>
-                <img className="col-span-8 object-contain h-128 w-128 flex justify-center  "src={`data:image/jpeg;base64,${product[`filE_URL_${currentImageIndex + 1}`]}`} />
+                <div className="col-span-9 flex justify-center items-center">
+                    <img className="object-contain h-96 w-96" src={`data:image/jpeg;base64,${product[`filE_URL_${currentImageIndex + 1}`]}`}/>
+                </div>
                 <span className='flex justify-center self-center'><FaChevronRight onClick={() => handleImageChange('right')} /></span>
-            </div>
+          </div>
 
             <div className='border-2 grid grid-rows-2'>
               {/* user bilgileri */}
                 <div className='flex rounded-xl justify-between self-center py-2 px-2 bg-gray-50 '>
                     <div className='flex '>
                         <div className='text-2xl m-1 font-sans font-bold border-2 rounded-full'>🤩</div>
-                        <div className='text-lg m-1 font-sans font-bold'>{product.userName}</div>
-                        <div className='text-lg m-1 font-sans font-bold'>{product.userSurname}</div>
-                        <div className='text-lg m-1 font-sans font-bold'> ✩ {product.userRating}</div>
+                        <div className='text-lg m-1 font-sans font-bold'>{product?.userName}</div>
+                        <div className='text-lg m-1 font-sans font-bold'>{product?.userSurname}</div>
+                        <div className='text-lg m-1 font-sans font-bold'> ✩ {product?.userRating}</div>
                     </div>
                     <div>
-                          <Button> Satıcıya Sor</Button>
+                          <Button>{favorites ?<MdFavoriteBorder className='mx-2' onClick={handleFavorites}/>:<MdFavorite className='mx-2' onClick={handleFavorites}/>} Ürünü Favorile</Button>
                     </div>
                 </div>
               {/* konum bilgileri */}
                 <div className=' bg-gray-50 h-full rounded-xl flex  flex-col justify-center'>
                     <div>Konum Bilgisi :</div>
                     <span className='text-lg m-1 font-sans font-bold'>
-                      <GrMap size="30px"/>{product.userCity}/TURKEY
+                      <GrMap size="30px"/>{product?.userCity}/TURKEY
                     </span>
 
                 </div>
@@ -94,13 +110,13 @@ function DetailCard({ product }) {
 {/* özellikler */}
         <div className='grid grid-rows-5 justify-between h-auto p-5 bg-gray-50'>
             <div className='row-span-4 flex flex-col justify-between'>
-                <div className='text-2xl font-bold font-sans'>"{product.name}"</div>
-                <div className='text-md opacity-50  font-sans'>{product.description}</div>
-                <span className="text-md  text-start ps-5 py-2">{renderStars(product.rating/2)} <a className='cursor-pointer'>{product.commentCount} değerlendirme </a></span>
-                <div className='text-lg font-sans font-bold text-start ps-5 text-secondary'>{product.price} ₺ / AYLIK</div>
+                <div className='text-2xl font-bold font-sans'>"{product?.name}"</div>
+                <div className='text-md opacity-50  font-sans'>{product?.description}</div>
+                <span className="text-md  text-start ps-5 py-2">{renderStars(product?.rating/2)} <a className='cursor-pointer' onClick={() => setScrollToBottom(true)} >{product?.commentCount} değerlendirme </a></span>
+                <div className='text-lg font-sans font-bold text-start ps-5 text-secondary'>{product?.price} ₺ / AYLIK</div>
 
-                <div className='text-md font-sans text-start ps-5 py-1 pt-4'><span className='font-bold'>DURUMU : </span>{product.status}</div>
-                <div className='text-md font-sans text-start ps-5 py-1 pt-4'><span className='font-bold'>MARKASI : </span>{product.brandName} / {product.subCategoryName}</div>
+                <div className='text-md font-sans text-start ps-5 py-1 pt-4'><span className='font-bold'>DURUMU : </span>{product?.status}</div>
+                <div className='text-md font-sans text-start ps-5 py-1 pt-4'><span className='font-bold'>MARKASI : </span>{product?.brandName} / {product?.subCategoryName}</div>
 
                 <div className='text-md font-sans text-start ps-5 py-1 pt-5'>
                 <p className='font-bold'>Bir Kiralama Süresi Seçin : </p>
@@ -119,7 +135,7 @@ function DetailCard({ product }) {
                     
                     </Button>
                   ))}
-                  <p className='font-bold text-center'>Tutar :{buttonData[selectedButton - 1]?.value * product.price || 0} ₺ </p>
+                  <p className='font-bold text-center'>Tutar :{buttonData[selectedButton - 1]?.value * product?.price || 0} ₺ </p>
                 
                 </div>
             </div>
@@ -129,7 +145,7 @@ function DetailCard({ product }) {
                 type="submit"
                 variant="Purple"
                 
-              >Sepete Ekle
+              >SATICIYLA SOHBET ET
             </Button>
             </div>
         </div>

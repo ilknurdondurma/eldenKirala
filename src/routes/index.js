@@ -7,7 +7,7 @@ import Spin from "../pages/spin";
 import Signup from "../pages/signup/signup";
 import Profile from "../pages/profile";
 import AddProduct from "../pages/addProduct";
-import Cart from "../pages/cart";
+import Favorites from "../pages/favorites";
 import PrivateRoute from "./privateRoute";
 import Detail from "../pages/detailProduct";
 
@@ -84,8 +84,8 @@ const routes = createBrowserRouter([
                 element: <PrivateRoute><AddProduct/></PrivateRoute>
             },
             {
-                path: '/cart',
-                element: <PrivateRoute><Cart/></PrivateRoute>
+                path: '/favorites',
+                element: <PrivateRoute><Favorites/></PrivateRoute>
             },
             {
                 path: '/details',

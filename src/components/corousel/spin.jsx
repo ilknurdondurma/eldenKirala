@@ -10,7 +10,7 @@ function SpinCarousel({itemList}) {
     <ScrollingCarousel>
         {itemList.map((item)=>(
         <div key={item.id}>
-            <div   className="flex justify-center items-center my-5 p-1 mx-3 rounded-full text-sm border-4 border-black w-16 h-16 sm:w-12 sm:h-12 sm:p-1 ">
+            <div   className="flex justify-center items-center my-5 p-1 mx-3 rounded-full text-sm border-2  w-brands h-brands sm:w-12 sm:h-12 sm:p-1 ">
             <img loading="lazy" src={`${item.logo}`} className='rounded-full'></img>
           
             </div>
