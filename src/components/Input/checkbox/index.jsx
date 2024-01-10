@@ -5,11 +5,11 @@ import PropTypes from "prop-types"
 export default function CheckBox({ label, className,name,value, onChange,title,readOnly, ...props }) {
 
   const inputClasses = classNames(
-    "m-2 p-1",
+    "p-1",
     className
   );
     return (
-        <div className="w-full m-3"> {/**3lu kolonlar halinde goster*/}
+        <div className="w-full"> {/**3lu kolonlar halinde goster*/}
           <span className="flex">
           <Field
               type="checkbox"

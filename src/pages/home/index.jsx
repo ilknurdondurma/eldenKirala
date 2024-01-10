@@ -40,7 +40,11 @@ function Home() {
     
   }, []);
 
+  const [forceUpdateKey, setForceUpdateKey] = useState(0);
 
+  const forceRender = () => {
+    setForceUpdateKey(prevKey => prevKey + 1);
+  };
 
   return (
     <>

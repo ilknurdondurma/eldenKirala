@@ -25,7 +25,6 @@ const Navbar =React.memo( () => {
   const [categories ,setCategories] = useState([]);
   const [hoveredCategory, setHoveredCategory] = useState(null);
   const [backgroundOpacity, setBackgroundOpacity] = useState(0);
-  const [scrollUp, setScrollUp] = useState(true);
 
 
   const handleScroll = () => {
@@ -72,13 +71,6 @@ const Navbar =React.memo( () => {
   
     window.addEventListener('scroll', gecikmeliHandleScroll);
     setBackgroundOpacity(1);
-    document.addEventListener('wheel', function(event) {
-      if (event.deltaY > 0) {
-        setScrollUp(false)
-      } else if (event.deltaY < 0) {
-        setScrollUp(true)
-      }
-    });
     return () => {
       // Sayfa kapatıldığında dinleyiciyi temizleyin
       window.removeEventListener('scroll', gecikmeliHandleScroll);
@@ -211,7 +203,7 @@ const Navbar =React.memo( () => {
 
 
             {/* Kategoriler*/} 
-            <div className={`flex justify-center sm:hidden ${scrollUp ?'' : 'hidden'}`}>
+            <div className={`flex justify-center sm:hidden`}>
               {/**&& category.subCategories.length > 0 */}
                 {categories.map((category, index) => (
                   (category.subCategories && category.subCategories.length > 0 ) && (
@@ -229,10 +221,10 @@ const Navbar =React.memo( () => {
                       </NavLink>
                       
                     {hoveredCategory === index && category.subCategories && category.subCategories.length > 0 &&(
-                      <div className="absolute top-0 left-0 mt-9  w-52  border bg-gray-100 z-10" onMouseEnter={() => handleMouseEnter(index)}onMouseLeave={handleMouseLeave}>
+                      <div className="absolute top-0 left-0 mt-8  w-60  border bg-gray-100 z-10" onMouseEnter={() => handleMouseEnter(index)}onMouseLeave={handleMouseLeave}>
                         {category.subCategories.map((sub, subIndex) => (
-                          <NavLink to={`/categories/${sub.id}`} className="hover:shadow-sm">
-                              <Button key={subIndex} variant="TransparentButton" className="overflow-hidden text-start self-start text-md hover:shadow-none">
+                          <NavLink to={`/categories/${sub.id}`} className="hover:shadow-sm flex flex-col">
+                              <Button key={subIndex} variant="TransparentButton" className="self-start text-md hover:shadow-none">
                                   {sub.name}
                             </Button>
                           </NavLink>
@@ -247,7 +239,7 @@ const Navbar =React.memo( () => {
             </div>
             
             {/* sm Kategori dropdown  */}
-            <div className={`hidden sm:block text-center ${scrollUp ?'' :'sm:hidden'}`} onClick={menuHandle}>
+            <div className={`hidden sm:block text-center `} onClick={menuHandle}>
                 <span className='text-xl '>
                   <Button className="p-3 md:p-3 sm:p-1 text-3xl hover:shadow-none" variant="TransparentButton">
                     <VscMenu />

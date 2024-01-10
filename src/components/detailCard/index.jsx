@@ -161,14 +161,14 @@ const handleFavorite=(favoritedProduct)=>{
                         <div className='text-lg m-1 font-sans font-bold'>{product?.userSurname}</div>
                         <div className='text-lg m-1 font-sans font-bold'> ✩ {product?.userRating}</div>
                     </div>
-                    <div>
+                    <div onClick={() => product?.liked ? handleDelete(product?.id) : handleFavorite(product?.productId)}>
                         <Button>
-                            {product?.liked
-                              ? <MdFavorite className='mx-2' onClick={() => handleDelete(product?.id)} /> 
-                              : <MdFavoriteBorder className='mx-2' onClick={() => handleFavorite(product?.productId)} />}
-                            {product?.liked
-                              ? "Favorilerden Kaldır"
-                              : "Ürünü Favorile"}
+                          {product?.liked
+                            ? <MdFavorite className='mx-2' />
+                            : <MdFavoriteBorder className='mx-2' />}
+                          {product?.liked
+                            ? "Favorilerden Kaldır"
+                            : "Ürünü Favorile"}
                         </Button>
                     </div>
                 </div>

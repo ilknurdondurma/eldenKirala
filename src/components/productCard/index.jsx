@@ -30,13 +30,13 @@ export function ProductCard ({product,icon="favorite",route ,className ,...props
  const handleDelete=(deletedProduct)=>{
       console.log("delete")
       if(!userId){console.log("kullanıcı idsi bulunamadı.")}
+      if(product?.id===null){errorMessage("sayfayı yenile koçum")}
       deleteFavorite(deletedProduct)
         .then(data => {
           console.log(data);
           if (data.data.message) {
             succesMessage(data.data.message);
             setIsFavorite(false)
-            window.location.reload();
           }
           else if (data.data.error){
             errorMessage(data.data.error);
@@ -63,7 +63,6 @@ const handleFavorite=(favoritedProduct)=>{
           if (data.data.message) {
             succesMessage(data.data.message);
             setIsFavorite(true)
-            window.location.reload();
           }
           else if (data.data.error){
             succesMessage(data.data.error);

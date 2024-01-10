@@ -26,6 +26,8 @@ function Input({
 
       "px-5  h-10 text-lg": size === "normal",
       "px-6  h-12 text-lg": size === "large",
+      "px-1  h-8 text-sm": size === "xsmall",
+
     },
     className
   );
@@ -67,7 +69,7 @@ Input.propTypes = {
   label: PropTypes.string,
   children: PropTypes.oneOfType([PropTypes.element, PropTypes.string]),
   variant: PropTypes.oneOf(["primary" ,"secondary"]),
-  size: PropTypes.oneOf(["normal", "large"]),
+  size: PropTypes.oneOf(["normal", "large","xsmall"]),
   className: PropTypes.string,
   readOnly: PropTypes.bool,
   type: PropTypes.string,

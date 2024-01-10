@@ -1,84 +1,127 @@
-import React, { useState } from 'react';
+import { Formik,Form } from 'formik';
+import  Input  from '../Input/text';
+import CheckBox from "../Input/checkbox"
+import Button from "../button"
+import React, { useEffect, useState } from 'react';
+import { getAllBrand, getCategories } from '../../api';
 
 const FilterComponent = () => {
- const [brand, setBrand] = useState('');
- const [category, setCategory] = useState('');
- const [minPrice, setMinPrice] = useState('');
- const [maxPrice, setMaxPrice] = useState('');
- const [gender, setGender] = useState('');
- const [color, setColor] = useState('');
- const [packagingType, setPackagingType] = useState('');
+ const [brands, setBrands] = useState([]);
+ const [category, setCategory] = useState([]);
+ const [minPrice, setMinPrice] = useState();
+ const [maxPrice, setMaxPrice] = useState();
+ const [favorites, setFilteredFavorites] = useState([]);
 
- const handleSubmit = (e) => {
-    e.preventDefault();
-    // Handle the filtering logic here
- };
+ const priceRanges = [
+  { min: 0, max: 80, label: '0 TL - 80 TL' },
+  { min: 80, max: 175, label: '80 TL - 175 TL' },
+  { min: 175, max: 500, label: '175 TL - 500 TL' },
+  { min: 500, max: 1500, label: '500 TL - 1500 TL' },
+  { min: 1500, max: 12500, label: '1500 TL - 12500 TL' },
+  { min: 12500, max: 600000, label: '12500 TL - 600000 TL' },
+];
+ 
+
+
+const handleSubmit = (values) => {
+  console.log(values)
+};
+
+ useEffect(() => {
+  getAllBrand()
+    .then((result) => {
+      setBrands(result?.data.data || []);
+    })
+    .catch((err) => console.log(err));
+
+
+    getCategories()
+      .then((result) => {
+        setCategory(result?.data.data || []);
+      })
+      .catch((err)=> console.log(err));
+}, []);
 
  return (
-    <div>
-        {/* <Formik
-            validationSchema={signupSchema}
+    <div className='mr-5 grid sm:grid-cols-none'>
+         <Formik
             initialValues={{
-              email:"",
-              password:"",
-              password2: "",
-              remember:"",
-              terms:"",
-              city:"",
-              district:""
+              min:"",
+              max:"",
+              priceRange:"",
+              selectedBrands: [],
+              selectedCategories: [],
 
             }}
             onSubmit={(values,{ setSubmitting }) => {
-              handleSubmit(values,setSubmitting)
+              handleSubmit(values,)
             }}>
-      {({ setFieldValue,isSubmitting}) => (
+      {({ setFieldValue,values}) => (
               <Form>
-                <label className="">180 Sonuç listeleniyor</label>
-                <div className='grid grid-cols-2 gap-1'>
-                    <DropDown
-                      placeholder="Şehir"
-                      name="city"
-                      options={cities}
-                      onChange={(selectedValue) => {
-                        console.log("Seçilen değer:", selectedValue);
-                        setFieldValue("city", selectedValue);
-                        setSelectedCity(selectedValue);
-                        
-                    }}
-                    />
-                  {selectedCity && (
-                    <DropDown
-                      placeholder='İlçe'
-                      name='district'
-                      options={districts[selectedCity]}
-                      onChange={(selectedValue) => {
-                        console.log("Seçilen ilçe:", selectedValue);
-                        setFieldValue("district", selectedValue);
-                      }}
-                    />
-                  )}
-                  
-                    
+                <div className=' rounded-2xl overflow-y-scroll overflow-x-hidden'>
+
+
+                    <div className='m-1'>
+                        Markalar
+                        <Input variant="primary" size="xsmall" className="w-4/5" name="brandSearch" placeholder="Markalarda Ara.."></Input>
+                        <div className='max-h-52 m-5 overflow-y-scroll overflow-x-hidden rounded-lg p-1 '>
+                            {brands.map((brand) => (
+                                <div key={brand.id}  className="">
+                                  <CheckBox name={brand.name} value="selectedBrands" label={brand.name} onChange={(checked) => {
+                                      setFieldValue(`selectedBrands.${brand.name}`, checked);
+                                    }} />
+                                </div>
+                              ))}
+                        </div>
+                    </div>
+
+
+                    <div  className='m-1 '>
+                        Kategoriler
+                        <Input variant="primary" size="xsmall" className="w-4/5" name="categorySearch" placeholder="Kategorilerde Ara.."></Input>
+                        <div className='max-h-60  m-5 overflow-y-scroll overflow-x-hidden rounded-lg p-1 '>
+                            {category.map((cat) => (
+                                <div key={cat.id}  className="">
+                                  <CheckBox name={cat.name} value="selectedCategories" label={cat.name} onChange={(checked) => {
+                                      setFieldValue(`selectedCategories.${cat.name}`, checked);
+                                    }}/>
+                                </div>
+                              ))}
+                        </div>
+                    </div>
+
+                    <div>
+                        Fiyat
+                        <div className='max-h-60 m-5 overflow-y-scroll overflow-x-hidden rounded-lg p-1'>
+                          <div className='grid grid-cols-2 gap-2 self-center me-2'>
+                            <Input className='h-6 text-sm' name="min" placeholder="En Az:"></Input>
+                            <Input className='h-6 text-sm' name="max" placeholder="En Çok:"></Input>
+                          </div>
+                          <div >
+                              {priceRanges.map((range) => (
+                                <div key={range.label}>
+                                  <input
+                                    className='m-2'
+                                    type='radio'
+                                    id={`priceRange_${range.label}`}
+                                    name='priceRange'
+                                    value={range.label}
+                                    checked={values.priceRange === range.label}
+                                    onChange={() => setFieldValue('priceRange', range.label)}
+                                  />
+                                  <label htmlFor={`priceRange_${range.label}`}>{range.label}</label>
+                                </div>
+                              ))}
+                          </div>
+                        </div>
+                    </div>
+
+                            <Button type="submit">Filtrele</Button>
                 </div>
-                <Input className="sm:text-xs relative" name="password" type="password" placeholder="Şifre" />
-                <Input className="sm:text-xs relative" name="password2" type="password" placeholder="Şifreyi Tekrar Gir" />
-                <CheckBox className="line-clamp-1" name="remember" value="remember" label="Beni Hatırla"/>
-                <CheckBox className="" name="terms" value="terms" label="Kaydolarak, Koşullarımızı, Gizlilik İlkemizi ve Çerezler İlkemizi kabul etmiş olursun."/>
-                <Button
-                      className={`w-full rounded-2xl m-2 sm:text-xs ${{isSubmitting} ? '' : 'opacity-50'} `}
-                      type="submit"
-                      variant="Purple"
-                      
-                    >
-                      {isSubmitting ? "Hesap Oluşturuluyor..." : "Hesap Oluştur"}
-                    </Button>                <p className='text-black/50 mt-5'>--- or ---</p>
-                <Button className="w-full rounded-2xl bg-white m-2 sm:text-xs" variant="TransparentButton" onClick={() =>console.log("Button clicked")}> Google ile kaydolun </Button>
-                <Button className="w-full rounded-2xl bg-white m-2 sm:text-xs mb-10" variant="TransparentButton" onClick={() =>console.log("Button clicked")}> Apple ile kaydol</Button>
-                <p className='mt-2'>Zaten bir hesabın var mı ? <a href='/login' className='font-bold text-blue-600' >Giriş yap</a></p>
-        
+                               
               </Form>
       )}
-            </Formik> */}
+            </Formik>
     </div>
  );
 };
