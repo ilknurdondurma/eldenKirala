@@ -18,6 +18,7 @@ export default function SignupForm(){
   const [selectedCity, setSelectedCity] = useState("");
 
   const handleSubmit=(values,setSubmitting)=>{
+    console.log(values)
       // USER NESNESİ OLUŞTUR
       var user = {
         "email": values?.email,

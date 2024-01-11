@@ -10,6 +10,7 @@ import AddProduct from "../pages/addProduct";
 import Favorites from "../pages/favorites";
 import PrivateRoute from "./privateRoute";
 import Detail from "../pages/detailProduct";
+import FilterByCategory from "../pages/filterByCategory";
 
 const routes = createBrowserRouter([
     {
@@ -46,17 +47,17 @@ const routes = createBrowserRouter([
             },
             {
                 path: '/categories',
-                element: <Home/>,
+                element: <FilterByCategory/>,
                 children:[
                     {
                         index:true,
-                        element:<Home/>
+                        element:<FilterByCategory/>
                     },
                     {
-                        path:"/categories/:id" , element:<Home/>
+                        path:"/categories/:id" , element:<FilterByCategory/>
                     },
                     {
-                        path:"/categories/:name" , element:<Home/>
+                        path:"/categories/:name" , element:<FilterByCategory/>
                     }
                 ]
             },
@@ -87,19 +88,7 @@ const routes = createBrowserRouter([
                 path: '/favorites',
                 element: <PrivateRoute><Favorites/></PrivateRoute>
             },
-            {
-                path: '/details',
-                element: <Home/>,
-                children:[
-                    {
-                        index:true,
-                        element:<Home/>
-                    },
-                    {
-                        path:"/details/:id" , element:<Home/>
-                    }
-                ]
-            },
+            
             {
                 path: '/settings',
                 element: <Home/>

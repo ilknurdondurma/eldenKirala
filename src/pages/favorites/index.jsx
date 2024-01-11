@@ -5,14 +5,17 @@ import { useAuth } from '../../context/authContext/authContext';
 import { ProductCard } from '../../components/productCard';
 import { MdFavorite,MdDelete} from "react-icons/md";
 import Button from '../../components/button';
-import FilterComponent from '../../components/filterCard';
 import Spin from '../spin'
+import FilterCard from '../../components/filterCard';
+import FilterDropdown from '../../components/filterCard/filterDropdown';
+import { useMediaQuery } from 'react-responsive';
 function Favorites() {
   const storedUser = JSON.parse(localStorage.getItem('user'));
   const userId = storedUser ? storedUser.id : null;
   const [favorites, setFavorites] = useState([]);
   const [filteredFavorites, setFilteredFavorites] = useState([]);
   const [activeButton, setActiveButton] = useState('all'); // Durumu ekledik
+  const isSmallScreen = useMediaQuery({ query: '(max-width: 768px)' }); 
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -59,18 +62,18 @@ function Favorites() {
   return (
     
         <div className=' m-5 '>
-        <div className='grid grid-cols-5'>
-          <div><FilterComponent/></div>
-          <div className='col-span-4 col-start-2'>
+        <div className='grid grid-cols-5 sm:grid-cols-1'>
+          <div className="">{isSmallScreen ? <FilterDropdown /> : <FilterCard />}</div>
+          <div className='col-span-4'>
               {/* baslık */}
               <div className=' '>
                 <div className=' text-xl flex mb-1 border-b-2 font-sans'><MdFavorite className='mx-2' color=''/> Favorilerim  </div>
-                <div className=' sm:w-full   mb-10 gap-5 grid grid-cols-8 md:grid-cols-4 border-b-2 sm:grid-cols-2'>
+                <div className=' sm:w-full mb-10 gap-5 grid grid-cols-8 md:grid-cols-4 border-b-2 sm:grid-cols-4'>
                   {buttons.map(button => (
                       <Button
                         key={button.key}
                         className={`p-5 m-1  rounded-lg my-5 justify-start ${activeButton === button.key ? 'underline font-extrabold' : ''}`}
-                        size="small"
+                        size="xsmall"
                         variant={activeButton === button.key ? 'Green' : 'GreenOutline'}
                         onClick={() => filterFavorites(button.key)}
                       >
@@ -94,7 +97,7 @@ function Favorites() {
                   </div>
                 </div>
               ) : (
-                <Spin/>
+                <div className='font-sans '>Listelenecek Ürün Bulunamadı...</div>
               )}
           </div>
         </div>

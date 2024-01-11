@@ -33,7 +33,7 @@ function DetailCard({ product }) {
   const [scrollToBottom, setScrollToBottom] = useState(false);
   const [isFavorite, setIsFavorite] = useState(product?.liked || false);
   const storedUser = JSON.parse(localStorage.getItem('user'));
-  const userId = storedUser ? storedUser.id : null;
+  const userId = storedUser ? storedUser.id : 0;
 
   function renderStars(starCount) {
     const stars = [];
@@ -121,9 +121,7 @@ const handleFavorite=(favoritedProduct)=>{
       setCurrentImageIndex((prevIndex) => (prevIndex === images.length - 1 ? 0 : prevIndex + 1));
     }
   };
-  const handleFavorites =()=>{
-    setFavorites(!favorites)
-  };
+
   useEffect(() => {
     if (scrollToBottom) {
       const scrollContainer = document.getElementById('div');

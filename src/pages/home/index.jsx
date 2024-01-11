@@ -11,11 +11,12 @@ import { useAuth } from '../../context/authContext/authContext';
 function Home() {
   const [products, setProducts] = useState([])
   const [brands, setBrands] = useState([])
-  const storedUser = JSON.parse(localStorage.getItem('user'));
-  const userId = storedUser ? storedUser.id : null;
+
 
   const { id } = useParams();
   useEffect(() => {
+    const storedUser = JSON.parse(localStorage.getItem('user'));
+    const userId = storedUser ? storedUser.id : null;
     window.scrollTo(0, 0);
     getAllBrand()
       .then((result)=>{
@@ -40,11 +41,7 @@ function Home() {
     
   }, []);
 
-  const [forceUpdateKey, setForceUpdateKey] = useState(0);
-
-  const forceRender = () => {
-    setForceUpdateKey(prevKey => prevKey + 1);
-  };
+ 
 
   return (
     <>
@@ -60,8 +57,7 @@ function Home() {
               </div>   
               {/* tüm ürünler */}
               <div className='flex justify-center'>
-                {products.length>0 && brands.length>0
-                  ? (
+                
                   <div className='grid w-3/4 2xl:grid-cols-5 xl:grid-cols-5 lg:grid-cols-4 gap-5 md:grid-cols-3 sm:grid-cols-2 sm:w-full'>
                     {products.map((product) => (
                         <ProductCard 
@@ -71,9 +67,9 @@ function Home() {
                         />
                     ))}
                   </div>
-                  ): (
-                    <Spin/>
-                  )}
+                  
+                    
+                 
               </div>
         
       </div>

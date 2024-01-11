@@ -89,7 +89,7 @@ const handleFavorite=(favoritedProduct)=>{
             
             <div className="icerik">
               <Link to={`${route}`} >
-                  <span className="flex justify-center h-52 w-full px-1" ><img src={`data:image/jpeg;base64,${product?.filE_URL_1}`} alt={product?.name} className="object-contain w-full h-full m-2 rounded-xl" /></span>
+                  <span className="flex justify-center h-52 w-full px-1" ><img src={`data:image/jpeg;base64,${product?.filE_URL_1}`} alt={product?.name} className="object-contain w-60 h-44 m-2 rounded-xl" /></span>
                   <h5 className=  "flex justify-center p-2 "> <span className={`overflow-hidden line-clamp-1 ${product?.name > 100 ? 'max-h-32' : 'max-h-20'}`}>{product?.name}</span></h5>
                   <div className="flex flex-col justify-center">
                       <span className="px-1 self-center">

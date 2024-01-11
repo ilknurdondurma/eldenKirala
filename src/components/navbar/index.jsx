@@ -130,16 +130,16 @@ const Navbar =React.memo( () => {
                       <CiSearch />
                   </Button>
                   {user ?(
-                    <NavLink to={"/post"} className="border border-1 text-center rounded-md">
-                    <Button className=" md:p-3 sm:p-1 text-3xl  sm:text-md hover:shadow-none" variant="TransparentButton">
-                      <FcCamera />
+                    <NavLink to={"/post"} className="border border-1 text-center rounded-md ">
+                    <Button className=" md:m-1 sm:m-1 text-2xl  sm:text-md hover:shadow-none" variant="TransparentButton">
+                      <FcCamera size="20px" />
                     </Button>
                     <div className='p-0 m-0 text-lg md:text-md sm:text-xs'>İlan Ver</div>
                   </NavLink>
                   ):("")
                   }
                   <NavLink to={"/favorites"}>
-                    <Button className="p-3 md:p-3 sm:p-1 text-xl sm:text-sm hover:shadow-none" variant="TransparentButton">
+                    <Button className="p-3 md:p-1 sm:p-1 text-xl sm:text-sm hover:shadow-none" variant="TransparentButton">
                         <MdFavoriteBorder/>
                     </Button>
                   </NavLink>
@@ -212,6 +212,7 @@ const Navbar =React.memo( () => {
                         <Button
                           key={index}
                           className="shadow-md mx-2"
+                          size="small"
                           variant="TransparentButton"
                           onMouseEnter={() => handleMouseEnter(index)}
                           onMouseLeave={handleMouseLeave}

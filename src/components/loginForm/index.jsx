@@ -34,18 +34,18 @@ export default function LoginForm(){
         const responseData = response.data;
         console.log("response: "+responseData)        
         setSubmitting(false);
-        
+        await setUser({
+          id:responseData.data.id,
+          id:responseData.data.id,
+          name:responseData.data.name,
+          surname:responseData.data.surname,
+          city:responseData.data.city,
+          token:responseData.data.token,
+        })
         setTimeout(() => {
-          setUser({
-            id:responseData.data.id,
-            id:responseData.data.id,
-            name:responseData.data.name,
-            surname:responseData.data.surname,
-            city:responseData.data.city,
-            token:responseData.data.token,
-          })
           navigate("/",{replace:true});
         }, 2000);
+        
         
       } 
       else {
