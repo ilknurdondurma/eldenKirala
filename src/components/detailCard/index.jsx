@@ -9,6 +9,8 @@ import { MdFavoriteBorder , MdFavorite } from "react-icons/md";
 import errorMessage from '../../helper/toasts/errorMessage';
 import succesMessage from '../../helper/toasts/successMessage';
 import { addFavorite, deleteFavorite } from '../../api';
+import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../../context/authContext/authContext';
 
 function DetailCard({ product }) {
 
@@ -32,26 +34,22 @@ function DetailCard({ product }) {
   const [favorites, setFavorites] = useState(false);
   const [scrollToBottom, setScrollToBottom] = useState(false);
   const [isFavorite, setIsFavorite] = useState(product?.liked || false);
-  const storedUser = JSON.parse(localStorage.getItem('user'));
-  const userId = storedUser ? storedUser.id : 0;
-
-  function renderStars(starCount) {
-    const stars = [];
-    for (let i = 0; i < 5; i++) {
-      const isYellow = i < starCount;
-
-      stars.push(
-        <span key={i} className={isYellow ? "text-yellow-500" : "text-gray-400"}>
-          ★
-        </span>
-      );
-    }
-    return stars;
-  }
+  const {user}=useAuth();
+  const userId = user ? user.user.id : 0;
+  const navigate =useNavigate();
+ 
  const handleDelete=(deletedProduct)=>{
       console.log("delete")
-      if(!userId){console.log("kullanıcı idsi bulunamadı.")}
-      deleteFavorite(deletedProduct)
+      if(userId===0){
+        console.log("kullanıcı idsi bulunamadı.")
+        errorMessage("önce giriş yapmaya ne dersin")
+        setTimeout(() => {
+          navigate("/login",{replace:true});
+        }, 2000);
+      
+      }
+      else{
+        deleteFavorite(deletedProduct)
         .then(data => {
           console.log(data);
           if (data.data.message) {
@@ -70,33 +68,44 @@ function DetailCard({ product }) {
           console.error("Error:", error);
           errorMessage(error.response ? error.response.data.error : "An unexpected error occurred");
         });
+      }
     }
 const handleFavorite=(favoritedProduct)=>{
       console.log("favorite")
-      if(!userId){console.log("kullanıcı idsi bulunamadı.")}
-      var productObject={
-        "userId":userId,
-        "productId":favoritedProduct
+      if(userId===0){
+        console.log("kullanıcı idsi bulunamadı.")
+        errorMessage("önce giriş yapmaya ne dersin")
+        setTimeout(() => {
+          navigate("/login",{replace:true});
+        }, 2000);
+      
+      
       }
-      addFavorite(productObject)
-        .then(data => {
-          console.log(data);
-          if (data.data.message) {
-            succesMessage(data.data.message);
-            setIsFavorite(true)
-            window.location.reload();
-          }
-          else if (data.data.error){
-            succesMessage(data.data.error);
-
-          }
-
-          
-        })
-        .catch(error => {
-          console.error("Error:", error);
-          errorMessage(error.response ? error.response.data.error : "An unexpected error occurred");
-        });
+      else{
+        var productObject={
+          "userId":userId,
+          "productId":favoritedProduct
+        }
+        addFavorite(productObject)
+          .then(data => {
+            console.log(data);
+            if (data.data.message) {
+              succesMessage(data.data.message);
+              setIsFavorite(true)
+              window.location.reload();
+            }
+            else if (data.data.error){
+              succesMessage(data.data.error);
+  
+            }
+  
+            
+          })
+          .catch(error => {
+            console.error("Error:", error);
+            errorMessage(error.response ? error.response.data.error : "An unexpected error occurred");
+          });
+      }
  }
 
   const buttonData = [
@@ -139,7 +148,7 @@ const handleFavorite=(favoritedProduct)=>{
     <>
     <div id='div' className='flex w-3/4 m-5 self-center text-sm'><a href='/'>Home</a> <FaChevronRight/> <a href='#'>{product?.categoryName}</a> <FaChevronRight/> <a href='#'>{product?.subCategoryName}</a></div>
     <div className='flex flex-col self-center m-5 w-3/4 md:w-full sm:w-full  justify-center'>
-    <div className='grid grid-cols-2 text-center justify-center object-center'>
+    <div className='grid grid-cols-2 sm:grid-cols-1 gap-2 text-center justify-center object-center'>
 {/* resim ve user */}
         <div className=' grid grid-rows-4 h-auto border-2 rounded-xl '>
             <div className='row-span-3 grid grid-cols-11  m-2 '>
@@ -150,16 +159,16 @@ const handleFavorite=(favoritedProduct)=>{
                 <span className='flex justify-center self-center'><FaChevronRight onClick={() => handleImageChange('right')} /></span>
           </div>
 
-            <div className='border-2 grid grid-rows-2'>
+            <div className='border-2 grid grid-rows-2 '>
               {/* user bilgileri */}
-                <div className='flex rounded-xl justify-between self-center py-2 px-2 bg-gray-50 '>
+                <div className='flex rounded-xl justify-between self-center py-2 px-2 bg-gray-50 sm:grid sm:grid-cols-1 '>
                     <div className='flex '>
                         <div className='text-2xl m-1 font-sans font-bold border-2 rounded-full'>🤩</div>
                         <div className='text-lg m-1 font-sans font-bold'>{product?.userName}</div>
                         <div className='text-lg m-1 font-sans font-bold'>{product?.userSurname}</div>
                         <div className='text-lg m-1 font-sans font-bold'> ✩ {product?.userRating}</div>
                     </div>
-                    <div onClick={() => product?.liked ? handleDelete(product?.id) : handleFavorite(product?.productId)}>
+                    <div className='sm:w-full' onClick={() => product?.liked ? handleDelete(product?.id) : handleFavorite(product?.productId)}>
                         <Button>
                           {product?.liked
                             ? <MdFavorite className='mx-2' />

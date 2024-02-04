@@ -17,6 +17,7 @@ import { useAuth } from "../../context/authContext/authContext"
 function AddProduct() {
     const navigate =useNavigate();
     const {user} = useAuth()
+    const userId = user.user.id;
     const [categories, setCategories] = useState([]);
     const [selectedCategory, setSelectedCategory] = useState([]);
     const [imagePreviews, setImagePreviews] = useState([]);
@@ -88,12 +89,12 @@ function AddProduct() {
             "Name": values?.header,
             "Description": values?.description,
             "Price": values?.price,
-            "UserId": user.id,
+            "UserId": userId,
             "IsActive": true,
             "Rating": 5,
             "Status": values?.state,
-            "MaxRentalPeriod": values?.MinRentalPeriod,
-            "MinRentalPeriod": values?.MaxRentalPeriod,
+            "MaxRentalPeriod": values?.MaxRentalPeriod,
+            "MinRentalPeriod": values?.MinRentalPeriod,
             "IsHighlight":values?.isHiglight || false,
             "BrandId":  values?.brand,
             "CategoryId":values?.category,
@@ -207,7 +208,7 @@ function AddProduct() {
                                                         placeholder="Alt Kategori"
                                                         name="subCategory" 
                                                         options={categories.flatMap((cat) =>
-                                                            (cat.id==selectedCategory)
+                                                            (cat.id===selectedCategory)
                                                                 ? cat.subCategories.map((subCat) => ({
                                                                     label: subCat.name,
                                                                     value: subCat.id,

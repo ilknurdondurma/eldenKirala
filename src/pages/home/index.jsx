@@ -11,12 +11,13 @@ import { useAuth } from '../../context/authContext/authContext';
 function Home() {
   const [products, setProducts] = useState([])
   const [brands, setBrands] = useState([])
-
+  const {user}=useAuth();
 
   const { id } = useParams();
   useEffect(() => {
-    const storedUser = JSON.parse(localStorage.getItem('user'));
-    const userId = storedUser ? storedUser.id : null;
+    const userId = user ? user.user.id : 0;
+
+
     window.scrollTo(0, 0);
     getAllBrand()
       .then((result)=>{

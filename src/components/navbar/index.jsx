@@ -161,7 +161,7 @@ const Navbar =React.memo( () => {
                     </>
                   ) : 
                   <>
-                  <NavLink to={"/profile"}>
+                  <NavLink to={"/profile/hesabim"}>
                     <Button className="p-3 md:p-3 sm:p-1 text-xl sm:text-sm hover:shadow-none" variant="TransparentButton">
                       <VscAccount />
                     </Button>

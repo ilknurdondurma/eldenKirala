@@ -1,7 +1,7 @@
 import Button from "../button";
 import PropTypes from "prop-types"
 import React, { useState } from 'react';
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { MdFavoriteBorder,MdDelete, MdFavorite} from "react-icons/md";
 import { addFavorite, deleteFavorite } from "../../api";
 import { useAuth } from "../../context/authContext/authContext";
@@ -9,10 +9,10 @@ import errorMessage from "../../helper/toasts/errorMessage";
 import succesMessage from "../../helper/toasts/successMessage";
 
 export function ProductCard ({product,icon="favorite",route ,className ,...props}){
-  const {user}=useAuth();
   const [isFavorite, setIsFavorite] = useState(product?.liked || false);
-  const storedUser = JSON.parse(localStorage.getItem('user'));
-  const userId = storedUser ? storedUser.id : null;
+  const {user}=useAuth();
+  const userId = user ? user.user.id : 0;
+  const navigate=useNavigate()
 
   function renderStars(starCount) {
     const stars = [];
@@ -29,9 +29,16 @@ export function ProductCard ({product,icon="favorite",route ,className ,...props
   }
  const handleDelete=(deletedProduct)=>{
       console.log("delete")
-      if(!userId){console.log("kullanıcı idsi bulunamadı.")}
-      if(product?.id===null){errorMessage("sayfayı yenile koçum")}
-      deleteFavorite(deletedProduct)
+      if(userId===0){
+        console.log("kullanıcı idsi bulunamadı.")
+        errorMessage("önce giriş yapmaya ne dersin")
+        setTimeout(() => {
+          navigate("/login",{replace:true});
+        }, 2000);
+      
+      }
+      else{
+        deleteFavorite(deletedProduct)
         .then(data => {
           console.log(data);
           if (data.data.message) {
@@ -49,32 +56,42 @@ export function ProductCard ({product,icon="favorite",route ,className ,...props
           console.error("Error:", error);
           errorMessage(error.response ? error.response.data.error : "An unexpected error occurred");
         });
+      }
     }
 const handleFavorite=(favoritedProduct)=>{
       console.log("favorite")
-      if(!userId){console.log("kullanıcı idsi bulunamadı.")}
-      var productObject={
-        "userId":userId,
-        "productId":favoritedProduct
+      if(userId===0){
+        console.log("kullanıcı idsi bulunamadı.")
+        errorMessage("önce giriş yapmaya ne dersin")
+        setTimeout(() => {
+          navigate("/login",{replace:true});
+        }, 2000);
+      
       }
-      addFavorite(productObject)
-        .then(data => {
-          console.log(data);
-          if (data.data.message) {
-            succesMessage(data.data.message);
-            setIsFavorite(true)
-          }
-          else if (data.data.error){
-            succesMessage(data.data.error);
-
-          }
-
-          
-        })
-        .catch(error => {
-          console.error("Error:", error);
-          errorMessage(error.response ? error.response.data.error : "An unexpected error occurred");
-        });
+      else{
+        var productObject={
+          "userId":userId,
+          "productId":favoritedProduct
+        }
+        addFavorite(productObject)
+          .then(data => {
+            console.log(data);
+            if (data.data.message) {
+              succesMessage(data.data.message);
+              setIsFavorite(true)
+            }
+            else if (data.data.error){
+              succesMessage(data.data.error);
+  
+            }
+  
+            
+          })
+          .catch(error => {
+            console.error("Error:", error);
+            errorMessage(error.response ? error.response.data.error : "An unexpected error occurred");
+          });
+      }
  }
   
     return(

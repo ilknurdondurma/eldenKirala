@@ -6,16 +6,18 @@ import { useParams } from 'react-router-dom';
 import Spin from '../spin';
 import errorMessage from '../../helper/toasts/errorMessage';
 import CommentCard from '../../components/commentCard';
+import { useAuth } from '../../context/authContext/authContext';
 
 function Detail() {
   const [product, setProduct] = useState([]);
   const [comments, setComments] = useState([]);
-  const storedUser = JSON.parse(localStorage.getItem('user'));
-  const userId = storedUser ? storedUser.id : null;
+  const {user}=useAuth();
   const { id } = useParams();
 
   useEffect(() => {
     window.scrollTo(0, 0);
+    const userId = user ? user.user.id : 0; // null kabul etmediğinden 0 veriyoruz
+
     getProductsById(id,userId)
       .then((result) => {
         setProduct(result?.data.data);

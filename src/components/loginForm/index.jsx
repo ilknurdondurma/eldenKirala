@@ -35,12 +35,7 @@ export default function LoginForm(){
         console.log("response: "+responseData)        
         setSubmitting(false);
         await setUser({
-          id:responseData.data.id,
-          id:responseData.data.id,
-          name:responseData.data.name,
-          surname:responseData.data.surname,
-          city:responseData.data.city,
-          token:responseData.data.token,
+          user:responseData.data
         })
         setTimeout(() => {
           navigate("/",{replace:true});

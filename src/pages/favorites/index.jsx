@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { getFavoritesByUserId } from '../../api';
 import errorMessage from '../../helper/toasts/errorMessage';
 import { useAuth } from '../../context/authContext/authContext';
@@ -10,14 +10,15 @@ import FilterCard from '../../components/filterCard';
 import FilterDropdown from '../../components/filterCard/filterDropdown';
 import { useMediaQuery } from 'react-responsive';
 function Favorites() {
-  const storedUser = JSON.parse(localStorage.getItem('user'));
-  const userId = storedUser ? storedUser.id : null;
+  const {user}=useAuth();
+  const userId = user ? user.user.id : 0; 
   const [favorites, setFavorites] = useState([]);
   const [filteredFavorites, setFilteredFavorites] = useState([]);
   const [activeButton, setActiveButton] = useState('all'); // Durumu ekledik
   const isSmallScreen = useMediaQuery({ query: '(max-width: 768px)' }); 
 
   useEffect(() => {
+    console.log(userId)
     window.scrollTo(0, 0);
     getFavoritesByUserId(userId)
       .then((result)=>{

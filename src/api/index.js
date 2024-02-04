@@ -4,7 +4,7 @@ const API=axios.create({baseURL:'http://localhost:5058/api/v2'})
 
 
 const storedUser = JSON.parse(localStorage.getItem('user'));
-const token = storedUser ? storedUser.token : null;
+const token = storedUser ? storedUser.user.token : null;
 
 
 API.interceptors.request.use(
@@ -33,10 +33,13 @@ API.interceptors.request.use(
 //user
 export const login = (formdata) => API.post('/User/login', formdata)
 export const signUp = (user) => API.post('/User/sign-up', user)
+export const UpdateUser = (id,user) => API.put(`/User/update/${id}`, user)
+
 //product
 export const getAllProducts = (userId) => API.get(`/Product/get-all/${userId}`)
 export const getProductsByCategoryId = (id) => API.get(`/Product/get-category/${id}`)
-export const getProductsById = (productId , userId) => API.get(`/Product/get/${userId}/${productId}`)
+export const getProductsByBrandId = (id) => API.get(`/Product/get-brand/${id}`)
+export const getProductsById = (productId,userId) => API.get(`/Product/get/${productId}/${userId}`)
 export const addProduct = (product) => API.post(`/Product/add/`,product, {headers: {'Content-Type':'multipart/form-data'}})
 export const updateProduct = (product) => API.put(`/Product/`,product)
 export const deleteProduct = (id) => API.delete(`/Product/${id}`)

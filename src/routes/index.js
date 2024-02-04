@@ -2,15 +2,18 @@ import { createBrowserRouter } from "react-router-dom";
 import Home from "../pages/home";
 import Firsatlar from "../pages/firsatlar";
 import Login from "../pages/login";
-import {Layout, AuthLayout} from "../layout/web";
-import Spin from "../pages/spin";
+import {Layout, AuthLayout, LayoutProfile} from "../layout/web";
 import Signup from "../pages/signup/signup";
-import Profile from "../pages/profile";
 import AddProduct from "../pages/addProduct";
 import Favorites from "../pages/favorites";
 import PrivateRoute from "./privateRoute";
 import Detail from "../pages/detailProduct";
 import FilterByCategory from "../pages/filterByCategory";
+import FilterByBrand from "../pages/FilterByBrand";
+import Hesabim from "../pages/profile/hesabim";
+import Guvenlik from "../pages/profile/guvenlik";
+import BildirimTercihlerim from "../pages/profile/bildirimTercihlerim";
+import AdresDuzenle from "../pages/profile/adresDuzenle";
 
 const routes = createBrowserRouter([
     {
@@ -62,6 +65,22 @@ const routes = createBrowserRouter([
                 ]
             },
             {
+                path: '/brands',
+                element: <FilterByBrand/>,
+                children:[
+                    {
+                        index:true,
+                        element:<FilterByBrand/>
+                    },
+                    {
+                        path:"/brands/:id" , element:<FilterByBrand/>
+                    },
+                    {
+                        path:"/brands/:name" , element:<FilterByBrand/>
+                    }
+                ]
+            },
+            {
                 path: '/help/*',
                 element: <Home/>
             },
@@ -90,12 +109,26 @@ const routes = createBrowserRouter([
             },
             
             {
-                path: '/settings',
-                element: <Home/>
-            },
-            {
                 path: '/profile',
-                element: <Profile/>
+                element: <PrivateRoute><LayoutProfile/></PrivateRoute>,
+                children:[
+                    {
+                        index:true,
+                        element:<PrivateRoute><Hesabim/></PrivateRoute>
+                    },
+                    {
+                        path:"/profile/hesabim" , element:<PrivateRoute><Hesabim/></PrivateRoute>
+                    },
+                    {
+                        path:"/profile/bildirim-tercihlerim" , element:<PrivateRoute><BildirimTercihlerim/></PrivateRoute>
+                    },
+                    {
+                        path:"/profile/guvenlik" , element:<PrivateRoute><Guvenlik/></PrivateRoute>
+                    },
+                    {
+                        path:"/profile/adres-duzenle" , element:<PrivateRoute><AdresDuzenle/></PrivateRoute>
+                    }
+                ]
             },
            
         ]
