@@ -2,7 +2,7 @@ import { createBrowserRouter } from "react-router-dom";
 import Home from "../pages/home";
 import Firsatlar from "../pages/firsatlar";
 import Login from "../pages/login";
-import {Layout, AuthLayout, LayoutProfile} from "../layout/web";
+import {Layout, AuthLayout, ProfileLayout, ChatLayout} from "../layout/web";
 import Signup from "../pages/signup/signup";
 import AddProduct from "../pages/addProduct";
 import Favorites from "../pages/favorites";
@@ -14,6 +14,7 @@ import Hesabim from "../pages/profile/hesabim";
 import Guvenlik from "../pages/profile/guvenlik";
 import BildirimTercihlerim from "../pages/profile/bildirimTercihlerim";
 import AdresDuzenle from "../pages/profile/adresDuzenle";
+import ChatApp from "../pages/chat";
 
 const routes = createBrowserRouter([
     {
@@ -110,7 +111,7 @@ const routes = createBrowserRouter([
             
             {
                 path: '/profile',
-                element: <PrivateRoute><LayoutProfile/></PrivateRoute>,
+                element: <PrivateRoute><ProfileLayout/></PrivateRoute>,
                 children:[
                     {
                         index:true,
@@ -130,6 +131,18 @@ const routes = createBrowserRouter([
                     }
                 ]
             },
+            {
+                path:'/chat/:productId/:userId',
+                element: <PrivateRoute><ChatLayout/></PrivateRoute>,
+                children:[
+                    {
+                        index:true,
+                        element:<PrivateRoute><ChatApp/></PrivateRoute>
+                    },
+                    
+                ]
+
+            }
            
         ]
     }

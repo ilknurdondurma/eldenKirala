@@ -228,6 +228,7 @@ const handleFavorite=(favoritedProduct)=>{
                 className={`w-full rounded-2xl m-2 sm:text-xs`}
                 type="submit"
                 variant="Purple"
+                onClick={()=>{navigate(`/chat/${product.productId}/${product.userId}`)}}
                 
               >SATICIYLA SOHBET ET
             </Button>

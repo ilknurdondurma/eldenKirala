@@ -55,5 +55,10 @@ export const getCommentById=(productId)=>API.get(`/Comment/get/${productId}`)
 export const getFavoritesByUserId = (userId) => API.get(`/Product/get-favori/${userId}`)
 export const addFavorite=(product)=>API.post('/Favorite/add',product)
 export const deleteFavorite = (id) => API.delete(`/Favorite/delete/${id}`)
+//rental
+export const getRentalsByUserId = (userId) => API.get(`/Rental/get-by-user-id/${userId}`)
+export const getRentalsByProductId = (prodId) => API.get(`/Rental/get-by-product-id/${prodId}`)
+export const addRental=(rental)=>API.post('/Rental/add',rental)
+
 
 
