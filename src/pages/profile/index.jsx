@@ -23,6 +23,11 @@ function Profile() {
           title: 'Adres Düzenle',
           route: 'adres-duzenle',
         },
+        {
+          id: 5,
+          title: 'Tüm Kiralamalar',
+          route: 'tum-kiralamalar',
+        },
       ];
     
       const location = useLocation();

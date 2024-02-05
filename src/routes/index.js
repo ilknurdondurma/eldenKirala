@@ -15,6 +15,7 @@ import Guvenlik from "../pages/profile/guvenlik";
 import BildirimTercihlerim from "../pages/profile/bildirimTercihlerim";
 import AdresDuzenle from "../pages/profile/adresDuzenle";
 import ChatApp from "../pages/chat";
+import TumKiralamalar from "../pages/profile/tumKiralamalar";
 
 const routes = createBrowserRouter([
     {
@@ -128,6 +129,9 @@ const routes = createBrowserRouter([
                     },
                     {
                         path:"/profile/adres-duzenle" , element:<PrivateRoute><AdresDuzenle/></PrivateRoute>
+                    },
+                    {
+                        path:"/profile/tum-kiralamalar" , element:<PrivateRoute><TumKiralamalar/></PrivateRoute>
                     }
                 ]
             },

@@ -1,14 +1,40 @@
 import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
-import { getProductsById } from '../../api';
+import { useNavigate, useParams } from 'react-router-dom';
+import { addRental, getProductsById } from '../../api';
 import errorMessage from '../../helper/toasts/errorMessage';
-
+import succesMessage from '../../helper/toasts/successMessage';
+import Button from '../../components/button/index'
+import { useAuth } from '../../context/authContext/authContext';
+import { ToastContainer } from 'react-toastify';
 
 const ChatApp = () => {
-    const { productId, userId } = useParams();
+    const { productId,} = useParams();
     const [product, setProduct] = useState([]);
+    const [selectedButton, setSelectedButton] = useState(1);
+    const {user}=useAuth();
+    const myUserId = user ? user.user.id : 0;
+    const navigate =useNavigate();
+    const buttonData = [
+      { id: 1, value: 1, label: '1 Ay',   disabled: (product?.minRentalPeriod > 1 ||  product?.maxRentalPeriod < 1)  ?true:false },
+      { id: 2, value: 3, label: '3 Ay',   disabled: (product?.minRentalPeriod > 3 ||  product?.maxRentalPeriod < 3)  ?true:false },
+      { id: 3, value: 6, label: '6 Ay',   disabled: (product?.minRentalPeriod > 6 ||  product?.maxRentalPeriod < 6 ) ?true:false},
+      { id: 4, value: 12, label: '12 Ay', disabled: (product?.minRentalPeriod > 12 || product?.maxRentalPeriod < 12) ?true:false},
+      { id: 5, value: 15, label: '15 Ay', disabled: (product?.minRentalPeriod > 15 || product?.maxRentalPeriod < 15) ?true:false },
+      { id: 6, value: 18, label: '18 Ay', disabled: (product?.minRentalPeriod > 18 || product?.maxRentalPeriod < 18 )?true:false},
+   ];
+    const bugununTarihi = new Date();
+    const eklenenAySayisi = buttonData.find(button => button.id === selectedButton)?.value || 0;
+    const endDate = new Date();
+    endDate.setMonth(endDate.getMonth() + eklenenAySayisi);
 
-    console.log("user:"+userId);
+    if (isNaN(endDate.getTime())) {
+      console.error("Geçersiz bir tarih oluşturuldu!");
+    }
+    console.log(endDate)
+
+
+    const price=buttonData[selectedButton - 1]?.value * product?.price || 0
+
     const [messages, setMessages] = useState(
     [
         { text: "hey Yeni Mesaj Başlat", sender: 'receiver' },
@@ -35,8 +61,55 @@ const ChatApp = () => {
         // Gerçek bir API'ye ya da başka bir yerdeki servise mesaj gönderimi yapılabilir.
         } 
     };
+    const handleRental = (salesUserId) => {
+      var rental = {
+        "rentalStatus": true,
+        "productId": productId,
+        "receiverUserId": myUserId,
+        "salesUserId": salesUserId,
+        "startDate": bugununTarihi,
+        "endDate": endDate,
+        "rentalPrice": price,
+        "rentalPeriod":eklenenAySayisi,
+        "paymentStatus": false
+      }
+      if(myUserId===salesUserId){
+        errorMessage("kendi eşyanızı kiralayamazsınız :)")
+      }
+     else{
+              // API e GÖNDER 
+            addRental(rental)
+            .then(async data => {
+              console.log(data);
+              // Başarılı giriş durumunda yönlendir
+              if  (data.status === 200) {
+                succesMessage("Kiralama başarılı.")
+                const responseData = data.data;
+                console.log("response: "+responseData)
+                setTimeout(() => {
+                  navigate("/",{replace:true});
+                }, 1000);
+              }
+            })
+            .catch(error => {
+              if (error.response.status === 401) {
+                errorMessage("GİRİŞ YAPSANA KAARŞİM")         
+                setTimeout(() => {
+                    navigate("/login");
+                    window.location.reload();
+                  }, 2000);
+                
+            }
+        else {
+            console.error("update  error:", error);
+            errorMessage("kiralanırken bir hata oluştu. Tekrar dene bakalımm :( ")
+        }
+            });
+     }
+   
+  };
     useEffect(() => {
-        getProductsById(productId,userId)
+        getProductsById(productId,myUserId)
         .then((result) => {
           setProduct(result?.data.data);
           console.log("products ")
@@ -52,6 +125,7 @@ const ChatApp = () => {
 
   return (
     <div className="flex flex-col h-screen">
+      <ToastContainer/>
       <div className="bg-gray-300 rounded-xl p-4 mb-1 border-2 border-secondary">{product.brandName +" / " + product.subCategoryName + " / " + product.price +" tl"} </div>
       <div className="bg-secondary rounded-xl text-white p-4">{product.userName +" " + product.userSurname} </div>
       <div className="flex-1 overflow-y-scroll p-4">
@@ -77,18 +151,40 @@ const ChatApp = () => {
           onChange={handleInputChange}
           className="p-2 border rounded-md w-full"
         />
-        <button
+        <div className='text-md font-sans text-start ps-5 py-1 pt-5'>
+                <p className='font-bold'>Bir Kiralama Süresi Seçin : </p>
+                {buttonData.map((button) => (
+                    <Button
+                    className={`${button.disabled ?'line-through text-red-500':''} text-sm rounded-full m-1`}
+                    type="button"
+                    key={button.id}
+                    variant={selectedButton === button.id ? 'Purple' : 'PurpleOutline'}
+                    onClick={() =>{ 
+                        setSelectedButton(button.id)
+                    }}
+                    disabled={button.disabled}
+                    >
+                    {button.label}
+                    
+                    </Button>
+                  ))}
+                  <p className='font-bold text-center'>Tutar :{price} ₺ </p>
+                
+                </div>
+        <Button
           onClick={handleSendMessage}
-          className="mt-2 p-2 bg-primary text-white rounded-md"
+          className="m-2 p-2 rounded-md"
+          variant="Green"
+
         >
           Gönder
-        </button>
-        <button
-          onClick={handleSendMessage}
-          className="mt-2 p-2 m-2 bg-primary text-white rounded-md"
-        >
+        </Button>
+        <Button
+          onClick={() => handleRental(product.userId)}
+          className="m-2 p-2 rounded-md"
+          variant="Green"        >
           Kiralamayı Başlat
-        </button>
+        </Button>
       </div>
     </div>
   );

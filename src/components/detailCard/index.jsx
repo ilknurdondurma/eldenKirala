@@ -29,7 +29,6 @@ function DetailCard({ product }) {
     }
     return stars;
   }
-  const [selectedButton, setSelectedButton] = useState();
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [favorites, setFavorites] = useState(false);
   const [scrollToBottom, setScrollToBottom] = useState(false);
@@ -38,7 +37,7 @@ function DetailCard({ product }) {
   const userId = user ? user.user.id : 0;
   const navigate =useNavigate();
  
- const handleDelete=(deletedProduct)=>{
+const handleDelete=(deletedProduct)=>{
       console.log("delete")
       if(userId===0){
         console.log("kullanıcı idsi bulunamadı.")
@@ -108,14 +107,7 @@ const handleFavorite=(favoritedProduct)=>{
       }
  }
 
-  const buttonData = [
-      { id: 1, value: 1, label: '1 Ay',   disabled: (product?.minRentalPeriod > 1 ||  product?.maxRentalPeriod < 1)  ?true:false },
-      { id: 2, value: 3, label: '3 Ay',   disabled: (product?.minRentalPeriod > 3 ||  product?.maxRentalPeriod < 3)  ?true:false },
-      { id: 3, value: 6, label: '6 Ay',   disabled: (product?.minRentalPeriod > 6 ||  product?.maxRentalPeriod < 6 ) ?true:false},
-      { id: 4, value: 12, label: '12 Ay', disabled: (product?.minRentalPeriod > 12 || product?.maxRentalPeriod < 12) ?true:false},
-      { id: 5, value: 15, label: '15 Ay', disabled: (product?.minRentalPeriod > 15 || product?.maxRentalPeriod < 15) ?true:false },
-      { id: 6, value: 18, label: '18 Ay', disabled: (product?.minRentalPeriod > 18 || product?.maxRentalPeriod < 18 )?true:false},
-   ];
+ 
    const handleImageChange = (direction) => {
     const images = [product?.filE_URL_1, product?.filE_URL_2, product?.filE_URL_3].filter(resim => resim != null);
     
@@ -202,26 +194,7 @@ const handleFavorite=(favoritedProduct)=>{
                 <div className='text-md font-sans text-start ps-5 py-1 pt-4'><span className='font-bold'>DURUMU : </span>{product?.status}</div>
                 <div className='text-md font-sans text-start ps-5 py-1 pt-4'><span className='font-bold'>MARKASI : </span>{product?.brandName} / {product?.subCategoryName}</div>
 
-                <div className='text-md font-sans text-start ps-5 py-1 pt-5'>
-                <p className='font-bold'>Bir Kiralama Süresi Seçin : </p>
-                {buttonData.map((button) => (
-                    <Button
-                    className={`${button.disabled ?'line-through text-red-500':''} text-sm rounded-full m-1`}
-                    type="button"
-                    key={button.id}
-                    variant={selectedButton === button.id ? 'Purple' : 'PurpleOutline'}
-                    onClick={() =>{ 
-                        setSelectedButton(button.id)
-                    }}
-                    disabled={button.disabled}
-                    >
-                    {button.label}
-                    
-                    </Button>
-                  ))}
-                  <p className='font-bold text-center'>Tutar :{buttonData[selectedButton - 1]?.value * product?.price || 0} ₺ </p>
                 
-                </div>
             </div>
             <div className='flex flex-col justify-end'>
             <Button
