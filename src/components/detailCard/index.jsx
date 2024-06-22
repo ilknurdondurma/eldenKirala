@@ -8,7 +8,7 @@ import Spin from '../../pages/spin';
 import { MdFavoriteBorder , MdFavorite } from "react-icons/md";
 import errorMessage from '../../helper/toasts/errorMessage';
 import succesMessage from '../../helper/toasts/successMessage';
-import { addFavorite, deleteFavorite } from '../../api';
+import { addFavorite, deleteFavoriteByUserAndProductId } from '../../api';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../context/authContext/authContext';
 
@@ -48,7 +48,7 @@ const handleDelete=(deletedProduct)=>{
       
       }
       else{
-        deleteFavorite(deletedProduct)
+        deleteFavoriteByUserAndProductId(userId,deletedProduct)
         .then(data => {
           console.log(data);
           if (data.data.message) {
@@ -160,7 +160,7 @@ const handleFavorite=(favoritedProduct)=>{
                         <div className='text-lg m-1 font-sans font-bold'>{product?.userSurname}</div>
                         <div className='text-lg m-1 font-sans font-bold'> ✩ {product?.userRating}</div>
                     </div>
-                    <div className='sm:w-full' onClick={() => product?.liked ? handleDelete(product?.id) : handleFavorite(product?.productId)}>
+                    <div className='sm:w-full' onClick={() => product?.liked ? handleDelete(product?.id) : handleFavorite(product?.id)}>
                         <Button>
                           {product?.liked
                             ? <MdFavorite className='mx-2' />

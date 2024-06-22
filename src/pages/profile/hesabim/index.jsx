@@ -5,7 +5,7 @@ import { Form, Formik } from 'formik';
 import Input from '../../../components/Input/text';
 import Button from '../../../components/button/index'
 import { useAuth } from '../../../context/authContext/authContext';
-import { UpdateUser } from '../../../api';
+import { updateUser } from '../../../api';
 import errorMessage from '../../../helper/toasts/errorMessage'
 import succesMessage from '../../../helper/toasts/successMessage'
 import { useNavigate } from 'react-router-dom';
@@ -17,20 +17,20 @@ function Hesabim() {
   const name = user.user.name;
   const surname = user.user.surname;
   const email = user.user.email;
-  const password = user.user.password;
+  const password =null;
 
   const handleSubmit=(values)=>{
     console.log(values)
       // USER NESNESİ OLUŞTUR
       var user = {
         "email": values?.email,
-        "password": values?.password,
+        "password": (values.password) ? values?.password : null,
         "name": values?.name,
         "surname": values?.surname,
       }
 
       // API e GÖNDER 
-    UpdateUser(userId,user)
+    updateUser(userId,user)
       .then(async data => {
         console.log(data);
 

@@ -6,11 +6,25 @@ import succesMessage from '../../helper/toasts/successMessage';
 import Button from '../../components/button/index'
 import { useAuth } from '../../context/authContext/authContext';
 import { ToastContainer } from 'react-toastify';
+import * as signalR from "@microsoft/signalr";
 
 const ChatApp = () => {
     const { productId,} = useParams();
     const [product, setProduct] = useState([]);
     const [selectedButton, setSelectedButton] = useState(1);
+    const [connection, setConnection] = useState(null);
+    const [receiverId, setReceiverId] = useState('');
+    const [messageContent, setMessageContent] = useState('');
+    const [messages, setMessages] = useState(
+    [
+        { text: "hey Yeni Mesaj Başlat", sender: 'receiver' },
+        { text: "hey Yeni Mesaj Başlatıyorum :)", sender: 'user' },
+        { text: "deneme", sender: 'user' },
+        { text: "Nasılsınız ?", sender: 'user' }
+
+    ]
+    );
+    const [newMessage, setNewMessage] = useState('');
     const {user}=useAuth();
     const myUserId = user ? user.user.id : 0;
     const navigate =useNavigate();
@@ -22,6 +36,7 @@ const ChatApp = () => {
       { id: 5, value: 15, label: '15 Ay', disabled: (product?.minRentalPeriod > 15 || product?.maxRentalPeriod < 15) ?true:false },
       { id: 6, value: 18, label: '18 Ay', disabled: (product?.minRentalPeriod > 18 || product?.maxRentalPeriod < 18 )?true:false},
    ];
+    const price=buttonData[selectedButton - 1]?.value * product?.price || 0
     const bugununTarihi = new Date();
     const eklenenAySayisi = buttonData.find(button => button.id === selectedButton)?.value || 0;
     const endDate = new Date();
@@ -33,18 +48,8 @@ const ChatApp = () => {
     console.log(endDate)
 
 
-    const price=buttonData[selectedButton - 1]?.value * product?.price || 0
-
-    const [messages, setMessages] = useState(
-    [
-        { text: "hey Yeni Mesaj Başlat", sender: 'receiver' },
-        { text: "hey Yeni Mesaj Başlatıyorum :)", sender: 'user' },
-        { text: "deneme", sender: 'user' },
-        { text: "Nasılsınız ?", sender: 'user' }
-
-    ]
-    );
-    const [newMessage, setNewMessage] = useState('');
+    
+ 
 
     const handleInputChange = (e) => {
         setNewMessage(e.target.value);
@@ -58,8 +63,10 @@ const ChatApp = () => {
             { text: newMessage, sender: 'user', timestamp },
         ]);
         setNewMessage('');
-        // Gerçek bir API'ye ya da başka bir yerdeki servise mesaj gönderimi yapılabilir.
-        } 
+        if (connection) {
+          connection.invoke("SendPrivateMessage", receiverId, newMessage)
+              .catch(error => console.error(error));
+      }        } 
     };
     const handleRental = (salesUserId) => {
       var rental = {
@@ -121,6 +128,22 @@ const ChatApp = () => {
         });
      
     }, [])
+
+    useEffect(() => {
+      const conn = new signalR.HubConnectionBuilder()
+          .withUrl(`http://localhost:5058/api/v2/chathub`)
+          .build();
+
+      conn.on("ReceivePrivateMessage", (senderId, message) => {
+          setMessages(prevMessages => [...prevMessages, { senderId, message }]);
+      });
+
+      conn.start()
+          .then(() => console.log("SignalR bağlantısı başlatıldı."))
+          .catch(error => console.error("ERRRĞĞĞ"+error.toString()));
+
+      setConnection(conn);
+  }, []);
     
 
   return (

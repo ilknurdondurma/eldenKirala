@@ -19,7 +19,8 @@ function AddProduct() {
     const {user} = useAuth()
     const userId = user.user.id;
     const [categories, setCategories] = useState([]);
-    const [selectedCategory, setSelectedCategory] = useState([]);
+    const [selectedCategory, setSelectedCategory] = useState(null);
+    const [subCategories ,setSubCategories] =useState([]);
     const [imagePreviews, setImagePreviews] = useState([]);
     const [brands, setBrands] = useState([0]);
     const [selectedFiles, setSelectedFiles] = useState([]);
@@ -42,25 +43,61 @@ function AddProduct() {
         
     }, []);
 
-    const handleChangeCategory =(id)=>{
-        getBrandByCategory(id)
-        .then((result) => {
-            const receivedBrands = result.data.data;
+    // const handleChangeCategory =(id)=>{
+    //     getBrandByCategory(id)
+    //     .then((result) => {
+    //         const receivedBrands = result.data.data;
 
+    //         if (receivedBrands.length === 0) {
+    //             // Eğer hiç marka gelmemişse "diğer" markasını ekle
+    //             setBrands([...receivedBrands, { id: 1035, name: "Diğer" }]);
+    //         } else {
+    //             setBrands(receivedBrands);
+    //         }
+
+    //         console.log("response brands: ", brands);
+    //     })
+    //     .catch((error) => {
+    //         console.log(error);
+    //         errorMessage("Bir hata oluştu");
+    //     });
+
+        
+    // };
+    const handleChangeCategory = async (id) => {
+        try {
+            const categoryId = parseInt(id); // Convert id to integer if necessary
+            const result = await getBrandByCategory(id);
+            const receivedBrands = result.data.data;
+            console.log('Received brands:', receivedBrands);
+    
+            // Update brands state
             if (receivedBrands.length === 0) {
-                // Eğer hiç marka gelmemişse "diğer" markasını ekle
                 setBrands([...receivedBrands, { id: 1035, name: "Diğer" }]);
             } else {
                 setBrands(receivedBrands);
             }
-
-            console.log("response brands: ", brands);
-        })
-        .catch((error) => {
+    
+            // Find selected category and update subCategories state
+            const selectedCategory = categories.find((cat) => cat.id === categoryId);
+            if (selectedCategory) {
+                setSubCategories(selectedCategory.subCategories || []);
+                console.log('Updated subCategories:', selectedCategory.subCategories);
+            } else {
+                setSubCategories([]);
+                console.log('No subcategories found for category ID:', categoryId);
+            }
+        } catch (error) {
             console.log(error);
             errorMessage("Bir hata oluştu");
-        });
+        }
     };
+    
+    
+    
+
+
+
     const handleButtonClick = (buttonId) => {
             console.log(`Tıklanan buton: ${buttonId}`);
             setSelectedButton(buttonId);
@@ -194,36 +231,30 @@ function AddProduct() {
                                                         value: category.id,
                                                     }))}
                                                     onChange={async (selectedValue) => {
+                                                    
                                                         console.log("Seçilen category:", selectedValue);
                                                         setFieldValue("category", selectedValue);
-                                                        setSelectedCategory(selectedValue);
-                                                        await handleChangeCategory(selectedValue)
+                                                        //await handleChangeSubCategory(selectedValue)
+                                                         handleChangeCategory(selectedValue)
 
                                                         
                                                     }}
                                                 
                                                 />
                                                 
+                                                
                                                     <DropDown
                                                         placeholder="Alt Kategori"
-                                                        name="subCategory" 
-                                                        options={categories.flatMap((cat) =>
-                                                            (cat.id===selectedCategory)
-                                                                ? cat.subCategories.map((subCat) => ({
-                                                                    label: subCat.name,
-                                                                    value: subCat.id,
-                                                                    }))
-                                                                : []
-                                                )}
-                                                        
-                                                        onChange={async (selectedValue) => {
-                                                            console.log("Seçilen sub category:", selectedValue);
-                                                            await handleChangeCategory(selectedValue)
+                                                        name="subCategory"
+                                                        options={subCategories.map(subCat => ({
+                                                            label: subCat.name,
+                                                            value: subCat.id,
+                                                        }))}
+                                                        onChange={(selectedValue) => {
                                                             setFieldValue("subCategory", selectedValue);
-                                                            
                                                         }}
-                                                    
                                                     />
+                                                
 
                                                 {brands && (
                                                     <DropDown

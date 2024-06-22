@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { getAllBrand, getAllProducts ,getProductsByCategoryId } from '../../api';
+import { getAllBrand, getAllProducts ,getProductsByCategoryId ,getHighlightsProducts } from '../../api';
 import { ProductCard } from '../../components/productCard/index';
 import { Link, useParams } from 'react-router-dom';
 import ProductSlider from '../../components/corousel';
@@ -10,6 +10,7 @@ import Spin from '../spin';
 import { useAuth } from '../../context/authContext/authContext';
 function Home() {
   const [products, setProducts] = useState([])
+  const [highlights, setHighlights] = useState([])
   const [brands, setBrands] = useState([])
   const {user}=useAuth();
 
@@ -38,6 +39,17 @@ function Home() {
         console.log(error);
         errorMessage("Bir hata oluştu")
       });
+
+
+      getHighlightsProducts(userId)
+      .then((result) => {
+        setHighlights(result?.data.data);
+        console.log(result?.data.data)
+      })
+      .catch((error) => {
+        console.log(error);
+        errorMessage("Bir hata oluştu")
+      });
   
     
   }, []);
@@ -54,7 +66,7 @@ function Home() {
               <SpinCarousel itemList={brands}/>
               {/* vitrinnnnnnn  */}
               <div className='w-3/4 sm:w-full mb-10 text-center mx-auto'>
-                <ProductSlider productList={products.filter(product => product?.isActive === true)} name='Vitrine Özel'/>
+                <ProductSlider productList={highlights} name='Vitrine Özel'/>
               </div>   
               {/* tüm ürünler */}
               <div className='flex justify-center'>
@@ -64,7 +76,7 @@ function Home() {
                         <ProductCard 
                           key={product?.productId}
                           product={product}
-                          route={`/product/${product?.productId}`}
+                          route={`/product/${product?.id}`}
                         />
                     ))}
                   </div>

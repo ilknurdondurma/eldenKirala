@@ -1,4 +1,5 @@
 import PropTypes from "prop-types";
+import { MdEdit } from "react-icons/md";
 
 export default function CommentCard({ comments, variant }) {
   function renderStars(starCount) {
@@ -14,26 +15,34 @@ export default function CommentCard({ comments, variant }) {
     }
     return stars;
   }
-  
+
+  const formatDate = (dateString) => {
+    const options = { year: 'numeric', month: 'long', day: 'numeric' };
+    return new Date(dateString).toLocaleDateString('tr-TR', options);
+  };
+
+  const handleUpdateComment=()=>{
+    console.log("update");
+  }
 
   if (variant === "secondary") {
     return (
-      <div className="grid grid-cols-1 w-3/4 sm:w-full self-center gap-5 font-sans">
+      <div className="grid grid-cols-1 w-full sm:w-full self-center gap-5 font-sans">
         {comments.map((comment) => (
-          <div key={comment.id} className="w-full rounded-lg shadow-md p-5 h-96 m-2 bg-gray-100">
-            <h3 className="flex justify-start text-lg font-black pt-2 text-start overflow-hidden line-clamp-2 ">
-              {comment.productId}
-            </h3>
-            <h1 className="flex justify-start py-2 text-start overflow-hidden line-clamp-1 ">
-              {"category"}
-            </h1>
+          <div key={comment.id} className="w-full rounded-lg shadow-md p-5 h-60 m-2 bg-gray-100">
+            <h5 className="flex justify-start text-md font-black pt-2 text-start overflow-hidden line-clamp-2 ">
+              {comment.productName}
+            </h5>
             <h6 className="flex justify-start text-sm/60 pb-2 overflow-hidden line-clamp-1">
-              <span className="flex justify-between w-full mb-10">
-                <span className="px-1 ">{comment.userName}</span>
+              <span className="flex justify-between w-full ">
                 <span className="px-1">{renderStars(comment.userRating/2)}</span>
+                
               </span>
             </h6>
-            <h5 className="flex justify-start text-sm/50 py-2 font-semibold "> {comment.createdDate}</h5>
+            <h5 className="flex justify-start text-sm/50 py-2 font-semibold ">
+                {formatDate(comment.createdDate)} 
+                <span className="px-5 cursor-pointer"><MdEdit onClick={handleUpdateComment}/></span>
+             </h5>
             <h4 className="flex justify-start text-lg/50 py-2 max-h-52">
               <div className="overflow-hidden line-clamp-5 ">
                 {comment.commentContent}

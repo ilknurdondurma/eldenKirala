@@ -1,29 +1,69 @@
 import React, { useEffect, useState } from 'react';
-import { getRentalsByUserId, getProductsById } from '../../../api';
+import { getRentalsByUserId, getProductsById, updateComment, addComment } from '../../../api';
 import errorMessage from '../../../helper/toasts/errorMessage';
 import { useAuth } from '../../../context/authContext/authContext';
 import { useNavigate } from 'react-router-dom';
 import Button from '../../../components/button/index';
+import succesMessage from '../../../helper/toasts/successMessage';
+import { Field, Form, Formik } from 'formik';
 
 function TumKiralamalar() {
   const { user } = useAuth();
-  const myUserId = user ? user.user.id : 0;
+  const UserId = user ? user.user.id : 0;
   const [rentals, setRentals] = useState([]);
   const [products, setProducts] = useState([]);
   const [showModal, setShowModal] = useState(false); // State for modal visibility
-  const navigate = useNavigate();
-  const openModal = () => setShowModal(true);
-  const closeModal = () => setShowModal(false);
+    const [selectedRental, setSelectedRental] = useState(null); // State for selected comment
+    const navigate = useNavigate();
+
+    const openModal = (rent) => {
+        setSelectedRental(rent);
+        setShowModal(true);
+    };
+
+    const closeModal = () => {
+        setSelectedRental(null);
+        setShowModal(false);
+    };
+    const handleSubmit =(values)=>{
+        console.log("id:"+selectedRental.id);
+        console.log("userıd:"+UserId);
+        console.log("prodıd:"+selectedRental.productId);
+        console.log("content:"+values.content);
+
+        var updatedComment={
+            "userId": UserId,
+            "productId": selectedRental.productId,
+            "commentContent": values?.content,
+        }
+        addComment(updatedComment)
+            .then(async response => {
+                console.log("API cevabı: ", response);
+                if (response && response.data && response.status === 200) {
+                    const responseData = response.data;
+                    console.log("response: "+responseData) 
+                    succesMessage("ekleme başarılı")       
+                  
+                } else {
+                    console.error("Invalid API response format");
+                }
+            }).catch(error => {
+                console.error("error:", error);
+                errorMessage("error")
+            })
+        setSelectedRental(null);
+        setShowModal(false);
+    }
 
   useEffect(() => {
-    getRentalsByUserId(myUserId)
+    getRentalsByUserId(UserId)
       .then(async (data) => {
         if (data.status === 200) {
           const responseData = data.data;
           setRentals(responseData.data);
 
           const productPromises = responseData.data.map((rent) =>
-            getProductsById(rent.productId, myUserId)
+            getProductsById(rent.productId, UserId)
           );
 
           try {
@@ -38,7 +78,7 @@ function TumKiralamalar() {
       .catch((error) => {
         // Handle errors
       });
-  }, [myUserId]);
+  }, [UserId]);
 
   const formatDate = (dateString) => {
     const options = { year: 'numeric', month: 'long', day: 'numeric' };
@@ -68,7 +108,7 @@ function TumKiralamalar() {
                     <div><span className='font-semibold'>Product Price:</span> {products[index]?.price + " x " + rent.rentalPeriod || 'Loading...'}</div>
                   </div>
                 </div>
-                <Button variant="Purple" className="mt-5" onClick={openModal}>Değerlendir</Button>
+                <Button variant="Purple" className="mt-5" onClick={()=> openModal(rent)}>Değerlendir</Button>
               </div>
             </div>
           ))
@@ -76,20 +116,36 @@ function TumKiralamalar() {
       </div>
 
       <Modal show={showModal} handleClose={closeModal}>
-        <h2 className="text-2xl mb-4">Ürün Hakkındaki Görüşleriniz:</h2>
-        <textarea
-          rows="4"
-          cols="50"
-          placeholder="Write your review here..."
-          className="w-full p-2 border rounded"
-        />
-        <button
-          onClick={closeModal}
-          className="bg-secondary text-white py-2 px-4 mt-4 rounded hover:bg-purple-600"
-        >
-          Submit
-        </button>
-      </Modal>
+          <h2 className="text-2xl mb-4">Ürün Hakkındaki Görüşleriniz:</h2>
+          <Formik
+            initialValues={{
+              content:''
+            }}
+            onSubmit={(values, { setSubmitting }) => {
+              handleSubmit(values);
+            }}
+          >
+            {({ isSubmitting }) => (
+              <Form>
+                <Field
+                  as="textarea"
+                  rows="4"
+                  name='content'
+                  maxLength={300}
+                  cols="50"
+                  placeholder="Write your review here..."
+                  className="w-full p-2 border rounded"
+                />
+                <button
+                  type='submit'
+                  className="bg-secondary text-white py-2 px-4 mt-4 rounded hover:bg-purple-600"
+                >
+                  Gönder
+                </button>
+              </Form>
+            )}
+          </Formik>
+        </Modal>
     </div>
   );
 }

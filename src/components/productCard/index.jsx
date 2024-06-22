@@ -3,7 +3,7 @@ import PropTypes from "prop-types"
 import React, { useState } from 'react';
 import { Link, useNavigate } from "react-router-dom";
 import { MdFavoriteBorder,MdDelete, MdFavorite} from "react-icons/md";
-import { addFavorite, deleteFavorite } from "../../api";
+import { addFavorite, deleteFavoriteByUserAndProductId } from "../../api";
 import { useAuth } from "../../context/authContext/authContext";
 import errorMessage from "../../helper/toasts/errorMessage";
 import succesMessage from "../../helper/toasts/successMessage";
@@ -27,26 +27,64 @@ export function ProductCard ({product,icon="favorite",route ,className ,...props
     }
     return stars;
   }
- const handleDelete=(deletedProduct)=>{
-      console.log("delete")
-      if(userId===0){
-        console.log("kullanıcı idsi bulunamadı.")
-        errorMessage("önce giriş yapmaya ne dersin")
-        setTimeout(() => {
-          navigate("/login",{replace:true});
-        }, 2000);
-      
+  const handleDelete=(deletedProduct)=>{
+    console.log("delete")
+    if(userId===0){
+      console.log("kullanıcı idsi bulunamadı.")
+      errorMessage("önce giriş yapmaya ne dersin")
+      setTimeout(() => {
+        navigate("/login",{replace:true});
+      }, 2000);
+    
+    }
+    else{
+      deleteFavoriteByUserAndProductId(userId,deletedProduct)
+      .then(data => {
+        console.log(data);
+        if (data.data.message) {
+          succesMessage(data.data.message);
+          setIsFavorite(false)
+         // window.location.reload();
+        }
+        else if (data.data.error){
+          errorMessage(data.data.error);
+
+        }
+
+        
+      })
+      .catch(error => {
+        console.error("Error:", error);
+        errorMessage(error.response ? error.response.data.error : "An unexpected error occurred");
+      });
+    }
+  }
+const handleFavorite=(favoritedProduct)=>{
+    console.log("favorite")
+    if(userId===0){
+      console.log("kullanıcı idsi bulunamadı.")
+      errorMessage("önce giriş yapmaya ne dersin")
+      setTimeout(() => {
+        navigate("/login",{replace:true});
+      }, 2000);
+    
+    
+    }
+    else{
+      var productObject={
+        "userId":userId,
+        "productId":favoritedProduct
       }
-      else{
-        deleteFavorite(deletedProduct)
+      addFavorite(productObject)
         .then(data => {
           console.log(data);
           if (data.data.message) {
             succesMessage(data.data.message);
-            setIsFavorite(false)
+            setIsFavorite(true)
+            //window.location.reload();
           }
           else if (data.data.error){
-            errorMessage(data.data.error);
+            succesMessage(data.data.error);
 
           }
 
@@ -56,49 +94,14 @@ export function ProductCard ({product,icon="favorite",route ,className ,...props
           console.error("Error:", error);
           errorMessage(error.response ? error.response.data.error : "An unexpected error occurred");
         });
-      }
     }
-const handleFavorite=(favoritedProduct)=>{
-      console.log("favorite")
-      if(userId===0){
-        console.log("kullanıcı idsi bulunamadı.")
-        errorMessage("önce giriş yapmaya ne dersin")
-        setTimeout(() => {
-          navigate("/login",{replace:true});
-        }, 2000);
-      
-      }
-      else{
-        var productObject={
-          "userId":userId,
-          "productId":favoritedProduct
-        }
-        addFavorite(productObject)
-          .then(data => {
-            console.log(data);
-            if (data.data.message) {
-              succesMessage(data.data.message);
-              setIsFavorite(true)
-            }
-            else if (data.data.error){
-              succesMessage(data.data.error);
-  
-            }
-  
-            
-          })
-          .catch(error => {
-            console.error("Error:", error);
-            errorMessage(error.response ? error.response.data.error : "An unexpected error occurred");
-          });
-      }
- }
+}
   
     return(
         <div className="hover:shadow-xl rounded-xl border-4 bg-white  py-5 flex flex-col justify-between 2xl:text-md xl:text-md lg:text-md md:text-sm sm:text-xs 2xl:h-lg xl:h-lg lg:h-lg md:h-md sm:h-sm">
             <span className="baslik flex justify-end text-sm mx-5 py-1 ">
               <Button variant="TransparentButton">
-                {icon==="delete" ?<MdDelete size="20px" onClick={() => handleDelete(product?.id)}  />: isFavorite ? <MdFavorite size="20px" onClick={() => handleDelete(product?.id)} />: <MdFavoriteBorder size="20px" onClick={() => handleFavorite(product?.productId)}/>}
+                {icon==="delete" ?<MdDelete size="20px" onClick={() => handleDelete(product?.id)}  />: isFavorite ? <MdFavorite size="20px" onClick={() => handleDelete(product?.id)} />: <MdFavoriteBorder size="20px" onClick={() => handleFavorite(product?.id)}/>}
               </Button>
             </span>
 

@@ -1,6 +1,6 @@
 // Detail.jsx
 import React, { useEffect, useState } from 'react'; 
-import {getCommentById, getProductsById } from '../../api';
+import {getCommentByProductId, getProductsById } from '../../api';
 import DetailCard from '../../components/detailCard/index';
 import { useParams } from 'react-router-dom';
 import Spin from '../spin';
@@ -30,7 +30,7 @@ function Detail() {
       });
 
 
-      getCommentById(id)
+      getCommentByProductId(id)
       .then((result) => {
         setComments(result?.data.data);
         console.log("comments")

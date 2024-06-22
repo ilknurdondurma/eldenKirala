@@ -28,6 +28,11 @@ function Profile() {
           title: 'Tüm Kiralamalar',
           route: 'tum-kiralamalar',
         },
+        {
+          id: 6,
+          title: 'Tüm Yorumlarım',
+          route: 'tum-yorumlarim',
+        },
       ];
     
       const location = useLocation();
