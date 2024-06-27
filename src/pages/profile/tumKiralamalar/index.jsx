@@ -87,7 +87,7 @@ function TumKiralamalar() {
 
 
   return (
-    <div className='m-2 h-screen '>
+    <div className='m-2 h-full '>
       <h1 className="text-center mt-5 font-bold text-xl">Kiraladığım Ürünler</h1>
       <div className='grid grid-cols-2'>
         {rentals.length === 0 ? (

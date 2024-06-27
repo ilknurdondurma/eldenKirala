@@ -14,9 +14,11 @@ import Hesabim from "../pages/profile/hesabim";
 import Guvenlik from "../pages/profile/guvenlik";
 import BildirimTercihlerim from "../pages/profile/bildirimTercihlerim";
 import AdresDuzenle from "../pages/profile/adresDuzenle";
-import ChatApp from "../pages/chat";
+import ChatBox from "../pages/chat";
 import TumKiralamalar from "../pages/profile/tumKiralamalar";
 import TumYorumlar from "../pages/profile/tumYorumlar";
+import SendBox from "../pages/chat/sendBox";
+import ChatInfo from "../pages/chat/chat-info";
 
 const routes = createBrowserRouter([
     {
@@ -140,13 +142,16 @@ const routes = createBrowserRouter([
                 ]
             },
             {
-                path:'/chat/:productId/:userId',
+                path:'/chat',
                 element: <PrivateRoute><ChatLayout/></PrivateRoute>,
                 children:[
                     {
                         index:true,
-                        element:<PrivateRoute><ChatApp/></PrivateRoute>
+                        element:<PrivateRoute><ChatInfo/></PrivateRoute>
                     },
+                    {
+                        path:"/chat/:uid" , element:<PrivateRoute><ChatBox/></PrivateRoute>
+                    }
                     
                 ]
 

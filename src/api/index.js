@@ -64,5 +64,10 @@ export const getRentalsByUserId = (userId) => API.get(`/Rental/get-by-user-id/${
 export const getRentalsByProductId = (prodId) => API.get(`/Rental/get-by-product-id/${prodId}`)
 export const addRental=(rental)=>API.post('/Rental/add',rental)
 
+//message
+export const getMessagesByUserId = (userId) => API.get(`/Message/get-by-user/${userId}`)
+export const getMessagesUserToUser = (senderId,receiverId) => API.get(`/Message/get-userto-user/${senderId}/${receiverId}`)
+
+
 
 

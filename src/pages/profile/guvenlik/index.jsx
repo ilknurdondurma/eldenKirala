@@ -21,7 +21,7 @@ export default Guvenlik
 
 const CustomPhoneInput = ({ value, onChange }) => {
   return (
-    <div>
+    <div className='h-full'>
       <label htmlFor="phone" className='flex justify-center'>Telefon Numarası:</label>
       <PhoneInput
       className='border-2  h-16 rounded-full px-3'

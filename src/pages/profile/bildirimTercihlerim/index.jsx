@@ -3,7 +3,7 @@ import ToggleSwitch from '../../../components/toggle'
 
 function BildirimTercihlerim() {
   return (
-    <div className=''>
+    <div className='h-full'>
       <ToggleSwitch label="Bildirimlere İzin Ver"/>
       <ToggleSwitch label="E posta Bildirimlerine İzin Ver"/>
       <ToggleSwitch label="SMS Bildirimlerine İzin Ver"/>

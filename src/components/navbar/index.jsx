@@ -3,10 +3,11 @@ import { Form, Formik } from 'formik';
 import Input from '../Input/text';
 import Button from '../button';
 import { getCategories } from '../../api';
-import { NavLink, useNavigate } from 'react-router-dom';
+import { NavLink, useLocation, useNavigate } from 'react-router-dom';
 import { VscAccount,VscMenu } from "react-icons/vsc";
 import { CiSearch } from "react-icons/ci";
 import { IoCartOutline } from "react-icons/io5";
+import { AiOutlineMessage } from "react-icons/ai";
 import { FcCamera } from "react-icons/fc";
 import { AiOutlineLogout } from "react-icons/ai";
 import '../../layout/web/index'
@@ -25,7 +26,6 @@ const Navbar =React.memo( () => {
   const [categories ,setCategories] = useState([]);
   const [hoveredCategory, setHoveredCategory] = useState(null);
   const [backgroundOpacity, setBackgroundOpacity] = useState(0);
-
 
   const handleScroll = () => {
       // Sayfa kaydıkça arkaplan opaklığını güncelle
@@ -141,6 +141,11 @@ const Navbar =React.memo( () => {
                   <NavLink to={"/favorites"}>
                     <Button className="p-3 md:p-1 sm:p-1 text-xl sm:text-sm hover:shadow-none" variant="TransparentButton">
                         <MdFavoriteBorder/>
+                    </Button>
+                  </NavLink>
+                  <NavLink to={`/chat`}>
+                    <Button className="p-3 md:p-1 sm:p-1 text-xl sm:text-sm hover:shadow-none" variant="TransparentButton">
+                        <AiOutlineMessage/>
                     </Button>
                   </NavLink>
 

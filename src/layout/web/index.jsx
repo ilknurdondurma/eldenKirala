@@ -45,10 +45,12 @@ export function ProfileLayout({ children }) {
 export function ChatLayout({ children }) {
   return (
     <div>
-      <div className='flex flex-col m-5 py-5 '>
-        <div className='grid grid-cols-4 gap-5 sm:grid-cols-1'>
-          <SendBox/>
-          <div className='w-full  border-2 rounded-xl col-span-3'>
+      <div className='flex flex-col m-5 py-5'>
+        <div className='grid grid-cols-7 gap-5 sm:grid-cols-1'>
+          <div className='col-span-2'>
+            <SendBox />
+          </div>
+          <div className='w-full border-2 rounded-xl col-span-5'>
             {children}
             <Outlet />
           </div>

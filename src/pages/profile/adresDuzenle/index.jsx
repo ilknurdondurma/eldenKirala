@@ -65,7 +65,7 @@ function AdresDuzenle() {
   }
 
   return (
-    <div className='p-10'>
+    <div className='p-10 h-full'>
       <Formik
         initialValues={{
           city: city || "",
